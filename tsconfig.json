@@ -1,7 +1,6 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-     "module": "commonjs",
+    "module": "commonjs",
     "target": "es2020",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,7 +17,11 @@
       "@/*": ["*"]
     },
 
+    "types": [],
+    "typeRoots": ["./src/@types", "./node_modules/@types"],
+
     "strict": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src"]
 }

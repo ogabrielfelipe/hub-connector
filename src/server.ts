@@ -18,6 +18,9 @@ import {
 
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
+import { WinstonLoggerService } from "./infra/logger/winston-logger.service";
+
+const logger = new WinstonLoggerService();
 
 export async function buildServer() {
   await connectMongo();
@@ -29,6 +32,7 @@ export async function buildServer() {
   app.setErrorHandler((error, _req, reply) => {
     // Erros do domínio → 4xx custom
     if (error instanceof DomainError) {
+      logger.warn(`Domain error: ${error.message}`, { error });
       return reply.status(error.statusCode).send({
         message: error.message,
         timestamp: error.timestamp,
@@ -37,13 +41,14 @@ export async function buildServer() {
 
     // Erros de validação Fastify/Zod/etc → 400
     if ((error as any).validation) {
+      logger.warn(`Validation error: ${(error as any).message}`, { error });
       return reply.status(400).send({
         error: (error as any).message,
       });
     }
 
     // Logar apenas em dev (opcional)
-    console.error(error);
+    logger.error(`Unexpected error: ${error.message}`, { error });
 
     // Erro não previsto → 500
     reply.status(500).send({ error: "Internal server error" });

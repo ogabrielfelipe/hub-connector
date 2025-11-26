@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "format": "prettier . --write",
-    "dev:http": "cross-env NODE_ENV=development PROCESS_TYPE=http ts-node-dev --respawn --require tsconfig-paths/register src/main.ts",
-    "dev:worker": "cross-env NODE_ENV=development PROCESS_TYPE=worker ts-node-dev --respawn --require tsconfig-paths/register src/main.ts"
+    "dev:http": "cross-env NODE_ENV=development PROCESS_TYPE=http tsx watch src/main.ts",
+    "dev:worker": "cross-env NODE_ENV=development PROCESS_TYPE=worker tsx watch src/main.ts"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +30,7 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0"
   },
@@ -52,6 +53,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0",
     "uuid": "^13.0.0",
+    "winston": "^3.18.3",
+    "winston-daily-rotate-file": "^5.0.0",
     "zod": "^4.1.13"
   }
 }

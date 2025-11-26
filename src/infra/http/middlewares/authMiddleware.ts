@@ -1,11 +1,5 @@
 import { JWTService } from "@/infra/security/JWTService";
-import { FastifyReply, FastifyRequest } from "fastify";
-
-declare module "fastify" {
-  interface FastifyRequest {
-    user?: {userId: string; role: string};
-  }
-}
+import type { FastifyReply, FastifyRequest } from "fastify";
 
 export async function authMiddleware(req: FastifyRequest, reply: FastifyReply) {
   try {

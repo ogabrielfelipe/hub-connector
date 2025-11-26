@@ -3,7 +3,8 @@ import { MongoUserRepository } from "../../database/mongo/repositories/MongoUser
 import { AuthController } from "../controllers/AuthController";
 import { BcryptHasher } from "@/infra/security/BcryptHasher";
 import { JWTService } from "@/infra/security/JWTService";
-import { LoginResponseSchema, LoginSchema } from "../schemas/authSchemas";
+import { LoginResponseSchema, LoginSchema, MeResponseSchema } from "../schemas/authSchemas";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 export async function authRoutes(app: FastifyInstance) {
   const userRepository = new MongoUserRepository();
@@ -24,5 +25,19 @@ export async function authRoutes(app: FastifyInstance) {
       },
     },
     (req, reply) => userController.loginUser(req, reply),
+  );
+
+  app.get(
+    "/me",
+    {
+      preHandler: [authMiddleware],
+      schema: {
+        tags: ["Auth"],
+        response: {200: MeResponseSchema},
+        summary: "Get current user",
+        description: "Endpoint to get the current authenticated user's information.",
+      },
+    },
+    (req, reply) => userController.me(req, reply),
   );
 }

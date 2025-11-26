@@ -4,6 +4,8 @@ import type { IUserRepository } from "../../../domain/user/repositories/IUserRep
 import { Email } from "../../../domain/user/value-objects/Email";
 import { IEventBus } from "@/core/application/IEventBus";
 import { UserCreatedEvent } from "../../../domain/user/events/UserCreatedEvent";
+import { ILogger } from "../../ports/logger.port";
+import { IPasswordHasher } from "../interfaces/security/IPasswordHasher";
 
 
 interface CreateUserCaseCommand {
@@ -18,10 +20,15 @@ interface CreateUserCaseCommand {
 export class CreateUserUseCase {
     private userRepository: IUserRepository;
     private eventBus: IEventBus;
+    private readonly logger: ILogger;
+    private readonly hasher: IPasswordHasher;
+    
 
-    constructor(userRepository: IUserRepository, eventBus: IEventBus) {
+    constructor(userRepository: IUserRepository, eventBus: IEventBus, logger: ILogger, hasher: IPasswordHasher) {
         this.userRepository = userRepository;
         this.eventBus = eventBus;
+        this.logger = logger;
+        this.hasher = hasher;
     }
 
     public async execute(command: CreateUserCaseCommand): Promise<string> {
@@ -30,20 +37,20 @@ export class CreateUserUseCase {
 
         const existingUserByUsername = await this.userRepository.findByUsername(command.username);
         if (existingUserByUsername) {
+            this.logger.warn(`Username already used: ${command.username}`);
             throw new UsernameUsedError(command.username);
         }
+
 
         const newUser = User.createNew(
             command.name,
             command.username,
             emailVO,
             role,
-            command.password
+            await this.hasher.hash(command.password)
         );
         
         await this.userRepository.save(newUser);
-
-        console.log(newUser);
 
         // Enviar evento para fila
         await this.eventBus.publish(

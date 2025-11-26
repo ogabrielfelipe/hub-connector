@@ -8,3 +8,12 @@ export const LoginSchema = z.object({
 export const LoginResponseSchema = z.object({
     token: z.string(),
 })
+
+
+export const MeResponseSchema = z.object({
+        id: z.string(),
+        name: z.string(),
+        username: z.string(),
+        email: z.string().email(),
+        role: z.string(),
+})
