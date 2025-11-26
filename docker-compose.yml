@@ -1,0 +1,31 @@
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: hub_admin
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: pass
+      # Como o Mongo Express está NA MESMA REDE Docker, ele usa a porta padrão interna
+      ME_CONFIG_MONGODB_PORT: 27017
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
