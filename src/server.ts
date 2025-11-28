@@ -48,7 +48,7 @@ export async function buildServer() {
     }
 
     // Logar apenas em dev (opcional)
-    logger.error(`Unexpected error: ${error.message}`, { error });
+    logger.error(`Unexpected error: ${(error as Error).message}`, { error });
 
     // Erro não previsto → 500
     reply.status(500).send({ error: "Internal server error" });

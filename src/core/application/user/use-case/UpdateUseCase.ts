@@ -2,6 +2,7 @@ import { IUserRepository } from "@/core/domain/user/repositories/IUserRepository
 import { ILogger } from "../../ports/logger.port";
 import { User, UserRole } from "@/core/domain/user/entities/User";
 import { IPasswordHasher } from "../interfaces/security/IPasswordHasher";
+import UserNotFoundError from "@/core/domain/user/errors/UserNotFoundError";
 
 interface CreateUserCaseCommand {
     name?: string | undefined;
@@ -27,7 +28,7 @@ export class UpdateUserUseCase {
         const user = await this.userRepository.findById(userId);
         if (!user) {
             this.logger.warn(`User not found: ${userId}`);
-            throw new Error(`User not found: ${userId}`);
+            throw new UserNotFoundError();
         }
 
         if (command.name) {

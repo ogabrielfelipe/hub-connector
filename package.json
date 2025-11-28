@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "format": "prettier . --write",
-    "dev:http": "cross-env NODE_ENV=development PROCESS_TYPE=http tsx watch src/main.ts",
-    "dev:worker": "cross-env NODE_ENV=development PROCESS_TYPE=worker tsx watch src/main.ts"
+    "dev:http": "cross-env PROCESS_TYPE=http tsx watch src/main.ts",
+    "dev:worker": "cross-env PROCESS_TYPE=worker tsx watch src/main.ts",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +24,7 @@
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.48.0",
+    "@vitest/coverage-v8": "^2.1.8",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
@@ -32,7 +36,9 @@
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.0"
+    "typescript-eslint": "^8.48.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
     "@bull-board/api": "^6.14.2",
