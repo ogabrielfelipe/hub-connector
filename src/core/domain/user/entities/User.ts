@@ -1,4 +1,4 @@
-import  { Email }  from "../value-objects/Email";
+import { Email } from "../value-objects/Email";
 import { v4 as uuidv4 } from 'uuid';
 
 export enum UserRole {
@@ -57,9 +57,9 @@ export class User {
         return this.email.getValue();
     }
     public getRole(): string {
-        return this.role.toString();
+        return this.role;
     }
-    public getPassword(): string{
+    public getPassword(): string {
         return this.password;
     }
 
@@ -67,14 +67,14 @@ export class User {
     public updateName(newName: string): void {
         if (!newName || newName.trim() === '') {
             throw new Error('Name cannot be empty.');
-        }else if(newName.length < 3){
+        } else if (newName.length < 3) {
             throw new Error('Name must be at least 3 characters long.');
         }
         this.name = newName;
     }
     public updateEmail(newEmail: string): void {
         this.email = new Email(newEmail);
-    } 
+    }
     public updateRole(newRole: UserRole): void {
         this.role = newRole;
     }

@@ -6,6 +6,8 @@ import { IEventBus } from "@/core/application/IEventBus";
 import { UserCreatedEvent } from "../../../domain/user/events/UserCreatedEvent";
 import { ILogger } from "../../ports/logger.port";
 import { IPasswordHasher } from "../interfaces/security/IPasswordHasher";
+import { CaslAbilityFactory } from "../../security/casl.factory";
+import { Actions } from "../../security/casl.types";
 
 
 interface CreateUserCaseCommand {
@@ -22,16 +24,31 @@ export class CreateUserUseCase {
     private eventBus: IEventBus;
     private readonly logger: ILogger;
     private readonly hasher: IPasswordHasher;
-    
+    private readonly abilityFactory: CaslAbilityFactory;
 
-    constructor(userRepository: IUserRepository, eventBus: IEventBus, logger: ILogger, hasher: IPasswordHasher) {
+
+    constructor(userRepository: IUserRepository, eventBus: IEventBus, logger: ILogger, hasher: IPasswordHasher, abilityFactory: CaslAbilityFactory) {
         this.userRepository = userRepository;
         this.eventBus = eventBus;
         this.logger = logger;
         this.hasher = hasher;
+        this.abilityFactory = abilityFactory;
     }
 
-    public async execute(command: CreateUserCaseCommand): Promise<string> {
+    public async execute(userId: string, command: CreateUserCaseCommand): Promise<string> {
+        const currentUser = await this.userRepository.findById(userId);
+        if (!currentUser) {
+            this.logger.warn(`User ${userId} does not exist`);
+            throw new Error("User does not exist");
+        }
+        const ability = this.abilityFactory.createForUser(currentUser);
+
+
+        if (!ability.can(Actions.Create, "User")) {
+            this.logger.warn(`User ${currentUser.getUsername()} does not have permission to create a new user`);
+            throw new Error("User does not have permission to create a new user");
+        }
+
         const emailVO = new Email(command.email);
         const role = command.role ? UserRole[command.role.toUpperCase() as keyof typeof UserRole] : UserRole.USER;
 
@@ -49,7 +66,7 @@ export class CreateUserUseCase {
             role,
             await this.hasher.hash(command.password)
         );
-        
+
         await this.userRepository.save(newUser);
 
         // Enviar evento para fila
