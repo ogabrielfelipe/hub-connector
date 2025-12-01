@@ -8,6 +8,7 @@ import { ILogger } from "../../ports/logger.port";
 import { IPasswordHasher } from "../interfaces/security/IPasswordHasher";
 import { CaslAbilityFactory } from "../../security/casl.factory";
 import { Actions } from "../../security/casl.types";
+import { NotPermissionError } from "../../errors/NotPermissionError";
 
 
 interface CreateUserCaseCommand {
@@ -46,7 +47,7 @@ export class CreateUserUseCase {
 
         if (!ability.can(Actions.Create, "User")) {
             this.logger.warn(`User ${currentUser.getUsername()} does not have permission to create a new user`);
-            throw new Error("User does not have permission to create a new user");
+            throw new NotPermissionError();
         }
 
         const emailVO = new Email(command.email);

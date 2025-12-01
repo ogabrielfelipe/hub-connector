@@ -1,10 +1,11 @@
 import { AbilityBuilder, createMongoAbility } from "@casl/ability";
-import { Actions, AppAbility } from "./casl.types";
+import { Actions, AppAbility, Subjects } from "./casl.types";
 import { User, UserRole } from "@/core/domain/user/entities/User";
 
 export class CaslAbilityFactory {
   createForUser(currentUser: User): AppAbility {
-    const { can, cannot, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
+    const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
+    const { can, cannot, build } = builder;
 
     switch (currentUser.getRole()) {
       case UserRole.ADMIN:
@@ -12,13 +13,11 @@ export class CaslAbilityFactory {
         break;
 
       case UserRole.DEV:
-        can(Actions.Read, "User");
-        can(Actions.Update, "User", { id: currentUser.getId() });
-        break;
-
       case UserRole.USER:
-        can(Actions.Read, "User");
-        can(Actions.Update, "User", { id: currentUser.getId() });
+        can(Actions.Read, "User", { id: { $eq: currentUser.getId() } });
+        can(Actions.Update, "User", { id: { $eq: currentUser.getId() } });
+        cannot(Actions.Update, "User", { id: { $neq: currentUser.getId() } });
+        cannot(Actions.Delete, "User");
         break;
 
       default:
@@ -26,8 +25,7 @@ export class CaslAbilityFactory {
     }
 
     return build({
-      // detecta o tipo de subject pela sua constructor function
-      detectSubjectType: (subject) => (subject as any).constructor,
+      detectSubjectType: () => "User"
     });
   }
 }

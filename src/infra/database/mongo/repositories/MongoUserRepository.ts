@@ -1,5 +1,5 @@
 import { User } from "../../../../core/domain/user/entities/User";
-import type { IUserRepository } from "../../../../core/domain/user/repositories/IUserRepository";
+import type { IUserRepository, UserFilter } from "../../../../core/domain/user/repositories/IUserRepository";
 import type { Email } from "../../../../core/domain/user/value-objects/Email";
 import { UserModel, type UserDocument } from "../models/user.model";
 
@@ -20,7 +20,7 @@ export class MongoUserRepository implements IUserRepository {
     }
     private toPersistence(user: User): Partial<UserDocument> {
         return {
-            _id:  user.getId(),
+            _id: user.getId(),
             name: user.getName(),
             email: user.getEmail(),
             username: user.getUsername(),
@@ -28,7 +28,7 @@ export class MongoUserRepository implements IUserRepository {
             password: user.getPassword(),
         };
     }
-    
+
 
 
 
@@ -39,10 +39,10 @@ export class MongoUserRepository implements IUserRepository {
             dto,
             { upsert: true, new: true, setDefaultsOnInsert: true }
         ).lean();
-        
+
         return this.toDomain(saved as UserDocument);
     }
-    
+
     async findById(id: string): Promise<User | null> {
         const dto: UserDocument | null = await UserModel.findById(id).lean();
         if (!dto) {
@@ -66,6 +66,13 @@ export class MongoUserRepository implements IUserRepository {
         }
         return this.toDomain(dto);
     }
+
+    async findAll(filters: UserFilter, page = 1, limit = 10): Promise<User[]> {
+        const offset = (page - 1) * limit;
+        const dtos: UserDocument[] = await UserModel.find(filters).skip(offset).limit(limit).lean();
+        return dtos.map(dto => this.toDomain(dto));
+    }
+
     async update(user: User): Promise<User> {
         const dto = this.toPersistence(user);
         const updated = await UserModel.findOneAndUpdate(

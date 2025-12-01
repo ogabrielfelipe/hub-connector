@@ -107,7 +107,7 @@ describe("CreateUserUseCase", async () => {
         };
         abilityMock.can.mockReturnValue(false);
 
-        await expect(() => useCase.execute(user!.getId(), command)).rejects.toThrow("User does not have permission to create a new user");
+        await expect(() => useCase.execute(user!.getId(), command)).rejects.toThrow("User does not have permission to perform this action");
     });
 
     it("should not be able to create a user with a username that already exists", async () => {
