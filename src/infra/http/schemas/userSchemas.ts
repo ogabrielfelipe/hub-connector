@@ -16,6 +16,7 @@ export const UpdateUserSchema = z.object({
     name: z.string().min(3).max(100).optional(),
     email: z.email().optional(),
     role: z.enum(["user", "admin", "dev"]).optional(),
+    active: z.boolean().optional(),
     password: z.string().min(6).max(100).optional(),
 })
 
@@ -42,6 +43,7 @@ export const FindAllUsersResponseSchema = z.object({
         name: z.string(),
         username: z.string(),
         role: z.enum(["user", "admin", "dev"]),
+        active: z.boolean(),
     })),
     total: z.number(),
     page: z.coerce.number(),

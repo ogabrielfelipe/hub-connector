@@ -12,6 +12,7 @@ import {
   FindOneUserResponseSchema,
   FindOneUserSchema,
   UpdateUserResponseSchema,
+  UpdateUserSchema,
 } from "../schemas/userSchemas";
 import { WinstonLoggerService } from "@/infra/logger/winston-logger.service";
 import { BcryptHasher } from "@/infra/security/BcryptHasher";
@@ -47,7 +48,7 @@ export async function usersRoutes(app: FastifyInstance) {
     {
       preHandler: [authMiddleware],
       schema: {
-        body: CreateUserSchema.partial(),
+        body: UpdateUserSchema,
         response: { 200: UpdateUserResponseSchema },
         tags: ["Users"],
         summary: "Update an existing user",

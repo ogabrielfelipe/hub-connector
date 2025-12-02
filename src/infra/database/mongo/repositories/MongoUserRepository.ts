@@ -15,6 +15,7 @@ export class MongoUserRepository implements IUserRepository {
             dto.username,
             dto.email,
             dto.role,
+            dto.active,
             dto.password,
         );
     }
@@ -25,6 +26,7 @@ export class MongoUserRepository implements IUserRepository {
             email: user.getEmail(),
             username: user.getUsername(),
             role: user.getRole() as "user" | "admin" | "dev",
+            active: user.getActive(),
             password: user.getPassword(),
         };
     }

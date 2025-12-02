@@ -14,31 +14,34 @@ export class User {
     private username: string
     private email: Email;
     private role: UserRole;
+    private active: boolean;
     private password: string;
 
 
-    private constructor(id: string, name: string, username: string, email: Email, role: UserRole, password: string) {
+    private constructor(id: string, name: string, username: string, email: Email, role: UserRole, active: boolean, password: string) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
         this.role = role;
+        this.active = active;
         this.password = password;
     }
 
 
     public static createNew(name: string, username: string, email: Email, role: UserRole, password: string): User {
         const newId = uuidv4();
-        return new User(newId, name, username, email, role, password);
+        return new User(newId, name, username, email, role, true, password);
     }
 
-    public static fromPersistence(id: string, name: string, username: string, email: string, role: string, password: string): User {
+    public static fromPersistence(id: string, name: string, username: string, email: string, role: string, active: boolean, password: string): User {
         return new User(
             id,
             name,
             username,
             new Email(email),
             role as UserRole,
+            active,
             password,
         );
     }
@@ -59,6 +62,9 @@ export class User {
     public getRole(): string {
         return this.role;
     }
+    public getActive(): boolean {
+        return this.active;
+    }
     public getPassword(): string {
         return this.password;
     }
@@ -77,6 +83,9 @@ export class User {
     }
     public updateRole(newRole: UserRole): void {
         this.role = newRole;
+    }
+    public updateActive(newActive: boolean): void {
+        this.active = newActive;
     }
     public updatePassword(newPassword: string): void {
         this.password = newPassword;

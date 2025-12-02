@@ -8,6 +8,7 @@ export interface UserFilter {
     username?: string;
     email?: string | Email;
     role?: string;
+    active?: boolean;
 }
 
 

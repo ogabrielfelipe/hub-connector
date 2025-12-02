@@ -14,15 +14,15 @@ Além do encaminhamento de dados, o projeto oferece:
 
 ### Criação de usuário
 - [x] Deve ser possível realizar a criação de um novo usuário;
-- [ ] Deve ser possível alterer as informações (Nome de Usuário, E-mail, Nome);
+- [x] Deve ser possível alterer as informações (Nome de Usuário, E-mail, Nome);
 - [ ] Deve ser possível realizar a alteração de senha do usuário (Enviando a nova senha por email);
-- [ ] Deve ser possível inativar um usuário cadastrado;
+- [x] Deve ser possível inativar um usuário cadastrado;
 
 #### Autenticação e Validação:
 
-- [X] Deve ser possível Realizar Login;
-- [ ] Deve ser possível recuperar os dados do usuário pelo token;
-- [X] Deve ser possível realizar o controle de permissões de acesso (ADMIN, USER, DEV);
+- [x] Deve ser possível Realizar Login;
+- [x] Deve ser possível recuperar os dados do usuário pelo token;
+- [x] Deve ser possível realizar o controle de permissões de acesso (ADMIN, USER, DEV);
 
 #### Criação de Rotas:
   

@@ -11,6 +11,7 @@ interface UpdateUserCaseCommand {
     name?: string | undefined;
     email?: string | undefined;
     role?: string | undefined;
+    active?: boolean | undefined;
     password?: string | undefined;
 }
 
@@ -49,6 +50,8 @@ export class UpdateUserUseCase {
             throw new NotPermissionError();
         }
 
+        console.log(command)
+
         if (command.name) {
             user.updateName(command.name);
         }
@@ -57,6 +60,9 @@ export class UpdateUserUseCase {
         }
         if (command.role) {
             user.updateRole(command.role === 'ADMIN' ? UserRole.ADMIN : command.role === 'USER' ? UserRole.USER : UserRole.DEV);
+        }
+        if (command.active !== undefined) {
+            user.updateActive(command.active);
         }
         if (command.password) {
             const passwordHash = await this.hasher.hash(command.password)
