@@ -50,7 +50,6 @@ export class UpdateUserUseCase {
             throw new NotPermissionError();
         }
 
-        console.log(command)
 
         if (command.name) {
             user.updateName(command.name);

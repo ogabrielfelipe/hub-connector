@@ -117,8 +117,6 @@ export class UserController {
       filters.filters.role = query.role;
     }
 
-    console.log(filters)
-
     const result = await this.findAllUserUseCase.execute(filters);
     return reply
       .status(200)

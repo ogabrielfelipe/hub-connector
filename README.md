@@ -13,28 +13,28 @@ Além do encaminhamento de dados, o projeto oferece:
 ## Funcionalidades
 
 ### Criação de usuário
-- [x] Deve ser possível realizar a criação de um novo usuário;
-- [x] Deve ser possível alterer as informações (Nome de Usuário, E-mail, Nome);
+- [x] Deve ser possível realizar a criação de um novo usuário (Usuário: ADMIN);
+- [x] Deve ser possível alterer as informações (Nome de Usuário, E-mail, Nome) (Usuário: ADMIN; Somente o próprio registro: DEV, USER);
 - [ ] Deve ser possível realizar a alteração de senha do usuário (Enviando a nova senha por email);
-- [x] Deve ser possível inativar um usuário cadastrado;
+- [x] Deve ser possível inativar um usuário cadastrado (Usuário: ADMIN; Somente o próprio registro: DEV, USER);
 
 #### Autenticação e Validação:
 
 - [x] Deve ser possível Realizar Login;
 - [x] Deve ser possível recuperar os dados do usuário pelo token;
-- [x] Deve ser possível realizar o controle de permissões de acesso (ADMIN, USER, DEV);
+- [x] Deve ser possível realizar o controle de permissões de acesso;
 
 #### Criação de Rotas:
   
-- [ ] Deve ser possível realizar a criação de novas rotas (para usuários com permissão);
-- [ ] Deve ser possível realizar alterar uma rota já existente;
-- [ ] Deve ser possível inativar uma rota existente;
+- [ ] Deve ser possível criar categorias para separar as rotas (Usuários: ADMIN, DEV);
+- [ ] Deve ser possível realizar a criação de novas rotas (Usuários: ADMIN, DEV);
+- [ ] Deve ser possível realizar alterar uma rota já existente (Usuários: ADMIN, DEV);
+- [ ] Deve ser possível inativar uma rota existente (Usuários: ADMIN, DEV);
   
 #### Monitoração das Rotas
 
-- [ ] Deve ser possível consultar uma transação pelo JobID;
-- [ ] Deve ser possível realizar a consulta des transações pela rota;
-- [ ] Deve ser possível criar categorias para separar as rotas;
+- [ ] Deve ser possível consultar uma transação pelo JobID (Usuários: ADMIN, DEV, USER);
+- [ ] Deve ser possível realizar a consulta des transações pela rota (Usuários: ADMIN, DEV, USER);
 
 
 
@@ -42,7 +42,21 @@ Além do encaminhamento de dados, o projeto oferece:
 
 ### Configuração da Chave Pública/Privada
 
-````
+```bash
 openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:4096
+```
+```bash
 openssl rsa -pubout -in private.key -out public.key
-````
+```
+
+### Realizar a instalação das dependencias
+
+```bash
+npm install
+```
+
+### Realizar a instalação do banco de dados
+
+```bash
+docker compose up -d
+```
