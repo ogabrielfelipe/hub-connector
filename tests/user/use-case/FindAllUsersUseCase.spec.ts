@@ -1,7 +1,7 @@
 import { FindAllUsersUseCase } from "@/core/application/user/use-case/FindAllUsersUseCase";
 import { User, UserRole } from "@/core/domain/user/entities/User";
 import { Email } from "@/core/domain/user/value-objects/Email";
-import { InMemoryUserRepository } from "../../repositories/InMemoryUserRepository";
+import { InMemoryUserRepository } from "../repositories/InMemoryUserRepository";
 
 
 

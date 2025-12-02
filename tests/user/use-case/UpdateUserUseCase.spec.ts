@@ -1,7 +1,7 @@
 import { UpdateUserUseCase } from "@/core/application/user/use-case/UpdateUseCase";
 import { User, UserRole } from "@/core/domain/user/entities/User";
 import { Email } from "@/core/domain/user/value-objects/Email";
-import { InMemoryUserRepository } from "../../repositories/InMemoryUserRepository";
+import { InMemoryUserRepository } from "../repositories/InMemoryUserRepository";
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
 
 

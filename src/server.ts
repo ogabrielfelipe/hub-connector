@@ -11,7 +11,7 @@ import { getQueue } from "./infra/config/bullmq/queue";
 import { authRoutes } from "./infra/http/routes/AuthRoutes";
 
 import {
-    jsonSchemaTransform,
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
@@ -19,6 +19,7 @@ import {
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
 import { WinstonLoggerService } from "./infra/logger/winston-logger.service";
+import { NotPermissionError } from "./core/application/errors/NotPermissionError";
 
 const logger = new WinstonLoggerService();
 
@@ -30,9 +31,16 @@ export async function buildServer() {
   });
 
   app.setErrorHandler((error, _req, reply) => {
+
+    if (error instanceof NotPermissionError) {
+      return reply.status(error.statusCode).send({
+        message: error.message,
+        timestamp: error.timestamp,
+      });
+    }
+
     // Erros do domínio → 4xx custom
     if (error instanceof DomainError) {
-      logger.warn(`Domain error: ${error.message}`, { error });
       return reply.status(error.statusCode).send({
         message: error.message,
         timestamp: error.timestamp,
@@ -80,9 +88,7 @@ export async function buildServer() {
     transform: jsonSchemaTransform
   });
 
-  app
-    .register(usersRoutes, { prefix: "/users" });
-
+  app.register(usersRoutes, { prefix: "/users" });
   app.register(authRoutes, { prefix: "/auth" });
 
   app.register(fastifySwaggerUI, {

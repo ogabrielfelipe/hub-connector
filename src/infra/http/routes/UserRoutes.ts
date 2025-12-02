@@ -7,24 +7,30 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 import {
   CreateUserResponseSchema,
   CreateUserSchema,
+  FindAllUsersResponseSchema,
+  FindAllUsersSchema,
+  FindOneUserResponseSchema,
+  FindOneUserSchema,
   UpdateUserResponseSchema,
 } from "../schemas/userSchemas";
-import { authorize } from "../middlewares/checkPermissionsMiddleware";
 import { WinstonLoggerService } from "@/infra/logger/winston-logger.service";
 import { BcryptHasher } from "@/infra/security/BcryptHasher";
+import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
+import { Actions } from "@/core/application/security/casl.types";
 
 export async function usersRoutes(app: FastifyInstance) {
   const userRepository = new MongoUserRepository();
   const eventBus = new BullEventBus(new UserQueueProducer());
   const logger = new WinstonLoggerService();
   const hasher = new BcryptHasher();
+  const caslFactory = new CaslAbilityFactory();
 
-  const userController = new UserController(userRepository, eventBus, logger, hasher);
+  const userController = new UserController(userRepository, eventBus, logger, hasher, caslFactory);
 
   app.post(
     "/",
     {
-      preHandler: [authMiddleware, authorize("create", "User")],
+      preHandler: [authMiddleware],
       schema: {
         body: CreateUserSchema,
         response: { 201: CreateUserResponseSchema },
@@ -39,7 +45,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.put(
     "/:id",
     {
-      preHandler: [authMiddleware, authorize("update", "User")], // TODO: Não pode alterar um registro que não é do próprio usuário (Role: User, Dev)
+      preHandler: [authMiddleware],
       schema: {
         body: CreateUserSchema.partial(),
         response: { 200: UpdateUserResponseSchema },
@@ -49,5 +55,49 @@ export async function usersRoutes(app: FastifyInstance) {
       },
     },
     (req, reply) => userController.updateUser(req, reply),
+  );
+
+  app.get(
+    "/",
+    {
+      preHandler: [authMiddleware],
+      schema: {
+        querystring: FindAllUsersSchema,
+        response: { 200: FindAllUsersResponseSchema },
+        tags: ["Users"],
+        summary: "Get all users",
+        description: "Endpoint to get all users in the system.",
+      },
+    },
+    (req, reply) => userController.getUsers(req, reply),
+  );
+
+  app.get(
+    "/:id",
+    {
+      preHandler: [authMiddleware],
+      schema: {
+        params: FindOneUserSchema,
+        response: { 200: FindOneUserResponseSchema },
+        tags: ["Users"],
+        summary: "Get a user",
+        description: "Endpoint to get a user in the system.",
+      },
+    },
+    (req, reply) => userController.getUser(req, reply),
+  );
+
+  app.delete(
+    "/:id",
+    {
+      preHandler: [authMiddleware],
+      schema: {
+        params: FindOneUserSchema,
+        tags: ["Users"],
+        summary: "Delete a user",
+        description: "Endpoint to delete a user in the system.",
+      },
+    },
+    (req, reply) => userController.deleteUser(req, reply),
   );
 }
