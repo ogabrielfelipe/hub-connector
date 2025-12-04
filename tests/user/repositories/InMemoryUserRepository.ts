@@ -17,7 +17,7 @@ export class InMemoryUserRepository implements IUserRepository {
         return this.users.find(u => u.getEmail() === email.toString()) ?? null;
     }
 
-    async findAll(filters?: UserFilter, page?: number, limit?: number): Promise<User[]> {
+    async findAll(filters?: UserFilter, page?: number, limit?: number): Promise<{ docs: User[], total: number, page: number, limit: number }> {
         let filteredUsers = this.users;
 
         if (filters) {
@@ -50,7 +50,12 @@ export class InMemoryUserRepository implements IUserRepository {
             filteredUsers = filteredUsers.slice(startIndex, endIndex);
         }
 
-        return filteredUsers;
+        return {
+            docs: filteredUsers,
+            total: this.users.length,
+            page: page || 1,
+            limit: limit || 10
+        };
 
     }
 

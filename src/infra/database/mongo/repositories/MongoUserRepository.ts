@@ -69,14 +69,15 @@ export class MongoUserRepository implements IUserRepository {
         return this.toDomain(dto);
     }
 
-    async findAll(filters: UserFilter, page = 1, limit = 10): Promise<User[]> {
+    async findAll(filters: UserFilter, page = 1, limit = 10): Promise<{ docs: User[], total: number, page: number, limit: number }> {
         const offset = (page - 1) * limit;
         const queryFilters: any = { ...filters };
         if (queryFilters.name) {
             queryFilters.name = { $regex: queryFilters.name, $options: 'i' };
         }
         const dtos: UserDocument[] = await UserModel.find(queryFilters).skip(offset).limit(limit).lean();
-        return dtos.map(dto => this.toDomain(dto));
+        const total = await UserModel.countDocuments(queryFilters);
+        return { docs: dtos.map(dto => this.toDomain(dto)), total, page, limit };
     }
 
     async update(user: User): Promise<User> {

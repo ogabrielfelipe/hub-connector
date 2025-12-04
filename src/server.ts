@@ -20,6 +20,7 @@ import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
 import { WinstonLoggerService } from "./infra/logger/winston-logger.service";
 import { NotPermissionError } from "./core/application/errors/NotPermissionError";
+import { gatewayRoutes } from "./infra/http/routes/GatewayRoutes";
 
 const logger = new WinstonLoggerService();
 
@@ -31,6 +32,8 @@ export async function buildServer() {
   });
 
   app.setErrorHandler((error, _req, reply) => {
+
+    console.log(error)
 
     if (error instanceof NotPermissionError) {
       return reply.status(error.statusCode).send({
@@ -90,6 +93,7 @@ export async function buildServer() {
 
   app.register(usersRoutes, { prefix: "/users" });
   app.register(authRoutes, { prefix: "/auth" });
+  app.register(gatewayRoutes, { prefix: "/gateways" });
 
   app.register(fastifySwaggerUI, {
     routePrefix: "/docs",

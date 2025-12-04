@@ -1,6 +1,5 @@
 import { CreateUserUseCase } from "@/core/application/user/use-case/CreateUseCase";
 import { InMemoryUserRepository } from "../repositories/InMemoryUserRepository";
-import { constants } from "node:fs/promises";
 import { User, UserRole } from "@/core/domain/user/entities/User";
 import { Email } from "@/core/domain/user/value-objects/Email";
 

@@ -13,11 +13,30 @@ export class CaslAbilityFactory {
         break;
 
       case UserRole.DEV:
-      case UserRole.USER:
+        // User
         can(Actions.Read, "User", { id: { $eq: currentUser.getId() } });
         can(Actions.Update, "User", { id: { $eq: currentUser.getId() } });
         cannot(Actions.Update, "User", { id: { $neq: currentUser.getId() } });
         cannot(Actions.Delete, "User");
+
+        // Gateway
+        can(Actions.Create, "Gateway");
+        can(Actions.Read, "Gateway");
+        can(Actions.Update, "Gateway");
+        cannot(Actions.Delete, "Gateway");
+        break;
+      case UserRole.USER:
+        // User
+        can(Actions.Read, "User", { id: { $eq: currentUser.getId() } });
+        can(Actions.Update, "User", { id: { $eq: currentUser.getId() } });
+        cannot(Actions.Update, "User", { id: { $neq: currentUser.getId() } });
+        cannot(Actions.Delete, "User");
+
+        // Gateway
+        can(Actions.Read, "Gateway");
+        cannot(Actions.Create, "Gateway");
+        cannot(Actions.Update, "Gateway");
+        cannot(Actions.Delete, "Gateway");
         break;
 
       default:

@@ -26,7 +26,7 @@ Além do encaminhamento de dados, o projeto oferece:
 
 #### Criação de Rotas:
   
-- [ ] Deve ser possível criar categorias para separar as rotas (Usuários: ADMIN, DEV);
+- [x] Deve ser possível criar categorias para separar as rotas (Usuários: ADMIN, DEV);
 - [ ] Deve ser possível realizar a criação de novas rotas (Usuários: ADMIN, DEV);
 - [ ] Deve ser possível realizar alterar uma rota já existente (Usuários: ADMIN, DEV);
 - [ ] Deve ser possível inativar uma rota existente (Usuários: ADMIN, DEV);
