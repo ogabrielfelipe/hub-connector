@@ -14,7 +14,6 @@ export class FindAllUsersUseCase {
     async execute(command: FindAllUsersUseCaseCommand): Promise<{ docs: User[], total: number, page: number, limit: number }> {
         const users = await this.userRepo.findAll(command.filters, command.page, command.limit);
 
-        console.log(users)
 
         return users;
     }

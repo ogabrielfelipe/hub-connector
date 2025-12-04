@@ -44,7 +44,7 @@ describe("DeleteGatewayUseCase", () => {
             gatewayId: gateway.getId()
         });
 
-        expect(repo.findById(gateway.getId())).resolves.toBeNull();
+        await expect(repo.findById(gateway.getId())).resolves.toBeNull();
     });
 
     it("should not delete a gateway if user does not have permission", async () => {
