@@ -1,4 +1,4 @@
-import { IRoutingRepository } from "@/core/domain/routing/repositories/IRoutingRepository";
+import { IRoutingRepository, RoutingDetail } from "@/core/domain/routing/repositories/IRoutingRepository";
 import { IUserRepository } from "@/core/domain/user/repositories/IUserRepository";
 import { CaslAbilityFactory } from "../../security/casl.factory";
 import { ILogger } from "../../ports/logger.port";
@@ -28,7 +28,7 @@ export class FindOneRoutingUseCase {
         this.logger = logger;
     }
 
-    public async execute(command: FindOneRoutingUseCaseCommand): Promise<Routing> {
+    public async execute(command: FindOneRoutingUseCaseCommand): Promise<RoutingDetail> {
         const user = await this.userRepository.findById(command.currentUserId);
         if (!user) {
             this.logger.warn(`User ${command.currentUserId} does not exist`);
@@ -43,7 +43,7 @@ export class FindOneRoutingUseCase {
             throw new NotPermissionError();
         }
 
-        const routing = await this.routingRepository.findById(command.routingId);
+        const routing = await this.routingRepository.findOneDetail(command.routingId);
         if (!routing) {
             this.logger.warn(`Routing ${command.routingId} does not exist`);
             throw new RoutingNotFoundError();

@@ -23,7 +23,7 @@ describe("CreateRoutingUseCase", () => {
         vi.clearAllMocks();
 
         gatewayRepo = new InMemoryGatewayReposiory();
-        repo = new InMemoryRoutingRepository();
+        repo = new InMemoryRoutingRepository(gatewayRepo);
         userRepo = new InMemoryUserRepository();
 
         const factory = new CaslAbilityFactory();

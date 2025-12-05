@@ -26,7 +26,7 @@ describe("DeleteRoutingUseCase", () => {
         vi.clearAllMocks();
 
         gatewayRepo = new InMemoryGatewayReposiory();
-        repo = new InMemoryRoutingRepository();
+        repo = new InMemoryRoutingRepository(gatewayRepo);
         userRepo = new InMemoryUserRepository();
 
         const factory = new CaslAbilityFactory();
@@ -51,7 +51,7 @@ describe("DeleteRoutingUseCase", () => {
             routingId: routing.getId()
         })
 
-        expect(repo.findById(routing.getId())).resolves.toBeNull();
+        await expect(repo.findById(routing.getId())).resolves.toBeNull();
     })
 
     it('should not be able to delete a routing not existing', async () => {

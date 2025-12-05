@@ -1,6 +1,7 @@
 import { FindAllRoutingUseCase } from "@/core/application/routing/use-case/FindAllRoutingUseCase";
 import { InMemoryRoutingRepository } from "../repositories/InMemoryRoutingRepository";
 import { routingFactory } from "../factories/routingFactory";
+import { InMemoryGatewayReposiory } from "../../gateway/repositories/InMemoryGatewayReposiory";
 
 
 const loggerMock = {
@@ -12,11 +13,13 @@ const loggerMock = {
 describe("FindAllRoutingUseCase", () => {
     let useCase: FindAllRoutingUseCase;
     let repo: InMemoryRoutingRepository;
+    let repoGateway: InMemoryGatewayReposiory;
 
     beforeEach(() => {
         vi.clearAllMocks();
 
-        repo = new InMemoryRoutingRepository();
+        repoGateway = new InMemoryGatewayReposiory();
+        repo = new InMemoryRoutingRepository(repoGateway);
 
         useCase = new FindAllRoutingUseCase(repo, loggerMock);
 

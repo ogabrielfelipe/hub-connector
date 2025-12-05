@@ -5,6 +5,8 @@ import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
 import { userFactory } from "../../user/factories/userFactory";
 import { routingFactory } from "../factories/routingFactory";
 import { NotPermissionError } from "@/core/application/errors/NotPermissionError";
+import { InMemoryGatewayReposiory } from "../../gateway/repositories/InMemoryGatewayReposiory";
+import { gatewayFactory } from "../../gateway/factories/gatewayFactory";
 
 const loggerMock = {
     warn: vi.fn(),
@@ -16,12 +18,14 @@ describe("FindOneRoutingUseCase", () => {
     let useCase: FindOneRoutingUseCase;
     let repo: InMemoryRoutingRepository;
     let userRepo: InMemoryUserRepository;
+    let gatewayRepo: InMemoryGatewayReposiory;
 
     beforeEach(() => {
         vi.clearAllMocks();
 
-        repo = new InMemoryRoutingRepository();
         userRepo = new InMemoryUserRepository();
+        gatewayRepo = new InMemoryGatewayReposiory();
+        repo = new InMemoryRoutingRepository(gatewayRepo);
 
         const factory = new CaslAbilityFactory();
 
@@ -34,8 +38,10 @@ describe("FindOneRoutingUseCase", () => {
         const user = userFactory({ role: "admin" });
         userRepo.save(user);
 
+        const gateway = gatewayFactory({});
+        gatewayRepo.save(gateway);
 
-        const routing = routingFactory({});
+        const routing = routingFactory({ gatewayId: gateway.getId() });
         repo.save(routing);
 
         const result = await useCase.execute({
@@ -44,7 +50,7 @@ describe("FindOneRoutingUseCase", () => {
         });
 
         expect(result).toBeDefined();
-        expect(result.getId()).toBe(routing.getId());
+        expect(result?.getId()).toBe(routing.getId());
     });
 
     it('should not be able to find a routing', async () => {
