@@ -6,50 +6,49 @@ import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
 import { userFactory } from "../../user/factories/userFactory";
 import { v4 as uuidV4 } from "uuid";
 
-
-
-
 const loggerMock = {
-    warn: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn()
-}
-
-
+  warn: vi.fn(),
+  error: vi.fn(),
+  info: vi.fn(),
+};
 
 describe("CreateGatewayUseCase", () => {
-    let useCase: CreateGatewayUseCase;
-    let repo: InMemoryGatewayReposiory;
-    let userRepo: InMemoryUserRepository;
+  let useCase: CreateGatewayUseCase;
+  let repo: InMemoryGatewayReposiory;
+  let userRepo: InMemoryUserRepository;
 
-    beforeEach(() => {
-        vi.clearAllMocks();
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-        repo = new InMemoryGatewayReposiory();
-        userRepo = new InMemoryUserRepository();
+    repo = new InMemoryGatewayReposiory();
+    userRepo = new InMemoryUserRepository();
 
-        const factory = new CaslAbilityFactory();
+    const factory = new CaslAbilityFactory();
 
-        useCase = new CreateGatewayUseCase(repo, userRepo, factory, loggerMock);
+    useCase = new CreateGatewayUseCase(repo, userRepo, factory, loggerMock);
 
-        repo.clear();
+    repo.clear();
+  });
+
+  it("should be able to create a gateway", async () => {
+    const fakeUser = userFactory({ role: "dev" });
+    userRepo.save(fakeUser);
+
+    const result = await useCase.execute({
+      name: "Gateway 1",
+      currentUserId: fakeUser.getId(),
+      routes: Array.from({ length: 3 }, () => uuidV4()),
     });
 
-    it("should be able to create a gateway", async () => {
-        const fakeUser = userFactory({ role: "dev" });
-        userRepo.save(fakeUser);
+    expect(result).toBeInstanceOf(Gateway);
+  });
 
-        const result = await useCase.execute({
-            name: "Gateway 1", currentUserId: fakeUser.getId(), routes: Array.from({ length: 3 }, () => uuidV4())
-        });
+  it("should not be able to create a gateway if user does not have permission", async () => {
+    const fakeUser = userFactory({ role: "user" });
+    userRepo.save(fakeUser);
 
-        expect(result).toBeInstanceOf(Gateway);
-    });
-
-    it("should not be able to create a gateway if user does not have permission", async () => {
-        const fakeUser = userFactory({ role: "user" });
-        userRepo.save(fakeUser);
-
-        await expect(() => useCase.execute({ name: "Gateway 1", currentUserId: fakeUser.getId() })).rejects.toThrow("User does not have permission to perform this action");
-    });
+    await expect(() =>
+      useCase.execute({ name: "Gateway 1", currentUserId: fakeUser.getId() }),
+    ).rejects.toThrow("User does not have permission to perform this action");
+  });
 });

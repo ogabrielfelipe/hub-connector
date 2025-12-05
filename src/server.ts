@@ -34,8 +34,7 @@ export async function buildServer() {
   app.decorate("db", mongoDb);
 
   app.setErrorHandler((error, _req, reply) => {
-
-    console.log(error)
+    console.log(error);
 
     if (error instanceof NotPermissionError) {
       return reply.status(error.statusCode).send({
@@ -90,7 +89,7 @@ export async function buildServer() {
         version: "1.0.0",
       },
     },
-    transform: jsonSchemaTransform
+    transform: jsonSchemaTransform,
   });
 
   app.register(usersRoutes, { prefix: "/users" });

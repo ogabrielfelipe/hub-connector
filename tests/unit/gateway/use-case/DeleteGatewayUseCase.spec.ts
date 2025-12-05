@@ -5,70 +5,70 @@ import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
 import { gatewayFactory } from "../factories/gatewayFactory";
 import { userFactory } from "../../user/factories/userFactory";
 
-
 const loggerMock = {
-    warn: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn()
-}
-
-
+  warn: vi.fn(),
+  error: vi.fn(),
+  info: vi.fn(),
+};
 
 describe("DeleteGatewayUseCase", () => {
-    let useCase: DeleteGatewayUseCase;
-    let repo: InMemoryGatewayReposiory;
-    let userRepo: InMemoryUserRepository;
+  let useCase: DeleteGatewayUseCase;
+  let repo: InMemoryGatewayReposiory;
+  let userRepo: InMemoryUserRepository;
 
-    beforeEach(() => {
-        vi.clearAllMocks();
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-        repo = new InMemoryGatewayReposiory();
-        userRepo = new InMemoryUserRepository();
+    repo = new InMemoryGatewayReposiory();
+    userRepo = new InMemoryUserRepository();
 
-        const factory = new CaslAbilityFactory();
+    const factory = new CaslAbilityFactory();
 
-        useCase = new DeleteGatewayUseCase(repo, userRepo, factory, loggerMock);
+    useCase = new DeleteGatewayUseCase(repo, userRepo, factory, loggerMock);
 
-        repo.clear();
+    repo.clear();
+  });
+
+  it("should delete a gateway", async () => {
+    const gateway = gatewayFactory();
+    repo.save(gateway);
+
+    const user = userFactory({ role: "admin" });
+    userRepo.save(user);
+
+    await useCase.execute({
+      currentUserId: user.getId(),
+      gatewayId: gateway.getId(),
     });
 
-    it("should delete a gateway", async () => {
-        const gateway = gatewayFactory();
-        repo.save(gateway);
+    await expect(repo.findById(gateway.getId())).resolves.toBeNull();
+  });
 
-        const user = userFactory({ role: "admin" });
-        userRepo.save(user);
+  it("should not delete a gateway if user does not have permission", async () => {
+    const gateway = gatewayFactory();
+    repo.save(gateway);
 
-        await useCase.execute({
-            currentUserId: user.getId(),
-            gatewayId: gateway.getId()
-        });
+    const user = userFactory({ role: "user" });
+    userRepo.save(user);
 
-        await expect(repo.findById(gateway.getId())).resolves.toBeNull();
-    });
+    await expect(() =>
+      useCase.execute({
+        currentUserId: user.getId(),
+        gatewayId: gateway.getId(),
+      }),
+    ).rejects.toThrow("User does not have permission to perform this action");
 
-    it("should not delete a gateway if user does not have permission", async () => {
-        const gateway = gatewayFactory();
-        repo.save(gateway);
+    const gateway2 = gatewayFactory();
+    repo.save(gateway2);
 
-        const user = userFactory({ role: "user" });
-        userRepo.save(user);
+    const user2 = userFactory({ role: "dev" });
+    userRepo.save(user2);
 
-        await expect(() => useCase.execute({
-            currentUserId: user.getId(),
-            gatewayId: gateway.getId()
-        })).rejects.toThrow("User does not have permission to perform this action");
-
-
-        const gateway2 = gatewayFactory();
-        repo.save(gateway2);
-
-        const user2 = userFactory({ role: "dev" });
-        userRepo.save(user2);
-
-        await expect(() => useCase.execute({
-            currentUserId: user2.getId(),
-            gatewayId: gateway2.getId()
-        })).rejects.toThrow("User does not have permission to perform this action");
-    });
-})
+    await expect(() =>
+      useCase.execute({
+        currentUserId: user2.getId(),
+        gatewayId: gateway2.getId(),
+      }),
+    ).rejects.toThrow("User does not have permission to perform this action");
+  });
+});

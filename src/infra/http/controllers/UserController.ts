@@ -2,7 +2,11 @@ import { type FastifyRequest, type FastifyReply } from "fastify";
 import { CreateUserUseCase } from "../../../core/application/user/use-case/CreateUseCase";
 import type { IUserRepository } from "../../../core/domain/user/repositories/IUserRepository";
 import { BullEventBus } from "../../event-bus/BullEventBus";
-import { CreateUserSchema, FindAllUsersSchema, UpdateUserSchema } from "../schemas/userSchemas";
+import {
+  CreateUserSchema,
+  FindAllUsersSchema,
+  UpdateUserSchema,
+} from "../schemas/userSchemas";
 import { ILogger } from "@/core/application/ports/logger.port";
 import { UpdateUserUseCase } from "@/core/application/user/use-case/UpdateUseCase";
 import { IPasswordHasher } from "@/core/application/user/interfaces/security/IPasswordHasher";
@@ -39,9 +43,17 @@ export class UserController {
       caslFactory,
     );
 
-    this.findOneUserUseCase = new FindOneUserUseCase(userRepository, caslFactory, logger);
+    this.findOneUserUseCase = new FindOneUserUseCase(
+      userRepository,
+      caslFactory,
+      logger,
+    );
     this.findAllUserUseCase = new FindAllUsersUseCase(userRepository);
-    this.deleteUserUseCase = new DeleteUserUseCase(userRepository, caslFactory, logger);
+    this.deleteUserUseCase = new DeleteUserUseCase(
+      userRepository,
+      caslFactory,
+      logger,
+    );
   }
 
   public async createUser(req: FastifyRequest, reply: FastifyReply) {
@@ -66,16 +78,18 @@ export class UserController {
     const body = UpdateUserSchema.parse(req.body);
     const currentUser = req.user;
 
-    const result = await this.updateUserUseCase.execute(userId, body, currentUser!.userId);
-    return reply
-      .status(200)
-      .send({
-        id: result.getId(),
-        name: result.getName(),
-        email: result.getEmail(),
-        username: result.getUsername(),
-        role: result.getRole(),
-      });
+    const result = await this.updateUserUseCase.execute(
+      userId,
+      body,
+      currentUser!.userId,
+    );
+    return reply.status(200).send({
+      id: result.getId(),
+      name: result.getName(),
+      email: result.getEmail(),
+      username: result.getUsername(),
+      role: result.getRole(),
+    });
   }
 
   public async getUser(req: FastifyRequest, reply: FastifyReply) {
@@ -85,24 +99,28 @@ export class UserController {
     }
     const currentUser = req.user;
 
-    const result = await this.findOneUserUseCase.execute(userId, currentUser!.userId);
-    return reply
-      .status(200)
-      .send({
-        id: result.getId(),
-        name: result.getName(),
-        email: result.getEmail(),
-        username: result.getUsername(),
-        role: result.getRole(),
-      });
+    const result = await this.findOneUserUseCase.execute(
+      userId,
+      currentUser!.userId,
+    );
+    return reply.status(200).send({
+      id: result.getId(),
+      name: result.getName(),
+      email: result.getEmail(),
+      username: result.getUsername(),
+      role: result.getRole(),
+    });
   }
 
   public async getUsers(req: FastifyRequest, reply: FastifyReply) {
     const query = FindAllUsersSchema.parse(req.query);
 
-    let filters: { filters: { name?: string, username?: string, role?: string }, page: number, limit: number } = {
-      filters: {
-      },
+    const filters: {
+      filters: { name?: string; username?: string; role?: string };
+      page: number;
+      limit: number;
+    } = {
+      filters: {},
       page: query.page,
       limit: query.limit,
     };
@@ -118,14 +136,12 @@ export class UserController {
     }
 
     const result = await this.findAllUserUseCase.execute(filters);
-    return reply
-      .status(200)
-      .send({
-        docs: result.docs,
-        total: result.total,
-        page: result.page,
-        limit: result.limit,
-      });
+    return reply.status(200).send({
+      docs: result.docs,
+      total: result.total,
+      page: result.page,
+      limit: result.limit,
+    });
   }
 
   public async deleteUser(req: FastifyRequest, reply: FastifyReply) {
@@ -136,9 +152,6 @@ export class UserController {
     const currentUser = req.user;
 
     await this.deleteUserUseCase.execute(userId, currentUser!.userId);
-    return reply
-      .status(204)
-      .send();
+    return reply.status(204).send();
   }
 }
-

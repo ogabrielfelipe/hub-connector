@@ -11,16 +11,12 @@ export default defineConfig([
       globals: globals.node,
     },
     plugins: {
-      js, 
+      js,
     },
-    extends: [
-      js.configs.recommended
-    ],
+    extends: [js.configs.recommended],
   },
 
-
   ...tseslint.configs.recommended,
-
 
   {
     rules: {

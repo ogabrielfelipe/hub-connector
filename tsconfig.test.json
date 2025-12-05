@@ -1,11 +1,7 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "types": [
-            "vitest"
-        ]
-    },
-    "include": [
-        "tests"
-    ]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest"]
+  },
+  "include": ["tests"]
 }

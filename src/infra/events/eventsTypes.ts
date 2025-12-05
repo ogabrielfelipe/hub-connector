@@ -1,4 +1,3 @@
-
 export interface UserCreatedEvent {
   type: "send-welcome-email";
   payload: {
@@ -6,7 +5,5 @@ export interface UserCreatedEvent {
     email: string;
   };
 }
-
-
 
 export type DomainEvent = UserCreatedEvent;

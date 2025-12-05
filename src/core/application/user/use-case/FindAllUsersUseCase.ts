@@ -1,20 +1,27 @@
-import { IUserRepository, UserFilter } from "@/core/domain/user/repositories/IUserRepository";
+import {
+  IUserRepository,
+  UserFilter,
+} from "@/core/domain/user/repositories/IUserRepository";
 import type { User } from "@/core/domain/user/entities/User";
 
-
 interface FindAllUsersUseCaseCommand {
-    filters?: UserFilter;
-    page: number;
-    limit: number;
+  filters?: UserFilter;
+  page: number;
+  limit: number;
 }
 
 export class FindAllUsersUseCase {
-    constructor(private readonly userRepo: IUserRepository) { }
+  constructor(private readonly userRepo: IUserRepository) {}
 
-    async execute(command: FindAllUsersUseCaseCommand): Promise<{ docs: User[], total: number, page: number, limit: number }> {
-        const users = await this.userRepo.findAll(command.filters, command.page, command.limit);
+  async execute(
+    command: FindAllUsersUseCaseCommand,
+  ): Promise<{ docs: User[]; total: number; page: number; limit: number }> {
+    const users = await this.userRepo.findAll(
+      command.filters,
+      command.page,
+      command.limit,
+    );
 
-
-        return users;
-    }
+    return users;
+  }
 }

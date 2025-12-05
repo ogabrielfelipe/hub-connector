@@ -21,7 +21,7 @@ export function startWorkers() {
     worker.on("failed", (job, err) => {
       console.error(
         { jobId: job?.id, queue: job?.queueName, err },
-        "Job failed"
+        "Job failed",
       );
     });
   });

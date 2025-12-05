@@ -17,7 +17,6 @@ import {
 import { WinstonLoggerService } from "@/infra/logger/winston-logger.service";
 import { BcryptHasher } from "@/infra/security/BcryptHasher";
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
-import { Actions } from "@/core/application/security/casl.types";
 
 export async function usersRoutes(app: FastifyInstance) {
   const userRepository = new MongoUserRepository();
@@ -26,7 +25,13 @@ export async function usersRoutes(app: FastifyInstance) {
   const hasher = new BcryptHasher();
   const caslFactory = new CaslAbilityFactory();
 
-  const userController = new UserController(userRepository, eventBus, logger, hasher, caslFactory);
+  const userController = new UserController(
+    userRepository,
+    eventBus,
+    logger,
+    hasher,
+    caslFactory,
+  );
 
   app.post(
     "/",

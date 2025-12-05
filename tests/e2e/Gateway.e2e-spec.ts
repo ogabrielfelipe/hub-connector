@@ -6,180 +6,186 @@ import { v4 as uuidV4 } from "uuid";
 let app: FastifyInstance;
 
 describe("User E2E", () => {
+  beforeAll(async () => {
+    app = await buildServer();
+    await app.ready();
+  });
 
-    beforeAll(async () => {
-        app = await buildServer();
-        await app.ready();
-    })
+  afterAll(async () => {
+    await app.close();
+  });
 
-    afterAll(async () => {
-        await app.close();
+  it("should be able to create a gateway", async () => {
+    const token = await loginAsAdmin(app);
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/gateways",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      payload: {
+        name: "Integração BOB",
+        routes: [],
+      },
     });
 
-    it('should be able to create a gateway', async () => {
-        const token = await loginAsAdmin(app);
+    expect(response.statusCode).toBe(201);
+  });
 
+  it("should be able to update a gateway existing", async () => {
+    const token = await loginAsAdmin(app);
 
-        const response = await app.inject({
-            method: 'POST',
-            url: '/gateways',
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            payload: {
-                "name": "Integração BOB",
-                "routes": []
-            }
-        });
+    const gateway = await app.db.gateway.create({
+      _id: uuidV4(),
+      name: "Integração teste",
+      xApiKey: "123456",
+      routes: [],
+    });
 
-        expect(response.statusCode).toBe(201);
-    })
+    const response = await app.inject({
+      method: "PUT",
+      url: `/gateways/${gateway._id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      payload: {
+        name: "Integração teste Updated",
+      },
+    });
 
-    it('should be able to update a gateway existing', async () => {
-        const token = await loginAsAdmin(app);
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual(
+      expect.objectContaining({
+        name: "Integração teste Updated",
+      }),
+    );
+  });
 
-        const gateway = await app.db.gateway.create({
-            _id: uuidV4(),
-            name: "Integração teste",
-            xApiKey: "123456",
-            routes: []
-        });
+  it("should be able to delete a gateway existing", async () => {
+    const token = await loginAsAdmin(app);
 
-        const response = await app.inject({
-            method: 'PUT',
-            url: `/gateways/${gateway._id}`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            payload: {
-                "name": "Integração teste Updated",
-            },
-        });
+    const gateway = await app.db.gateway.create({
+      _id: uuidV4(),
+      name: "Integração teste",
+      xApiKey: "123456",
+      routes: [],
+    });
 
-        expect(response.statusCode).toBe(200);
-        expect(response.json()).toEqual(expect.objectContaining({
-            name: "Integração teste Updated",
-        }));
-    })
+    const response = await app.inject({
+      method: "DELETE",
+      url: `/gateways/${gateway._id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    it('should be able to delete a gateway existing', async () => {
-        const token = await loginAsAdmin(app);
+    expect(response.statusCode).toBe(204);
 
-        const gateway = await app.db.gateway.create({
-            _id: uuidV4(),
-            name: "Integração teste",
-            xApiKey: "123456",
-            routes: []
-        });
+    const gatewayDeleted = await app.db.gateway.findById(gateway._id);
 
-        const response = await app.inject({
-            method: 'DELETE',
-            url: `/gateways/${gateway._id}`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-        });
+    expect(gatewayDeleted).toBeNull();
+  });
 
-        expect(response.statusCode).toBe(204);
+  it("should be able to find by id a gateway existing", async () => {
+    const token = await loginAsAdmin(app);
 
-        const gatewayDeleted = await app.db.gateway.findById(gateway._id);
+    const gateway = await app.db.gateway.create({
+      _id: uuidV4(),
+      name: "Integração teste",
+      xApiKey: "123456",
+      routes: [],
+    });
 
-        expect(gatewayDeleted).toBeNull();
-    })
+    const response = await app.inject({
+      method: "GET",
+      url: `/gateways/${gateway._id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    it('should be able to find by id a gateway existing', async () => {
-        const token = await loginAsAdmin(app);
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual(
+      expect.objectContaining({
+        name: "Integração teste",
+      }),
+    );
+  });
 
-        const gateway = await app.db.gateway.create({
-            _id: uuidV4(),
-            name: "Integração teste",
-            xApiKey: "123456",
-            routes: []
-        });
+  it("should be able to list all gateways", async () => {
+    const token = await loginAsAdmin(app);
 
-        const response = await app.inject({
-            method: 'GET',
-            url: `/gateways/${gateway._id}`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-        });
+    await app.db.gateway.create({
+      _id: uuidV4(),
+      name: "Integração teste",
+      xApiKey: "123456",
+      routes: [],
+    });
 
-        expect(response.statusCode).toBe(200);
-        expect(response.json()).toEqual(expect.objectContaining({
-            name: "Integração teste",
-        }));
-    })
+    await app.db.gateway.create({
+      _id: uuidV4(),
+      name: "Integração teste 2",
+      xApiKey: "123456",
+      routes: [],
+    });
 
-    it('should be able to list all gateways', async () => {
-        const token = await loginAsAdmin(app);
+    const response = await app.inject({
+      method: "GET",
+      url: `/gateways`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        await app.db.gateway.create({
-            _id: uuidV4(),
-            name: "Integração teste",
-            xApiKey: "123456",
-            routes: []
-        });
+    expect(response.statusCode).toBe(200);
+    expect(response.json().docs).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "Integração teste",
+        }),
+        expect.objectContaining({
+          name: "Integração teste 2",
+        }),
+      ]),
+    );
+  });
 
-        await app.db.gateway.create({
-            _id: uuidV4(),
-            name: "Integração teste 2",
-            xApiKey: "123456",
-            routes: []
-        });
+  it("should be able to list all gateways with pagination", async () => {
+    const token = await loginAsAdmin(app);
 
-        const response = await app.inject({
-            method: 'GET',
-            url: `/gateways`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-        });
+    await app.db.gateway.create({
+      _id: uuidV4(),
+      name: "Integração teste",
+      xApiKey: "123456",
+      routes: [],
+    });
 
-        expect(response.statusCode).toBe(200);
-        expect(response.json().docs).toEqual(expect.arrayContaining([
-            expect.objectContaining({
-                name: "Integração teste",
-            }),
-            expect.objectContaining({
-                name: "Integração teste 2",
-            })
-        ]));
-    })
+    await app.db.gateway.create({
+      _id: uuidV4(),
+      name: "Integração teste 2",
+      xApiKey: "123456",
+      routes: [],
+    });
 
-    it('should be able to list all gateways with pagination', async () => {
-        const token = await loginAsAdmin(app);
+    const response = await app.inject({
+      method: "GET",
+      url: `/gateways?page=1&limit=1`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        await app.db.gateway.create({
-            _id: uuidV4(),
-            name: "Integração teste",
-            xApiKey: "123456",
-            routes: []
-        });
-
-        await app.db.gateway.create({
-            _id: uuidV4(),
-            name: "Integração teste 2",
-            xApiKey: "123456",
-            routes: []
-        });
-
-        const response = await app.inject({
-            method: 'GET',
-            url: `/gateways?page=1&limit=1`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-        });
-
-        expect(response.statusCode).toBe(200);
-        expect(response.json().docs).toEqual(expect.arrayContaining([
-            expect.objectContaining({
-                name: "Integração teste",
-            })
-        ]));
-        expect(response.json().page).toBe(1);
-        expect(response.json().limit).toBe(1);
-        expect(response.json().total).toBe(2);
-    })
+    expect(response.statusCode).toBe(200);
+    expect(response.json().docs).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "Integração teste",
+        }),
+      ]),
+    );
+    expect(response.json().page).toBe(1);
+    expect(response.json().limit).toBe(1);
+    expect(response.json().total).toBe(2);
+  });
 });

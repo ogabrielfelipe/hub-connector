@@ -1,7 +1,6 @@
 import { startWorkerProcess } from "./infra/workers";
 import { startHttpServer } from "./server";
 
-
 async function bootstrap() {
   const mode = process.env.PROCESS_TYPE ?? "http";
 

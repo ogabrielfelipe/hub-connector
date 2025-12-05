@@ -10,10 +10,9 @@ const envSchema = z.object({
   //MONGODB
   MONGO_URI: z.string().default("mongodb://localhost:27018/hubDB"),
 
-// AUTHENTICATION KEYS
+  // AUTHENTICATION KEYS
   PUBLIC_KEY: z.string(),
   PRIVATE_KEY: z.string(),
 });
 
 export const env = envSchema.parse(process.env);
-

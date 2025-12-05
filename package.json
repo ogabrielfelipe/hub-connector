@@ -12,6 +12,7 @@
     "dev:worker": "cross-env PROCESS_TYPE=worker tsx watch src/main.ts",
     "seed": "tsx src/infra/database/seeders/seed.ts",
     "test": "vitest",
+    "test:unit": "vitest --config vitest.config.ts --run",
     "test:e2e": "vitest --config vitest.e2e.config.ts --run",
     "test:e2e:watch": "vitest --config vitest.e2e.config.ts --run --watch",
     "test:watch": "vitest --watch",

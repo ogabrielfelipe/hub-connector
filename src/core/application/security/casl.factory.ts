@@ -1,5 +1,5 @@
 import { AbilityBuilder, createMongoAbility } from "@casl/ability";
-import { Actions, AppAbility, Subjects } from "./casl.types";
+import { Actions, AppAbility } from "./casl.types";
 import { User, UserRole } from "@/core/domain/user/entities/User";
 
 export class CaslAbilityFactory {
@@ -44,7 +44,7 @@ export class CaslAbilityFactory {
     }
 
     return build({
-      detectSubjectType: () => "User"
+      detectSubjectType: () => "User",
     });
   }
 }

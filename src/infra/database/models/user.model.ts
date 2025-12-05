@@ -25,7 +25,7 @@ const UserSchema = new Schema<UserDocument>(
     password: { type: String, required: true },
     active: { type: Boolean, required: true, default: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const UserModel = model<UserDocument>("User", UserSchema);
