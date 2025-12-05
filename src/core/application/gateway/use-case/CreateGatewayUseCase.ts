@@ -1,7 +1,6 @@
 import { Gateway } from "@/core/domain/gateway/entities/Gateway";
 import { IGatewayRepository } from "@/core/domain/gateway/repositories/IGatewayRepository";
 import { randomBytes } from "crypto";
-import { v4 as uuidv4 } from "uuid";
 import { IUserRepository } from "@/core/domain/user/repositories/IUserRepository";
 import { CaslAbilityFactory } from "../../security/casl.factory";
 import { ILogger } from "../../ports/logger.port";
@@ -12,7 +11,6 @@ import UserNotFoundError from "@/core/domain/user/errors/UserNotFoundError";
 interface CreateGatewayCaseCommand {
   currentUserId: string;
   name: string;
-  routes?: string[];
 }
 
 export class CreateGatewayUseCase {
@@ -54,11 +52,6 @@ export class CreateGatewayUseCase {
       "base64",
     );
 
-    const routes = command.routes?.map((route) => ({
-      id: uuidv4(),
-      path: route,
-      destination: route,
-    }));
 
     const gateway = Gateway.createNew(
       command.name,
@@ -66,7 +59,6 @@ export class CreateGatewayUseCase {
       true,
       new Date(),
       new Date(),
-      routes,
     );
     return this.repository.save(gateway);
   }

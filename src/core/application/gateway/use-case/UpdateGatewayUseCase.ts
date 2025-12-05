@@ -7,14 +7,12 @@ import GatewayNotFoundError from "@/core/domain/gateway/errors/GatewayNotFoundEr
 import UserNotFoundError from "@/core/domain/user/errors/UserNotFoundError";
 import { Actions } from "../../security/casl.types";
 import { NotPermissionError } from "../../errors/NotPermissionError";
-import { v4 as uuidv4 } from "uuid";
 
 interface UpdateGatewayCaseCommand {
   currentUserId: string;
   gatewayId: string;
   name?: string;
   active?: boolean;
-  routes?: string[];
 }
 
 export class UpdateGatewayUseCase {
@@ -63,28 +61,6 @@ export class UpdateGatewayUseCase {
 
     if (command.active !== undefined) {
       gateway.updateActive(command.active);
-    }
-
-    if (command.routes) {
-      const routes = command.routes?.map((route) => ({
-        id: uuidv4(),
-        path: route,
-        destination: route,
-      }));
-
-      if (gateway.getRoutes()?.length === 0) {
-        gateway.updateRoutes(routes);
-      } else {
-        const existingRoutes = gateway.getRoutes();
-        const newRoutes = routes.filter(
-          (route) =>
-            !existingRoutes?.some(
-              (existingRoute) => existingRoute.path === route.path,
-            ),
-        );
-
-        gateway.updateRoutes(newRoutes);
-      }
     }
 
     return await this.repository.update(gateway);

@@ -4,7 +4,6 @@ import { InMemoryGatewayReposiory } from "../repositories/InMemoryGatewayReposio
 import { InMemoryUserRepository } from "../../user/repositories/InMemoryUserRepository";
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
 import { userFactory } from "../../user/factories/userFactory";
-import { v4 as uuidV4 } from "uuid";
 
 const loggerMock = {
   warn: vi.fn(),
@@ -37,7 +36,6 @@ describe("CreateGatewayUseCase", () => {
     const result = await useCase.execute({
       name: "Gateway 1",
       currentUserId: fakeUser.getId(),
-      routes: Array.from({ length: 3 }, () => uuidV4()),
     });
 
     expect(result).toBeInstanceOf(Gateway);

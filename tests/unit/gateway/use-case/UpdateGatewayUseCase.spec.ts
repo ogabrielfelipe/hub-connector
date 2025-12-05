@@ -47,12 +47,10 @@ describe("UpdateGatewayUseCase", () => {
       gatewayId: gateway.getId(),
       name: "Gateway 2",
       active: false,
-      routes: ["/route1", "/route2"],
     });
 
     expect(result.getName()).toBe("Gateway 2");
     expect(result.getActive()).toBe(false);
-    expect(result.getRoutes()).toHaveLength(2);
   });
 
   it("should not update a gateway if user does not have permission", async () => {
@@ -73,8 +71,7 @@ describe("UpdateGatewayUseCase", () => {
         currentUserId: user.getId(),
         gatewayId: gateway.getId(),
         name: "Gateway 2",
-        active: false,
-        routes: ["/route1", "/route2"],
+        active: false
       }),
     ).rejects.toThrow("User does not have permission to perform this action");
   });
