@@ -24,6 +24,13 @@ export class CaslAbilityFactory {
         can(Actions.Read, "Gateway");
         can(Actions.Update, "Gateway");
         cannot(Actions.Delete, "Gateway");
+
+        //Routing
+        can(Actions.Create, "Routing");
+        can(Actions.Read, "Routing");
+        can(Actions.Update, "Routing");
+        cannot(Actions.Delete, "Routing");
+
         break;
       case UserRole.USER:
         // User
@@ -37,6 +44,12 @@ export class CaslAbilityFactory {
         cannot(Actions.Create, "Gateway");
         cannot(Actions.Update, "Gateway");
         cannot(Actions.Delete, "Gateway");
+
+        //Routing
+        cannot(Actions.Read, "Routing");
+        cannot(Actions.Create, "Routing");
+        cannot(Actions.Update, "Routing");
+        cannot(Actions.Delete, "Routing");
         break;
 
       default:

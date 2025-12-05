@@ -1,6 +1,7 @@
 import { MongoAbility, InferSubjects } from "@casl/ability";
 import { User } from "@/core/domain/user/entities/User";
 import { Gateway } from "@/core/domain/gateway/entities/Gateway";
+import { Routing } from "@/core/domain/routing/entities/Routing";
 
 // ações como enum (sempre usar enum, não string literal)
 export enum Actions {
@@ -13,7 +14,7 @@ export enum Actions {
 
 // Subjects: usar InferSubjects passando *o mesmo* User exportado do domínio
 export type Subjects =
-  | InferSubjects<User | "User" | Gateway | "Gateway">
+  | InferSubjects<User | "User" | Gateway | "Gateway" | Routing | "Routing">
   | "all";
 
 // AppAbility tipado corretamente: primeiro Actions, depois Subjects
