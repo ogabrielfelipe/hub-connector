@@ -1,6 +1,6 @@
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
-import { MongoGatewayRepository } from "@/infra/database/mongo/repositories/MongoGatewayRepository";
-import { MongoUserRepository } from "@/infra/database/mongo/repositories/MongoUserRepository";
+import { MongoGatewayRepository } from "@/infra/database/repositories/MongoGatewayRepository";
+import { MongoUserRepository } from "@/infra/database/repositories/MongoUserRepository";
 import { WinstonLoggerService } from "@/infra/logger/winston-logger.service";
 import { FastifyInstance } from "fastify";
 import { GatewayController } from "../controllers/GatewayController";
@@ -50,7 +50,7 @@ export async function gatewayRoutes(app: FastifyInstance) {
         preHandler: [authMiddleware],
         schema: {
             params: DeleteGatewaySchema,
-            response: { 200: {} },
+            response: { 204: {} },
             tags: ["Gateways"],
             summary: "Delete an existing gateway",
             description: "Endpoint to delete an existing gateway in the system.",

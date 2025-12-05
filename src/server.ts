@@ -21,15 +21,17 @@ import fastifySwaggerUI from "@fastify/swagger-ui";
 import { WinstonLoggerService } from "./infra/logger/winston-logger.service";
 import { NotPermissionError } from "./core/application/errors/NotPermissionError";
 import { gatewayRoutes } from "./infra/http/routes/GatewayRoutes";
+import { mongoDb } from "./infra/database";
 
 const logger = new WinstonLoggerService();
 
 export async function buildServer() {
   await connectMongo();
-
   const app = fastify({
     logger: false,
   });
+
+  app.decorate("db", mongoDb);
 
   app.setErrorHandler((error, _req, reply) => {
 

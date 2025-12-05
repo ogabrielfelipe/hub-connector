@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import { MongoUserRepository } from "../../database/mongo/repositories/MongoUserRepository";
+import { MongoUserRepository } from "../../database/repositories/MongoUserRepository";
 import { AuthController } from "../controllers/AuthController";
 import { BcryptHasher } from "@/infra/security/BcryptHasher";
 import { JWTService } from "@/infra/security/JWTService";
@@ -33,7 +33,7 @@ export async function authRoutes(app: FastifyInstance) {
       preHandler: [authMiddleware],
       schema: {
         tags: ["Auth"],
-        response: {200: MeResponseSchema},
+        response: { 200: MeResponseSchema },
         summary: "Get current user",
         description: "Endpoint to get the current authenticated user's information.",
       },

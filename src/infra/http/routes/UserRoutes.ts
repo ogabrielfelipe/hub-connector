@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { UserController } from "../controllers/UserController";
-import { MongoUserRepository } from "../../database/mongo/repositories/MongoUserRepository";
+import { MongoUserRepository } from "../../database/repositories/MongoUserRepository";
 import { UserQueueProducer } from "../../event-bus/UserQueueProduces";
 import { BullEventBus } from "../../event-bus/BullEventBus";
 import { authMiddleware } from "../middlewares/authMiddleware";

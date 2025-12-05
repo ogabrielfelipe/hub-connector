@@ -65,6 +65,6 @@ export class GatewayController {
         const currentUser = req.user;
 
         const result = await this.deleteGatewayUseCase.execute({ currentUserId: currentUser!.userId, gatewayId: gatewayId.gatewayId });
-        return reply.status(200).send(result);
+        return reply.status(204).send(result);
     }
 }
