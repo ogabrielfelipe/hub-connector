@@ -22,6 +22,6 @@ export function gatewayFactory(props: GatewayFactoryProps = {}): Gateway {
     props.id ?? faker.string.uuid(),
     props.active ?? true,
     props.createdAt ?? new Date(),
-    props.updatedAt ?? new Date()
+    props.updatedAt ?? new Date(),
   );
 }

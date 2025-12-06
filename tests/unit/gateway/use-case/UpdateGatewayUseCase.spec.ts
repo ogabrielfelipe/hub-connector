@@ -71,7 +71,7 @@ describe("UpdateGatewayUseCase", () => {
         currentUserId: user.getId(),
         gatewayId: gateway.getId(),
         name: "Gateway 2",
-        active: false
+        active: false,
       }),
     ).rejects.toThrow("User does not have permission to perform this action");
   });

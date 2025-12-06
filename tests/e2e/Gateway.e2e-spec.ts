@@ -131,7 +131,7 @@ describe("User E2E", () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response)
+    console.log(response);
 
     expect(response.statusCode).toBe(200);
     expect(response.json().docs).toEqual(

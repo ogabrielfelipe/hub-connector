@@ -52,7 +52,6 @@ export class CreateGatewayUseCase {
       "base64",
     );
 
-
     const gateway = Gateway.createNew(
       command.name,
       xApiKey,

@@ -32,14 +32,7 @@ export class Gateway {
     updatedAt: Date,
   ) {
     const newId = uuidv4();
-    return new Gateway(
-      newId,
-      name,
-      xApiKey,
-      active,
-      createdAt,
-      updatedAt,
-    );
+    return new Gateway(newId, name, xApiKey, active, createdAt, updatedAt);
   }
 
   public static fromPersistence(

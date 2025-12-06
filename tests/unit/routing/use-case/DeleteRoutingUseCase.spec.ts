@@ -8,73 +8,75 @@ import { gatewayFactory } from "../../gateway/factories/gatewayFactory";
 import { routingFactory } from "../factories/routingFactory";
 import { NotPermissionError } from "@/core/application/errors/NotPermissionError";
 
-
 const loggerMock = {
-    warn: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn(),
+  info: vi.fn(),
 };
 
-
 describe("DeleteRoutingUseCase", () => {
-    let useCase: DeleteRoutingUseCase;
-    let repo: InMemoryRoutingRepository;
-    let userRepo: InMemoryUserRepository;
-    let gatewayRepo: InMemoryGatewayReposiory;
+  let useCase: DeleteRoutingUseCase;
+  let repo: InMemoryRoutingRepository;
+  let userRepo: InMemoryUserRepository;
+  let gatewayRepo: InMemoryGatewayReposiory;
 
-    beforeEach(() => {
-        vi.clearAllMocks();
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-        gatewayRepo = new InMemoryGatewayReposiory();
-        repo = new InMemoryRoutingRepository(gatewayRepo);
-        userRepo = new InMemoryUserRepository();
+    gatewayRepo = new InMemoryGatewayReposiory();
+    repo = new InMemoryRoutingRepository(gatewayRepo);
+    userRepo = new InMemoryUserRepository();
 
-        const factory = new CaslAbilityFactory();
+    const factory = new CaslAbilityFactory();
 
-        useCase = new DeleteRoutingUseCase(repo, userRepo, factory, loggerMock);
+    useCase = new DeleteRoutingUseCase(repo, userRepo, factory, loggerMock);
 
-        repo.clear();
+    repo.clear();
+  });
+
+  it("should be able to delete a routing existing", async () => {
+    const user = userFactory({ role: "admin" });
+    userRepo.save(user);
+
+    const gateway = gatewayFactory({});
+    gatewayRepo.save(gateway);
+
+    const routing = routingFactory({ gatewayId: gateway.getId() });
+    repo.save(routing);
+
+    await useCase.execute({
+      currentUserId: user.getId(),
+      routingId: routing.getId(),
     });
 
-    it('should be able to delete a routing existing', async () => {
-        const user = userFactory({ role: "admin" });
-        userRepo.save(user);
+    await expect(repo.findById(routing.getId())).resolves.toBeNull();
+  });
 
-        const gateway = gatewayFactory({});
-        gatewayRepo.save(gateway);
+  it("should not be able to delete a routing not existing", async () => {
+    const user = userFactory({ role: "user" });
+    userRepo.save(user);
 
-        const routing = routingFactory({ gatewayId: gateway.getId() });
-        repo.save(routing);
+    await expect(
+      useCase.execute({
+        currentUserId: user.getId(),
+        routingId: "123",
+      }),
+    ).rejects.toThrow(NotPermissionError);
 
-        await useCase.execute({
-            currentUserId: user.getId(),
-            routingId: routing.getId()
-        })
+    const user2 = userFactory({ role: "dev" });
+    userRepo.save(user2);
 
-        await expect(repo.findById(routing.getId())).resolves.toBeNull();
-    })
+    const gateway = gatewayFactory({});
+    gatewayRepo.save(gateway);
 
-    it('should not be able to delete a routing not existing', async () => {
-        const user = userFactory({ role: "user" });
-        userRepo.save(user);
+    const routing = routingFactory({ gatewayId: gateway.getId() });
+    repo.save(routing);
 
-        await expect(useCase.execute({
-            currentUserId: user.getId(),
-            routingId: "123"
-        })).rejects.toThrow(NotPermissionError);
-
-        const user2 = userFactory({ role: "dev" });
-        userRepo.save(user2);
-
-        const gateway = gatewayFactory({});
-        gatewayRepo.save(gateway);
-
-        const routing = routingFactory({ gatewayId: gateway.getId() });
-        repo.save(routing);
-
-        await expect(useCase.execute({
-            currentUserId: user2.getId(),
-            routingId: routing.getId()
-        })).rejects.toThrow(NotPermissionError);
-    })
+    await expect(
+      useCase.execute({
+        currentUserId: user2.getId(),
+        routingId: routing.getId(),
+      }),
+    ).rejects.toThrow(NotPermissionError);
+  });
 });

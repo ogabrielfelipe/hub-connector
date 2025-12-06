@@ -3,69 +3,67 @@ import { InMemoryRoutingRepository } from "../repositories/InMemoryRoutingReposi
 import { routingFactory } from "../factories/routingFactory";
 import { InMemoryGatewayReposiory } from "../../gateway/repositories/InMemoryGatewayReposiory";
 
-
 const loggerMock = {
-    warn: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn(),
+  info: vi.fn(),
 };
 
 describe("FindAllRoutingUseCase", () => {
-    let useCase: FindAllRoutingUseCase;
-    let repo: InMemoryRoutingRepository;
-    let repoGateway: InMemoryGatewayReposiory;
+  let useCase: FindAllRoutingUseCase;
+  let repo: InMemoryRoutingRepository;
+  let repoGateway: InMemoryGatewayReposiory;
 
-    beforeEach(() => {
-        vi.clearAllMocks();
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-        repoGateway = new InMemoryGatewayReposiory();
-        repo = new InMemoryRoutingRepository(repoGateway);
+    repoGateway = new InMemoryGatewayReposiory();
+    repo = new InMemoryRoutingRepository(repoGateway);
 
-        useCase = new FindAllRoutingUseCase(repo, loggerMock);
+    useCase = new FindAllRoutingUseCase(repo, loggerMock);
 
-        repo.clear();
+    repo.clear();
+  });
+
+  it("should be able to find all routings", async () => {
+    const routing = routingFactory({});
+    await repo.save(routing);
+
+    const result = await useCase.execute({
+      gatewayId: routing.getGatewayId(),
+      name: routing.getName(),
+      page: 1,
+      limit: 10,
     });
 
-    it("should be able to find all routings", async () => {
-        const routing = routingFactory({});
-        await repo.save(routing);
+    expect(result).toBeDefined();
+    expect(result.docs).toHaveLength(1);
+    expect(result.docs[0].id).toBe(routing.getId());
+  });
 
+  it("should be able to find all routings with pagination", async () => {
+    const routing = routingFactory({});
+    await repo.save(routing);
 
-        const result = await useCase.execute({
-            gatewayId: routing.getGatewayId(),
-            name: routing.getName(),
-            page: 1,
-            limit: 10,
-        });
+    const routing2 = routingFactory({});
+    await repo.save(routing2);
 
-        expect(result).toBeDefined();
-        expect(result.docs).toHaveLength(1);
-        expect(result.docs[0].id).toBe(routing.getId());
+    const result = await useCase.execute({
+      page: 1,
+      limit: 1,
     });
 
-    it("should be able to find all routings with pagination", async () => {
-        const routing = routingFactory({});
-        await repo.save(routing);
+    expect(result).toBeDefined();
+    expect(result.docs).toHaveLength(1);
+    expect(result.docs[0].id).toBe(routing.getId());
 
-        const routing2 = routingFactory({});
-        await repo.save(routing2);
-
-        const result = await useCase.execute({
-            page: 1,
-            limit: 1,
-        });
-
-        expect(result).toBeDefined();
-        expect(result.docs).toHaveLength(1);
-        expect(result.docs[0].id).toBe(routing.getId());
-
-        const result2 = await useCase.execute({
-            page: 2,
-            limit: 1,
-        });
-
-        expect(result2).toBeDefined();
-        expect(result2.docs).toHaveLength(1);
-        expect(result2.docs[0].id).toBe(routing2.getId());
+    const result2 = await useCase.execute({
+      page: 2,
+      limit: 1,
     });
+
+    expect(result2).toBeDefined();
+    expect(result2.docs).toHaveLength(1);
+    expect(result2.docs[0].id).toBe(routing2.getId());
+  });
 });
