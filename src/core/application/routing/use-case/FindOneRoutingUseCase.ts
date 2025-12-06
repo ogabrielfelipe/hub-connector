@@ -2,7 +2,6 @@ import { IRoutingRepository, RoutingDetail } from "@/core/domain/routing/reposit
 import { IUserRepository } from "@/core/domain/user/repositories/IUserRepository";
 import { CaslAbilityFactory } from "../../security/casl.factory";
 import { ILogger } from "../../ports/logger.port";
-import { Routing } from "@/core/domain/routing/entities/Routing";
 import UserNotFoundError from "@/core/domain/user/errors/UserNotFoundError";
 import { Actions } from "../../security/casl.types";
 import { NotPermissionError } from "../../errors/NotPermissionError";

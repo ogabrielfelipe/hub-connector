@@ -56,6 +56,7 @@ export class CreateRoutingUseCase {
         }
 
         const routing = Routing.createNew(command.name, command.description, gateway.getId(), command.url, command.method, command.headers);
-        return this.routingRepository.save(routing);
+        const result = await this.routingRepository.save(routing);
+        return result;
     }
 }

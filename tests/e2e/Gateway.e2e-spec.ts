@@ -25,8 +25,7 @@ describe("User E2E", () => {
         Authorization: `Bearer ${token}`,
       },
       payload: {
-        name: "Integração BOB",
-        routes: [],
+        name: "Integração teste",
       },
     });
 
@@ -40,7 +39,6 @@ describe("User E2E", () => {
       _id: uuidV4(),
       name: "Integração teste",
       xApiKey: "123456",
-      routes: [],
     });
 
     const response = await app.inject({
@@ -69,7 +67,6 @@ describe("User E2E", () => {
       _id: uuidV4(),
       name: "Integração teste",
       xApiKey: "123456",
-      routes: [],
     });
 
     const response = await app.inject({
@@ -94,7 +91,6 @@ describe("User E2E", () => {
       _id: uuidV4(),
       name: "Integração teste",
       xApiKey: "123456",
-      routes: [],
     });
 
     const response = await app.inject({
@@ -120,14 +116,12 @@ describe("User E2E", () => {
       _id: uuidV4(),
       name: "Integração teste",
       xApiKey: "123456",
-      routes: [],
     });
 
     await app.db.gateway.create({
       _id: uuidV4(),
       name: "Integração teste 2",
       xApiKey: "123456",
-      routes: [],
     });
 
     const response = await app.inject({
@@ -137,6 +131,7 @@ describe("User E2E", () => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response)
 
     expect(response.statusCode).toBe(200);
     expect(response.json().docs).toEqual(
@@ -158,14 +153,12 @@ describe("User E2E", () => {
       _id: uuidV4(),
       name: "Integração teste",
       xApiKey: "123456",
-      routes: [],
     });
 
     await app.db.gateway.create({
       _id: uuidV4(),
       name: "Integração teste 2",
       xApiKey: "123456",
-      routes: [],
     });
 
     const response = await app.inject({

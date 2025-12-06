@@ -7,6 +7,7 @@ declare module "fastify" {
     db: {
       user: Model<any>;
       gateway: Model<any>;
+      routing: Model<any>;
     };
   }
 }

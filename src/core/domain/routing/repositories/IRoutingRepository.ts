@@ -5,7 +5,10 @@ export type RoutingList = {
     id: string,
     name: string,
     description: string,
-    gatewayId: string,
+    gateway: {
+        id: string,
+        name: string,
+    },
     deletedAt: Date | null,
 }
 

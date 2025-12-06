@@ -22,6 +22,7 @@ import { WinstonLoggerService } from "./infra/logger/winston-logger.service";
 import { NotPermissionError } from "./core/application/errors/NotPermissionError";
 import { gatewayRoutes } from "./infra/http/routes/GatewayRoutes";
 import { mongoDb } from "./infra/database";
+import { routingRoutes } from "./infra/http/routes/RoutingRoutes";
 
 const logger = new WinstonLoggerService();
 
@@ -95,6 +96,7 @@ export async function buildServer() {
   app.register(usersRoutes, { prefix: "/users" });
   app.register(authRoutes, { prefix: "/auth" });
   app.register(gatewayRoutes, { prefix: "/gateways" });
+  app.register(routingRoutes, { prefix: "/routings" });
 
   app.register(fastifySwaggerUI, {
     routePrefix: "/docs",

@@ -5,29 +5,13 @@ import {
   IGatewayRepository,
 } from "@/core/domain/gateway/repositories/IGatewayRepository";
 import { GatewayDocument, GatewayModel } from "../models/gateway.model";
+import { GatewayConverter } from "../converters/GatewayConverter";
 
 export class MongoGatewayRepository implements IGatewayRepository {
-  private toDomain(dto: GatewayDocument): Gateway {
-    return Gateway.fromPersistence(
-      dto._id.toString(),
-      dto.name,
-      dto.xApiKey,
-      dto.active,
-      dto.createdAt,
-      dto.updatedAt,
-      dto.routes,
-    );
-  }
-  private toPersistence(gateway: Gateway): Partial<GatewayDocument> {
-    return {
-      _id: gateway.getId(),
-      name: gateway.getName(),
-      xApiKey: gateway.getXApiKey(),
-      routes: gateway.getRoutes(),
-      active: gateway.getActive(),
-      createdAt: gateway.getCreatedAt(),
-      updatedAt: gateway.getUpdatedAt(),
-    };
+  private gatewayConverter: GatewayConverter;
+
+  constructor() {
+    this.gatewayConverter = new GatewayConverter();
   }
 
   async findById(id: string): Promise<Gateway | null> {
@@ -35,7 +19,7 @@ export class MongoGatewayRepository implements IGatewayRepository {
     if (!dto) {
       return null;
     }
-    return this.toDomain(dto);
+    return this.gatewayConverter.toDomain(dto);
   }
   async findByKey(key: string): Promise<Gateway | null> {
     const dto: GatewayDocument | null = await GatewayModel.findOne({
@@ -44,7 +28,7 @@ export class MongoGatewayRepository implements IGatewayRepository {
     if (!dto) {
       return null;
     }
-    return this.toDomain(dto);
+    return this.gatewayConverter.toDomain(dto);
   }
   async findAll({
     name,
@@ -87,16 +71,16 @@ export class MongoGatewayRepository implements IGatewayRepository {
     };
   }
   async save(gateway: Gateway): Promise<Gateway> {
-    const dto = this.toPersistence(gateway);
+    const dto = this.gatewayConverter.toPersistence(gateway);
     const saved = await GatewayModel.findOneAndUpdate({ _id: dto._id! }, dto, {
       upsert: true,
       new: true,
       setDefaultsOnInsert: true,
     }).lean();
-    return this.toDomain(saved as GatewayDocument);
+    return this.gatewayConverter.toDomain(saved as GatewayDocument);
   }
   async update(gateway: Gateway): Promise<Gateway> {
-    const dto = this.toPersistence(gateway);
+    const dto = this.gatewayConverter.toPersistence(gateway);
     const updated = await GatewayModel.findOneAndUpdate(
       { _id: dto._id! },
       dto,
@@ -105,7 +89,7 @@ export class MongoGatewayRepository implements IGatewayRepository {
     if (!updated) {
       throw new Error("Gateway not found");
     }
-    return this.toDomain(updated as GatewayDocument);
+    return this.gatewayConverter.toDomain(updated as GatewayDocument);
   }
   async delete(id: string): Promise<void> {
     await GatewayModel.findByIdAndDelete(id);

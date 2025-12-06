@@ -64,7 +64,6 @@ export class GatewayController {
     const result = await this.createGatewayUseCase.execute({
       currentUserId: currentUser!.userId,
       name: body.name,
-      routes: body.routes,
     });
     return reply.status(201).send(result);
   }
@@ -84,21 +83,23 @@ export class GatewayController {
     const query = FindAllGatewaySchema.parse(req.query) ?? {};
 
     const result = await this.findAllGatewayUseCase.execute(query);
+    console.log(result)
     return reply.status(200).send(result);
   }
 
   async updateGateway(req: FastifyRequest, reply: FastifyReply) {
+    const { gatewayId } = UpdateGatewayParamsSchema.parse(req.params);
     const body = UpdateGatewaySchema.parse(req.body);
     const currentUser = req.user;
-    const { gatewayId } = UpdateGatewayParamsSchema.parse(req.params);
 
     const result = await this.updateGatewayUseCase.execute({
       currentUserId: currentUser!.userId,
       gatewayId,
       name: body.name,
       active: body.active,
-      routes: body.routes,
     });
+
+    console.log(result)
     return reply.status(200).send(result);
   }
 
