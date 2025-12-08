@@ -63,7 +63,8 @@ export class UpdateRoutingUseCase {
     }
 
     if (command.slug) {
-      routing.updateSlug(command.slug);
+      const slug = command.slug.replace(" ", "-");
+      routing.updateSlug(slug);
     }
 
     if (command.description) {

@@ -6,6 +6,7 @@ export class RoutingConverter {
     return Routing.fromPersistence(
       routing._id.toString(),
       routing.name,
+      routing.slug,
       routing.description,
       routing.gatewayId,
       routing.url,
@@ -21,6 +22,7 @@ export class RoutingConverter {
     return {
       _id: routing.getId(),
       name: routing.getName(),
+      slug: routing.getSlug(),
       description: routing.getDescription(),
       gatewayId: routing.getGatewayId(),
       url: routing.getUrl(),

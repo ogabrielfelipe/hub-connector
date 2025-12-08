@@ -62,9 +62,11 @@ export class CreateRoutingUseCase {
       throw new GatewayNotFoundError();
     }
 
+    const slug = command.slug.replace(" ", "-");
+
     const routing = Routing.createNew(
       command.name,
-      command.slug,
+      slug,
       command.description,
       gateway.getId(),
       command.url,
