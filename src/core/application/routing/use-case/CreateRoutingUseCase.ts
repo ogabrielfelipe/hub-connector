@@ -12,6 +12,7 @@ import GatewayNotFoundError from "@/core/domain/gateway/errors/GatewayNotFoundEr
 interface CreateRoutingCaseCommand {
   currentUserId: string;
   name: string;
+  slug: string;
   description: string;
   gatewayId: string;
   url: string;
@@ -63,6 +64,7 @@ export class CreateRoutingUseCase {
 
     const routing = Routing.createNew(
       command.name,
+      command.slug,
       command.description,
       gateway.getId(),
       command.url,

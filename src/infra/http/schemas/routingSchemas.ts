@@ -1,17 +1,8 @@
-/**
-interface FindAllRoutingUseCaseCommand {
-    gatewayId?: string;
-    name?: string;
-    page: number;
-    limit: number;
-}
-
-} */
-
 import z from "zod";
 
 export const CreateRoutingSchema = z.object({
   name: z.string(),
+  slug: z.string(),
   description: z.string(),
   gatewayId: z.uuid(),
   url: z.string(),
@@ -22,6 +13,7 @@ export const CreateRoutingSchema = z.object({
 export const CreateRoutingResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
+  slug: z.string(),
   description: z.string(),
   gatewayId: z.string(),
   url: z.string(),
@@ -31,6 +23,7 @@ export const CreateRoutingResponseSchema = z.object({
 
 export const UpdateRoutingSchema = z.object({
   name: z.string().optional(),
+  slug: z.string().optional(),
   description: z.string().optional(),
   gatewayId: z.string().optional(),
   url: z.string().optional(),
@@ -41,6 +34,7 @@ export const UpdateRoutingSchema = z.object({
 export const UpdateRoutingResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
+  slug: z.string(),
   description: z.string(),
   gatewayId: z.string(),
   url: z.string(),
@@ -55,6 +49,7 @@ export const FindOneRoutingSchema = z.object({
 export const FindOneRoutingResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
+  slug: z.string(),
   description: z.string(),
   gateway: z.object({
     id: z.uuid(),
@@ -72,6 +67,7 @@ export const FindOneRoutingResponseSchema = z.object({
 export const FindAllRoutingSchema = z.object({
   gatewayId: z.string().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
   page: z.coerce.number().default(1),
   limit: z.coerce.number().default(10),
 });
@@ -81,6 +77,7 @@ export const FindAllRoutingResponseSchema = z.object({
     z.object({
       id: z.string(),
       name: z.string(),
+      slug: z.string(),
       description: z.string(),
       gateway: z.object({
         id: z.uuid(),

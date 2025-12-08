@@ -3,6 +3,7 @@ import { v4 as uuidV4 } from "uuid";
 export class Routing {
   private id: string;
   private name: string;
+  private slug: string;
   private description: string;
   private gatewayId: string;
   private url: string;
@@ -15,6 +16,7 @@ export class Routing {
   private constructor(
     id: string,
     name: string,
+    slug: string,
     description: string,
     gatewayId: string,
     url: string,
@@ -26,6 +28,7 @@ export class Routing {
   ) {
     this.id = id;
     this.name = name;
+    this.slug = slug;
     this.description = description;
     this.gatewayId = gatewayId;
     this.url = url;
@@ -38,6 +41,7 @@ export class Routing {
 
   public static createNew(
     name: string,
+    slug: string,
     description: string,
     gatewayId: string,
     url: string,
@@ -52,6 +56,7 @@ export class Routing {
     return new Routing(
       id,
       name,
+      slug,
       description,
       gatewayId,
       url,
@@ -66,6 +71,7 @@ export class Routing {
   public static fromPersistence(
     id: string,
     name: string,
+    slug: string,
     description: string,
     gatewayId: string,
     url: string,
@@ -78,6 +84,7 @@ export class Routing {
     return new Routing(
       id,
       name,
+      slug,
       description,
       gatewayId,
       url,
@@ -95,6 +102,10 @@ export class Routing {
 
   public getName(): string {
     return this.name;
+  }
+
+  public getSlug(): string {
+    return this.slug;
   }
 
   public getDescription(): string {
@@ -131,6 +142,11 @@ export class Routing {
 
   public updateName(name: string): void {
     this.name = name;
+    this.updatedAt = new Date();
+  }
+
+  public updateSlug(slug: string): void {
+    this.slug = slug;
     this.updatedAt = new Date();
   }
 

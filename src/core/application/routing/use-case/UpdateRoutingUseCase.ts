@@ -12,6 +12,7 @@ interface UpdateRoutingUseCaseCommand {
   currentUserId: string;
   routingId: string;
   name?: string;
+  slug?: string;
   description?: string;
   url?: string;
   method?: string;
@@ -59,6 +60,10 @@ export class UpdateRoutingUseCase {
 
     if (command.name) {
       routing.updateName(command.name);
+    }
+
+    if (command.slug) {
+      routing.updateSlug(command.slug);
     }
 
     if (command.description) {
