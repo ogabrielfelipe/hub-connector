@@ -1,7 +1,7 @@
 vi.mock("@/shared/infra/events/event-queue", () => ({
-    domainEventBus: {
-        publish: vi.fn(),
-    },
+  domainEventBus: {
+    publish: vi.fn(),
+  },
 }));
 import { CreateRoutingExecutionUseCase } from "@/core/application/routing/use-case/execute-route/CreateRoutingExecutionUseCase";
 import { InMemoryRoutingRepository } from "../../repositories/InMemoryRoutingRepository";
@@ -13,40 +13,40 @@ import { InMemoryRoutingExecutionRepository } from "../../repositories/InMemoryR
 import { domainEventBus } from "@/shared/infra/events/event-queue";
 
 describe("CreateRoutingExecutionUseCase", () => {
-    let useCase: CreateRoutingExecutionUseCase;
-    let repoRouting: InMemoryRoutingRepository;
-    let repoRoutingExecution: InMemoryRoutingExecutionRepository;
-    let gatewayRepo: InMemoryGatewayReposiory;
+  let useCase: CreateRoutingExecutionUseCase;
+  let repoRouting: InMemoryRoutingRepository;
+  let repoRoutingExecution: InMemoryRoutingExecutionRepository;
+  let gatewayRepo: InMemoryGatewayReposiory;
 
-    beforeEach(() => {
-        vi.clearAllMocks();
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-        gatewayRepo = new InMemoryGatewayReposiory();
-        repoRouting = new InMemoryRoutingRepository(gatewayRepo);
-        repoRoutingExecution = new InMemoryRoutingExecutionRepository();
+    gatewayRepo = new InMemoryGatewayReposiory();
+    repoRouting = new InMemoryRoutingRepository(gatewayRepo);
+    repoRoutingExecution = new InMemoryRoutingExecutionRepository();
 
-        useCase = new CreateRoutingExecutionUseCase(
-            repoRoutingExecution,
-            repoRouting,
-        );
+    useCase = new CreateRoutingExecutionUseCase(
+      repoRoutingExecution,
+      repoRouting,
+    );
 
-        repoRouting.clear();
-        repoRoutingExecution.clear();
+    repoRouting.clear();
+    repoRoutingExecution.clear();
+  });
+
+  it("should create a new routing execution", async () => {
+    const gateway = gatewayFactory({});
+    gatewayRepo.save(gateway);
+
+    const routing = routingFactory({ gatewayId: gateway.getId() });
+    repoRouting.save(routing);
+
+    const routingExecution = await useCase.execute({
+      routingSlug: routing.getSlug(),
+      payload: { message: "Hello World" },
     });
 
-    it("should create a new routing execution", async () => {
-        const gateway = gatewayFactory({});
-        gatewayRepo.save(gateway);
-
-        const routing = routingFactory({ gatewayId: gateway.getId() });
-        repoRouting.save(routing);
-
-        const routingExecution = await useCase.execute({
-            routingSlug: routing.getSlug(),
-            payload: { "message": "Hello World" }
-        });
-
-        expect(routingExecution).toBeDefined();
-        expect(domainEventBus.publish).toHaveBeenCalled();
-    });
+    expect(routingExecution).toBeDefined();
+    expect(domainEventBus.publish).toHaveBeenCalled();
+  });
 });

@@ -1,12 +1,15 @@
 import { OnRoutingExecutionCreatedHandler } from "../handlers/OnRoutingExecutionCreatedHandler";
 
 const handlers = {
-    RoutingExecutionCreated: new OnRoutingExecutionCreatedHandler(),
+  RoutingExecutionCreated: new OnRoutingExecutionCreatedHandler(),
 };
 
-export async function handleDomainEvent(eventName: keyof typeof handlers, payload: unknown) {
-    const handler = handlers[eventName];
-    if (!handler) return;
+export async function handleDomainEvent(
+  eventName: keyof typeof handlers,
+  payload: unknown,
+) {
+  const handler = handlers[eventName];
+  if (!handler) return;
 
-    await handler.handle(payload);
+  await handler.handle(payload);
 }

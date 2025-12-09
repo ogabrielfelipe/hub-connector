@@ -1,46 +1,49 @@
-import { RoutingExecution, RoutingExecutionStatus } from "@/core/domain/routing/entities/RoutingEcxecution";
+import {
+  RoutingExecution,
+  RoutingExecutionStatus,
+} from "@/core/domain/routing/entities/RoutingEcxecution";
 import RoutingNotFoundError from "@/core/domain/routing/errors/RoutingNotFoundError";
 import { IRoutingExecutionRepository } from "@/core/domain/routing/repositories/IRoutingExecutionRepository";
 import { IRoutingRepository } from "@/core/domain/routing/repositories/IRoutingRepository";
 
-
 interface CreateRoutingExecutionUseCaseCommand {
-    routingSlug: string;
-    payload?: unknown;
-    logExecution?: unknown;
-    errorMessage?: string;
-    finishedAt?: Date;
+  routingSlug: string;
+  payload?: unknown;
+  logExecution?: unknown;
+  errorMessage?: string;
+  finishedAt?: Date;
 }
 
 export class CreateRoutingExecutionUseCase {
-    private routingExecutionRepository: IRoutingExecutionRepository;
-    private routingRepository: IRoutingRepository;
+  private routingExecutionRepository: IRoutingExecutionRepository;
+  private routingRepository: IRoutingRepository;
 
-    constructor(
-        routingExecutionRepository: IRoutingExecutionRepository,
-        routingRepository: IRoutingRepository,
-    ) {
-        this.routingExecutionRepository = routingExecutionRepository;
-        this.routingRepository = routingRepository;
+  constructor(
+    routingExecutionRepository: IRoutingExecutionRepository,
+    routingRepository: IRoutingRepository,
+  ) {
+    this.routingExecutionRepository = routingExecutionRepository;
+    this.routingRepository = routingRepository;
+  }
+
+  public async execute(command: CreateRoutingExecutionUseCaseCommand) {
+    const routing = await this.routingRepository.findOneBySlug(
+      command.routingSlug,
+    );
+    if (!routing) {
+      throw new RoutingNotFoundError();
     }
 
-    public async execute(command: CreateRoutingExecutionUseCaseCommand) {
-        const routing = await this.routingRepository.findOneBySlug(command.routingSlug);
-        if (!routing) {
-            throw new RoutingNotFoundError();
-        }
+    const routingExecution = RoutingExecution.create(
+      routing.getId(),
+      RoutingExecutionStatus.PENDING,
+      [],
+      command.payload,
+      null,
+      null,
+      null,
+    );
 
-        const routingExecution = RoutingExecution.create(
-            routing.getId(),
-            RoutingExecutionStatus.PENDING,
-            [],
-            command.payload,
-            null,
-            null,
-            null,
-        );
-
-
-        return this.routingExecutionRepository.save(routingExecution);
-    }
+    return this.routingExecutionRepository.save(routingExecution);
+  }
 }

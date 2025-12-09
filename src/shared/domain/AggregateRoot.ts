@@ -1,20 +1,17 @@
-
-
 export interface DomainEvent {
-    occurredAt: Date;
+  occurredAt: Date;
 }
 
-
 export abstract class AggregateRoot {
-    private domainEvents: DomainEvent[] = [];
+  private domainEvents: DomainEvent[] = [];
 
-    protected addDomainEvent(event: DomainEvent) {
-        this.domainEvents.push(event);
-    }
+  protected addDomainEvent(event: DomainEvent) {
+    this.domainEvents.push(event);
+  }
 
-    pullDomainEvents(): DomainEvent[] {
-        const events = [...this.domainEvents];
-        this.domainEvents = [];
-        return events;
-    }
+  pullDomainEvents(): DomainEvent[] {
+    const events = [...this.domainEvents];
+    this.domainEvents = [];
+    return events;
+  }
 }
