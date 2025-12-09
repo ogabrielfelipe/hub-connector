@@ -1,5 +1,5 @@
 import { Routing } from "@/core/domain/routing/entities/Routing";
-import { RoutingDocument } from "../models/routing.model";
+import { RoutingDocument } from "../models/routingModel";
 
 export class RoutingConverter {
   public toDomain(routing: RoutingDocument): Routing {

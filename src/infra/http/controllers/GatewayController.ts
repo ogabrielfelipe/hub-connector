@@ -83,7 +83,6 @@ export class GatewayController {
     const query = FindAllGatewaySchema.parse(req.query) ?? {};
 
     const result = await this.findAllGatewayUseCase.execute(query);
-    console.log(result);
     return reply.status(200).send(result);
   }
 
@@ -99,7 +98,6 @@ export class GatewayController {
       active: body.active,
     });
 
-    console.log(result);
     return reply.status(200).send(result);
   }
 

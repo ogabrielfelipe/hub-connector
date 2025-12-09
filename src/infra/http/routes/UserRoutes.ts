@@ -1,8 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { UserController } from "../controllers/UserController";
 import { MongoUserRepository } from "../../database/repositories/MongoUserRepository";
-import { UserQueueProducer } from "../../event-bus/UserQueueProduces";
-import { BullEventBus } from "../../event-bus/BullEventBus";
 import { authMiddleware } from "../middlewares/authMiddleware";
 import {
   CreateUserResponseSchema,
@@ -20,14 +18,12 @@ import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
 
 export async function usersRoutes(app: FastifyInstance) {
   const userRepository = new MongoUserRepository();
-  const eventBus = new BullEventBus(new UserQueueProducer());
-  const logger = new WinstonLoggerService();
   const hasher = new BcryptHasher();
   const caslFactory = new CaslAbilityFactory();
+  const logger = new WinstonLoggerService();
 
   const userController = new UserController(
     userRepository,
-    eventBus,
     logger,
     hasher,
     caslFactory,

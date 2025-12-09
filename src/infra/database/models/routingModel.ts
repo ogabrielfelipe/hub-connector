@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 export interface RoutingDocument {
   _id: string;
   name: string;
+  slug: string;
   description: string;
   gatewayId: string;
   url: string;
@@ -17,6 +18,7 @@ const RoutingSchema = new Schema<RoutingDocument>(
   {
     _id: { type: String },
     name: { type: String, required: true },
+    slug: { type: String, required: true },
     description: { type: String, required: true },
     gatewayId: { type: String, required: true },
     url: { type: String, required: true },

@@ -2,8 +2,6 @@ import { User, UserRole } from "../../../domain/user/entities/User";
 import UsernameUsedError from "../../../domain/user/errors/UsernameUsedError";
 import type { IUserRepository } from "../../../domain/user/repositories/IUserRepository";
 import { Email } from "../../../domain/user/value-objects/Email";
-import { IEventBus } from "@/core/application/IEventBus";
-import { UserCreatedEvent } from "../../../domain/user/events/UserCreatedEvent";
 import { ILogger } from "../../ports/logger.port";
 import { IPasswordHasher } from "../interfaces/security/IPasswordHasher";
 import { CaslAbilityFactory } from "../../security/casl.factory";
@@ -20,20 +18,17 @@ interface CreateUserCaseCommand {
 
 export class CreateUserUseCase {
   private userRepository: IUserRepository;
-  private eventBus: IEventBus;
   private readonly logger: ILogger;
   private readonly hasher: IPasswordHasher;
   private readonly abilityFactory: CaslAbilityFactory;
 
   constructor(
     userRepository: IUserRepository,
-    eventBus: IEventBus,
     logger: ILogger,
     hasher: IPasswordHasher,
     abilityFactory: CaslAbilityFactory,
   ) {
     this.userRepository = userRepository;
-    this.eventBus = eventBus;
     this.logger = logger;
     this.hasher = hasher;
     this.abilityFactory = abilityFactory;
@@ -79,11 +74,6 @@ export class CreateUserUseCase {
     );
 
     await this.userRepository.save(newUser);
-
-    // Enviar evento para fila
-    await this.eventBus.publish(
-      new UserCreatedEvent(newUser.getId(), newUser.getEmail()),
-    );
 
     return newUser.getId();
   }

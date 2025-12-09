@@ -55,6 +55,10 @@ export class InMemoryRoutingRepository implements IRoutingRepository {
     return Object.assign(routing, { gateway }) as RoutingDetail;
   }
 
+  public async findOneBySlug(slug: string): Promise<Routing | null> {
+    return this.repository.find((r) => r.getSlug() === slug) || null;
+  }
+
   public async findAll({
     name,
     gatewayId,
@@ -83,15 +87,25 @@ export class InMemoryRoutingRepository implements IRoutingRepository {
       filteredRoutings = filteredRoutings.slice(startIndex, endIndex);
     }
 
-    const routingFiltered: RoutingList[] = filteredRoutings.map((routing) => {
-      return {
-        id: routing.getId(),
-        name: routing.getName(),
-        description: routing.getDescription(),
-        gatewayId: routing.getGatewayId(),
-        deletedAt: routing.getDeletedAt(),
-      };
-    });
+    const routingFiltered: RoutingList[] = await Promise.all(
+      filteredRoutings.map(async (routing) => {
+        const gateway = await this.gatewayRepository.findById(
+          routing.getGatewayId(),
+        );
+
+        return {
+          id: routing.getId(),
+          slug: routing.getSlug(),
+          name: routing.getName(),
+          description: routing.getDescription(),
+          gateway: {
+            id: gateway?.getId() || "",
+            name: gateway?.getName() || "",
+          },
+          deletedAt: routing.getDeletedAt(),
+        };
+      }),
+    );
 
     const result: RoutingWithPagination = {
       docs: routingFiltered,

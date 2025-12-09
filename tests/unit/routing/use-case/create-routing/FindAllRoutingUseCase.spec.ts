@@ -1,7 +1,7 @@
-import { FindAllRoutingUseCase } from "@/core/application/routing/use-case/FindAllRoutingUseCase";
-import { InMemoryRoutingRepository } from "../repositories/InMemoryRoutingRepository";
-import { routingFactory } from "../factories/routingFactory";
-import { InMemoryGatewayReposiory } from "../../gateway/repositories/InMemoryGatewayReposiory";
+import { FindAllRoutingUseCase } from "@/core/application/routing/use-case/create-routing/FindAllRoutingUseCase";
+import { InMemoryRoutingRepository } from "../../repositories/InMemoryRoutingRepository";
+import { routingFactory } from "../../factories/routingFactory";
+import { InMemoryGatewayReposiory } from "../../../gateway/repositories/InMemoryGatewayReposiory";
 
 const loggerMock = {
   warn: vi.fn(),

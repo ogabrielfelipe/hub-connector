@@ -1,8 +1,8 @@
-import { CreateRoutingUseCase } from "@/core/application/routing/use-case/CreateRoutingUseCase";
-import { DeleteRoutingUseCase } from "@/core/application/routing/use-case/DeleteRoutingUseCase";
-import { FindAllRoutingUseCase } from "@/core/application/routing/use-case/FindAllRoutingUseCase";
-import { FindOneRoutingUseCase } from "@/core/application/routing/use-case/FindOneRoutingUseCase";
-import { UpdateRoutingUseCase } from "@/core/application/routing/use-case/UpdateRoutingUseCase";
+import { CreateRoutingUseCase } from "@/core/application/routing/use-case/create-routing/CreateRoutingUseCase";
+import { DeleteRoutingUseCase } from "@/core/application/routing/use-case/create-routing/DeleteRoutingUseCase";
+import { FindAllRoutingUseCase } from "@/core/application/routing/use-case/create-routing/FindAllRoutingUseCase";
+import { FindOneRoutingUseCase } from "@/core/application/routing/use-case/create-routing/FindOneRoutingUseCase";
+import { UpdateRoutingUseCase } from "@/core/application/routing/use-case/create-routing/UpdateRoutingUseCase";
 import {
   CreateRoutingSchema,
   FindAllRoutingSchema,

@@ -4,7 +4,7 @@ import {
   GatewayDTO,
   IGatewayRepository,
 } from "@/core/domain/gateway/repositories/IGatewayRepository";
-import { GatewayDocument, GatewayModel } from "../models/gateway.model";
+import { GatewayDocument, GatewayModel } from "../models/gatewayModel";
 import { GatewayConverter } from "../converters/GatewayConverter";
 
 export class MongoGatewayRepository implements IGatewayRepository {

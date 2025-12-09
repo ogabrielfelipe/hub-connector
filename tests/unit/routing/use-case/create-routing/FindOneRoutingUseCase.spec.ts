@@ -1,12 +1,12 @@
-import { FindOneRoutingUseCase } from "@/core/application/routing/use-case/FindOneRoutingUseCase";
-import { InMemoryRoutingRepository } from "../repositories/InMemoryRoutingRepository";
-import { InMemoryUserRepository } from "../../user/repositories/InMemoryUserRepository";
+import { FindOneRoutingUseCase } from "@/core/application/routing/use-case/create-routing/FindOneRoutingUseCase";
+import { InMemoryRoutingRepository } from "../../repositories/InMemoryRoutingRepository";
+import { InMemoryUserRepository } from "../../../user/repositories/InMemoryUserRepository";
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
-import { userFactory } from "../../user/factories/userFactory";
-import { routingFactory } from "../factories/routingFactory";
+import { userFactory } from "../../../user/factories/userFactory";
+import { routingFactory } from "../../factories/routingFactory";
 import { NotPermissionError } from "@/core/application/errors/NotPermissionError";
-import { InMemoryGatewayReposiory } from "../../gateway/repositories/InMemoryGatewayReposiory";
-import { gatewayFactory } from "../../gateway/factories/gatewayFactory";
+import { InMemoryGatewayReposiory } from "../../../gateway/repositories/InMemoryGatewayReposiory";
+import { gatewayFactory } from "../../../gateway/factories/gatewayFactory";
 
 const loggerMock = {
   warn: vi.fn(),

@@ -5,7 +5,7 @@ import type {
   UserFilter,
 } from "../../../core/domain/user/repositories/IUserRepository";
 import type { Email } from "../../../core/domain/user/value-objects/Email";
-import { UserModel, type UserDocument } from "../models/user.model";
+import { UserModel, type UserDocument } from "../models/userModel";
 
 export class MongoUserRepository implements IUserRepository {
   private toDomain(dto: UserDocument): User {

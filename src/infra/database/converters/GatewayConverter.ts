@@ -1,5 +1,5 @@
 import { Gateway } from "@/core/domain/gateway/entities/Gateway";
-import { GatewayDocument } from "../models/gateway.model";
+import { GatewayDocument } from "../models/gatewayModel";
 
 export class GatewayConverter {
   public toDomain(dto: GatewayDocument): Gateway {

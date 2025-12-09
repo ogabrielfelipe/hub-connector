@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { UserModel } from "../models/user.model";
+import { UserModel } from "../models/userModel";
 import { v4 } from "uuid";
 
 export async function createAdminSeeder() {

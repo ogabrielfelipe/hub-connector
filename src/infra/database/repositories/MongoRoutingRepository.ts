@@ -7,7 +7,7 @@ import {
   RoutingList,
   RoutingWithPagination,
 } from "@/core/domain/routing/repositories/IRoutingRepository";
-import { RoutingModel } from "../models/routing.model";
+import { RoutingModel } from "../models/routingModel";
 import { RoutingConverter } from "../converters/RoutingConverter";
 import { GatewayConverter } from "../converters/GatewayConverter";
 
@@ -78,13 +78,23 @@ export class MongoRoutingRepository implements IRoutingRepository {
     return this.routingConverter.toDomain(routingModel);
   }
 
+  async findOneBySlug(slug: string): Promise<Routing | null> {
+    const routingModel = await RoutingModel.findOne({ slug }).lean();
+    if (!routingModel) {
+      return null;
+    }
+    return this.routingConverter.toDomain(routingModel);
+  }
+
   async findAll({
     name,
+    slug,
     gatewayId,
     page = 1,
     limit = 10,
   }: {
     name?: string;
+    slug?: string;
     gatewayId?: string;
     page?: number;
     limit?: number;
@@ -93,6 +103,9 @@ export class MongoRoutingRepository implements IRoutingRepository {
     const queryFilters: any = {};
     if (name) {
       queryFilters.name = { $regex: name, $options: "i" };
+    }
+    if (slug) {
+      queryFilters.slug = { $regex: slug, $options: "i" };
     }
     if (gatewayId) {
       queryFilters.gatewayId = gatewayId;
@@ -115,6 +128,7 @@ export class MongoRoutingRepository implements IRoutingRepository {
         return {
           id: routingModel._id.toString(),
           name: routingModel.name,
+          slug: routingModel.slug,
           description: routingModel.description,
           gateway: {
             id: gateway.getId(),

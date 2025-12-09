@@ -3,10 +3,6 @@ import { InMemoryUserRepository } from "../repositories/InMemoryUserRepository";
 import { User, UserRole } from "@/core/domain/user/entities/User";
 import { Email } from "@/core/domain/user/value-objects/Email";
 
-const eventBusMock = {
-  publish: vi.fn(),
-};
-
 const loggerMock = {
   warn: vi.fn(),
   error: vi.fn(),
@@ -37,7 +33,6 @@ describe("CreateUserUseCase", async () => {
 
     useCase = new CreateUserUseCase(
       repo,
-      eventBusMock,
       loggerMock,
       hasherMock,
       caslFactoryMock,

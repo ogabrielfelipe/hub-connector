@@ -1,18 +1,21 @@
-import { IRoutingRepository } from "@/core/domain/routing/repositories/IRoutingRepository";
+import {
+  IRoutingRepository,
+  RoutingDetail,
+} from "@/core/domain/routing/repositories/IRoutingRepository";
 import { IUserRepository } from "@/core/domain/user/repositories/IUserRepository";
-import { CaslAbilityFactory } from "../../security/casl.factory";
-import { ILogger } from "../../ports/logger.port";
+import { CaslAbilityFactory } from "../../../security/casl.factory";
+import { ILogger } from "../../../ports/logger.port";
 import UserNotFoundError from "@/core/domain/user/errors/UserNotFoundError";
-import { Actions } from "../../security/casl.types";
-import { NotPermissionError } from "../../errors/NotPermissionError";
+import { Actions } from "../../../security/casl.types";
+import { NotPermissionError } from "../../../errors/NotPermissionError";
 import RoutingNotFoundError from "@/core/domain/routing/errors/RoutingNotFoundError";
 
-interface DeleteRoutingUseCaseCommand {
+interface FindOneRoutingUseCaseCommand {
   currentUserId: string;
   routingId: string;
 }
 
-export class DeleteRoutingUseCase {
+export class FindOneRoutingUseCase {
   private routingRepository: IRoutingRepository;
   private userRepository: IUserRepository;
   private readonly abilityFactory: CaslAbilityFactory;
@@ -30,7 +33,9 @@ export class DeleteRoutingUseCase {
     this.logger = logger;
   }
 
-  public async execute(command: DeleteRoutingUseCaseCommand): Promise<void> {
+  public async execute(
+    command: FindOneRoutingUseCaseCommand,
+  ): Promise<RoutingDetail> {
     const user = await this.userRepository.findById(command.currentUserId);
     if (!user) {
       this.logger.warn(`User ${command.currentUserId} does not exist`);
@@ -38,19 +43,21 @@ export class DeleteRoutingUseCase {
     }
 
     const ability = this.abilityFactory.createForUser(user);
-    if (!ability.can(Actions.Delete, "Routing")) {
+    if (!ability.can(Actions.Read, "Routing")) {
       this.logger.warn(
-        `User ${user.getUsername()} does not have permission to delete a routing`,
+        `User ${user.getUsername()} does not have permission to read a routing`,
       );
       throw new NotPermissionError();
     }
 
-    const routing = await this.routingRepository.findById(command.routingId);
+    const routing = await this.routingRepository.findOneDetail(
+      command.routingId,
+    );
     if (!routing) {
       this.logger.warn(`Routing ${command.routingId} does not exist`);
       throw new RoutingNotFoundError();
     }
 
-    await this.routingRepository.delete(routing);
+    return routing;
   }
 }

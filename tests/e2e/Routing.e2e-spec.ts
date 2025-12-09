@@ -32,6 +32,7 @@ describe("Routing E2E", () => {
       },
       payload: {
         name: "Test",
+        slug: "test",
         description: "Test",
         gatewayId: gateway._id,
         url: "http://localhost:3333",
@@ -63,6 +64,7 @@ describe("Routing E2E", () => {
     const routing = await app.db.routing.create({
       _id: uuidV4(),
       name: "Test",
+      slug: "test",
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
@@ -80,6 +82,7 @@ describe("Routing E2E", () => {
       },
       payload: {
         name: "Test Updated",
+        slug: "test-updated",
         description: "Test Updated",
       },
     });
@@ -88,6 +91,7 @@ describe("Routing E2E", () => {
     expect(response.json()).toEqual(
       expect.objectContaining({
         name: "Test Updated",
+        slug: "test-updated",
         description: "Test Updated",
         url: "http://localhost:3333",
       }),
@@ -106,6 +110,7 @@ describe("Routing E2E", () => {
     const routing = await app.db.routing.create({
       _id: uuidV4(),
       name: "Test",
+      slug: "test",
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
@@ -142,6 +147,7 @@ describe("Routing E2E", () => {
     const routing = await app.db.routing.create({
       _id: uuidV4(),
       name: "Test",
+      slug: "test",
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
@@ -186,6 +192,7 @@ describe("Routing E2E", () => {
     const routing = await app.db.routing.create({
       _id: uuidV4(),
       name: "Test",
+      slug: "test",
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
@@ -198,6 +205,7 @@ describe("Routing E2E", () => {
     const routing2 = await app.db.routing.create({
       _id: uuidV4(),
       name: "Test 2",
+      slug: "test-2",
       description: "Test 2",
       gatewayId: gateway._id,
       url: "http://localhost:3333",

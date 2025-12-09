@@ -1,7 +1,6 @@
 import { type FastifyRequest, type FastifyReply } from "fastify";
 import { CreateUserUseCase } from "../../../core/application/user/use-case/CreateUseCase";
 import type { IUserRepository } from "../../../core/domain/user/repositories/IUserRepository";
-import { BullEventBus } from "../../event-bus/BullEventBus";
 import {
   CreateUserSchema,
   FindAllUsersSchema,
@@ -24,14 +23,12 @@ export class UserController {
 
   constructor(
     userRepository: IUserRepository,
-    eventBus: BullEventBus,
     logger: ILogger,
     hasher: IPasswordHasher,
     caslFactory: CaslAbilityFactory,
   ) {
     this.createUserUseCase = new CreateUserUseCase(
       userRepository,
-      eventBus,
       logger,
       hasher,
       caslFactory,

@@ -4,6 +4,7 @@ import { Routing } from "../entities/Routing";
 export type RoutingList = {
   id: string;
   name: string;
+  slug: string;
   description: string;
   gateway: {
     id: string;
@@ -29,13 +30,16 @@ export interface IRoutingRepository {
   delete(routing: Routing): Promise<void>;
   findById(id: string): Promise<Routing | null>;
   findOneDetail(id: string): Promise<RoutingDetail | null>;
+  findOneBySlug(slug: string): Promise<Routing | null>;
   findAll({
     name,
+    slug,
     gatewayId,
     page,
     limit,
   }: {
     name?: string;
+    slug?: string;
     gatewayId?: string;
     page?: number;
     limit?: number;

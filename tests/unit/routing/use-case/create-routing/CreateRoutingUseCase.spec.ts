@@ -1,10 +1,10 @@
-import { InMemoryGatewayReposiory } from "../../gateway/repositories/InMemoryGatewayReposiory";
-import { InMemoryUserRepository } from "../../user/repositories/InMemoryUserRepository";
-import { CreateRoutingUseCase } from "@/core/application/routing/use-case/CreateRoutingUseCase";
+import { InMemoryGatewayReposiory } from "../../../gateway/repositories/InMemoryGatewayReposiory";
+import { InMemoryUserRepository } from "../../../user/repositories/InMemoryUserRepository";
+import { CreateRoutingUseCase } from "@/core/application/routing/use-case/create-routing/CreateRoutingUseCase";
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
-import { InMemoryRoutingRepository } from "../repositories/InMemoryRoutingRepository";
-import { userFactory } from "../../user/factories/userFactory";
-import { gatewayFactory } from "../../gateway/factories/gatewayFactory";
+import { InMemoryRoutingRepository } from "../../repositories/InMemoryRoutingRepository";
+import { userFactory } from "../../../user/factories/userFactory";
+import { gatewayFactory } from "../../../gateway/factories/gatewayFactory";
 import { NotPermissionError } from "@/core/application/errors/NotPermissionError";
 
 const loggerMock = {
@@ -49,6 +49,7 @@ describe("CreateRoutingUseCase", () => {
     const routing = await useCase.execute({
       currentUserId: user.getId(),
       name: "test",
+      slug: "test",
       description: "test",
       gatewayId: gateway.getId(),
       url: "test",
@@ -70,6 +71,7 @@ describe("CreateRoutingUseCase", () => {
       useCase.execute({
         currentUserId: user.getId(),
         name: "test",
+        slug: "test",
         description: "test",
         gatewayId: gateway.getId(),
         url: "test",

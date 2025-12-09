@@ -2,7 +2,7 @@ import {
   IRoutingRepository,
   RoutingWithPagination,
 } from "@/core/domain/routing/repositories/IRoutingRepository";
-import { ILogger } from "../../ports/logger.port";
+import { ILogger } from "../../../ports/logger.port";
 
 interface FindAllRoutingUseCaseCommand {
   gatewayId?: string;

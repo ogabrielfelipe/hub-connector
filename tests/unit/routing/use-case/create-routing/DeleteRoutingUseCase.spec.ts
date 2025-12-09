@@ -1,11 +1,11 @@
-import { DeleteRoutingUseCase } from "@/core/application/routing/use-case/DeleteRoutingUseCase";
-import { InMemoryRoutingRepository } from "../repositories/InMemoryRoutingRepository";
-import { InMemoryUserRepository } from "../../user/repositories/InMemoryUserRepository";
-import { InMemoryGatewayReposiory } from "../../gateway/repositories/InMemoryGatewayReposiory";
+import { DeleteRoutingUseCase } from "@/core/application/routing/use-case/create-routing/DeleteRoutingUseCase";
+import { InMemoryRoutingRepository } from "../../repositories/InMemoryRoutingRepository";
+import { InMemoryUserRepository } from "../../../user/repositories/InMemoryUserRepository";
+import { InMemoryGatewayReposiory } from "../../../gateway/repositories/InMemoryGatewayReposiory";
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
-import { userFactory } from "../../user/factories/userFactory";
-import { gatewayFactory } from "../../gateway/factories/gatewayFactory";
-import { routingFactory } from "../factories/routingFactory";
+import { userFactory } from "../../../user/factories/userFactory";
+import { gatewayFactory } from "../../../gateway/factories/gatewayFactory";
+import { routingFactory } from "../../factories/routingFactory";
 import { NotPermissionError } from "@/core/application/errors/NotPermissionError";
 
 const loggerMock = {
