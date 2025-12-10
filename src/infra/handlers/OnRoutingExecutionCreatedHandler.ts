@@ -2,8 +2,11 @@
 export class OnRoutingExecutionCreatedHandler {
   async handle(event: any) {
     console.log("⚡ Processando RouteExecutionCreated...");
-    console.log("Execution ID:", event.executionId);
-    console.log("Route ID:", event.routeId);
+    console.log("Execution ID:", event.routingExecutionId);
+    console.log("Route ID:", event.routingId);
+    console.log("Payload:", event.payload);
+
+    console.log(event)
 
     // Aqui pode:
     // - chamar outro caso de uso

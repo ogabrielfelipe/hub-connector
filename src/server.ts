@@ -70,7 +70,7 @@ export async function buildServer() {
   const serverAdapter = new FastifyAdapter();
 
   createBullBoard({
-    queues: [new BullMQAdapter(getQueue("user-events"))],
+    queues: [new BullMQAdapter(getQueue("domain-events"))],
     serverAdapter,
   });
 

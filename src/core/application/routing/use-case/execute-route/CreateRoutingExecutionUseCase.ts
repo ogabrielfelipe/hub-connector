@@ -9,9 +9,6 @@ import { IRoutingRepository } from "@/core/domain/routing/repositories/IRoutingR
 interface CreateRoutingExecutionUseCaseCommand {
   routingSlug: string;
   payload?: unknown;
-  logExecution?: unknown;
-  errorMessage?: string;
-  finishedAt?: Date;
 }
 
 export class CreateRoutingExecutionUseCase {

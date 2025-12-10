@@ -8,6 +8,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 import {
   CreateGatewayResponseSchema,
   CreateGatewaySchema,
+  DeleteGatewayResponseSchema,
   DeleteGatewaySchema,
   FindAllGatewayResponseSchema,
   FindAllGatewaySchema,
@@ -67,7 +68,7 @@ export async function gatewayRoutes(app: FastifyInstance) {
       preHandler: [authMiddleware],
       schema: {
         params: DeleteGatewaySchema,
-        response: { 204: {} },
+        response: { 204: DeleteGatewayResponseSchema },
         tags: ["Gateways"],
         summary: "Delete an existing gateway",
         description: "Endpoint to delete an existing gateway in the system.",

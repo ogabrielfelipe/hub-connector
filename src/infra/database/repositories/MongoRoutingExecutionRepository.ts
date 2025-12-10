@@ -2,11 +2,10 @@ import { RoutingExecution } from "@/core/domain/routing/entities/RoutingEcxecuti
 import { IRoutingExecutionRepository } from "@/core/domain/routing/repositories/IRoutingExecutionRepository";
 import { RoutingExecutionModel } from "../models/routingExecutionModel";
 import { RoutingExecutionConverter } from "../converters/RoutingExecutionConverter";
-import { domainEventBus } from "@/shared/infra/events/event-queue";
+import { domainEventBus } from "@/infra/events/event-queue";
 
 export class MongoRoutingExecutionRepository
-  implements IRoutingExecutionRepository
-{
+  implements IRoutingExecutionRepository {
   private routingExecutionConverter: RoutingExecutionConverter;
 
   constructor() {

@@ -90,3 +90,11 @@ export const FindAllRoutingResponseSchema = z.object({
   page: z.number(),
   limit: z.number(),
 });
+
+
+export const DeleteRoutingSchema = z.object({
+  routingId: z.string(),
+});
+
+export const DeleteRoutingResponseSchema = z.object({
+});

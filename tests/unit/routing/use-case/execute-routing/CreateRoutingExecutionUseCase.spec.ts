@@ -10,7 +10,7 @@ import { gatewayFactory } from "../../../gateway/factories/gatewayFactory";
 import { routingFactory } from "../../factories/routingFactory";
 import { InMemoryRoutingExecutionRepository } from "../../repositories/InMemoryRoutingExecutionRepository";
 
-import { domainEventBus } from "@/shared/infra/events/event-queue";
+import { domainEventBus } from "@/infra/events/event-queue";
 
 describe("CreateRoutingExecutionUseCase", () => {
   let useCase: CreateRoutingExecutionUseCase;

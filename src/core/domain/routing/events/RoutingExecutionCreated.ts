@@ -1,4 +1,4 @@
-import { DomainEvent } from "@/shared/domain/AggregateRoot";
+import { DomainEvent } from "@/core/domain/routing/AggregateRoot";
 
 export class RoutingExecutionCreated implements DomainEvent {
   readonly occurredAt: Date = new Date();
@@ -7,5 +7,5 @@ export class RoutingExecutionCreated implements DomainEvent {
     public readonly routingExecutionId: string,
     public readonly routingId: string,
     public readonly payload: unknown,
-  ) {}
+  ) { }
 }

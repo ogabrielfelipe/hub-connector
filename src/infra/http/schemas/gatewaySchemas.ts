@@ -58,3 +58,6 @@ export const UpdateGatewayResponseSchema = z.object({
 export const DeleteGatewaySchema = z.object({
   gatewayId: z.uuid(),
 });
+
+export const DeleteGatewayResponseSchema = z.object({
+});

@@ -1,4 +1,4 @@
-import { AggregateRoot } from "@/shared/domain/AggregateRoot";
+import { AggregateRoot } from "@/core/domain/routing/AggregateRoot";
 import { v4 as uuidV4 } from "uuid";
 import { RoutingExecutionCreated } from "../events/RoutingExecutionCreated";
 

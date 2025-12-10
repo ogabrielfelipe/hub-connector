@@ -9,6 +9,8 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 import {
   CreateRoutingResponseSchema,
   CreateRoutingSchema,
+  DeleteRoutingResponseSchema,
+  DeleteRoutingSchema,
   FindAllRoutingResponseSchema,
   FindAllRoutingSchema,
   FindOneRoutingResponseSchema,
@@ -16,10 +18,14 @@ import {
   UpdateRoutingResponseSchema,
   UpdateRoutingSchema,
 } from "../schemas/routingSchemas";
+import { createRoutingExecutionParamsSchema, createRoutingExecutionResponseSchema, createRoutingExecutionSchema } from "../schemas/routingExecutionSchemas";
+import { RoutingExecutionController } from "../controllers/RoutingExecutionController";
+import { MongoRoutingExecutionRepository } from "@/infra/database/repositories/MongoRoutingExecutionRepository";
 
 export async function routingRoutes(app: FastifyInstance) {
   const gatewayRepository = new MongoGatewayRepository();
   const routingRepository = new MongoRoutingRepository(gatewayRepository);
+  const routingExecutionRepository = new MongoRoutingExecutionRepository();
   const userRepository = new MongoUserRepository();
   const logger = new WinstonLoggerService();
   const caslFactory = new CaslAbilityFactory();
@@ -30,6 +36,11 @@ export async function routingRoutes(app: FastifyInstance) {
     userRepository,
     caslFactory,
     logger,
+  );
+
+  const routingExecutionController = new RoutingExecutionController(
+    routingRepository,
+    routingExecutionRepository
   );
 
   app.post(
@@ -68,8 +79,8 @@ export async function routingRoutes(app: FastifyInstance) {
     {
       preHandler: [authMiddleware],
       schema: {
-        params: FindOneRoutingSchema,
-        response: { 204: {} },
+        params: DeleteRoutingSchema,
+        response: { 204: DeleteRoutingResponseSchema },
         tags: ["Routings"],
         summary: "Delete an existing routing",
         description: "Endpoint to delete an existing routing in the system.",
@@ -106,5 +117,22 @@ export async function routingRoutes(app: FastifyInstance) {
       },
     },
     (req, reply) => routingController.findOne(req, reply),
+  );
+
+
+  app.post(
+    "/:routingSlug/execute",
+    {
+      preHandler: [],
+      schema: {
+        params: createRoutingExecutionParamsSchema,
+        body: createRoutingExecutionSchema,
+        response: { 201: createRoutingExecutionResponseSchema },
+        tags: ["Routing Executions"],
+        summary: "Create a new routing execution",
+        description: "Endpoint to create a new routing execution in the system.",
+      },
+    },
+    (req, reply) => routingExecutionController.handle(req, reply),
   );
 }
