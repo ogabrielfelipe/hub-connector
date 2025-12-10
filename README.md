@@ -16,7 +16,6 @@ Além do encaminhamento de dados, o projeto oferece:
 
 - [x] Deve ser possível realizar a criação de um novo usuário (Usuário: ADMIN);
 - [x] Deve ser possível alterer as informações (Nome de Usuário, E-mail, Nome) (Usuário: ADMIN; Somente o próprio registro: DEV, USER);
-- [ ] Deve ser possível realizar a alteração de senha do usuário (Enviando a nova senha por email);
 - [x] Deve ser possível inativar um usuário cadastrado (Usuário: ADMIN; Somente o próprio registro: DEV, USER);
 
 #### Autenticação e Validação:
@@ -28,14 +27,13 @@ Além do encaminhamento de dados, o projeto oferece:
 #### Criação de Rotas:
 
 - [x] Deve ser possível criar categorias para separar as rotas (Usuários: ADMIN, DEV);
-- [ ] Deve ser possível realizar a criação de novas rotas (Usuários: ADMIN, DEV);
-- [ ] Deve ser possível realizar alterar uma rota já existente (Usuários: ADMIN, DEV);
-- [ ] Deve ser possível inativar uma rota existente (Usuários: ADMIN, DEV);
+- [x] Deve ser possível realizar a criação de novas rotas (Usuários: ADMIN, DEV);
+- [x] Deve ser possível realizar alterar uma rota já existente (Usuários: ADMIN, DEV);
 
 #### Monitoração das Rotas
 
 - [ ] Deve ser possível consultar uma transação pelo JobID (Usuários: ADMIN, DEV, USER);
-- [ ] Deve ser possível realizar a consulta des transações pela rota (Usuários: ADMIN, DEV, USER);
+- [ ] Deve ser possível realizar a consulta des transações pela rota, categoria, status e payload (Usuários: ADMIN, DEV, USER);
 
 ## Configuração do Sistema e instalação
 

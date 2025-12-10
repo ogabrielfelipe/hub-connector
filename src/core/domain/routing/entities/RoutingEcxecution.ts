@@ -15,6 +15,7 @@ export type LogStatusType = {
   createdAt: Date;
 };
 
+// TODO: Implementar os params caso a rota tenha params
 export class RoutingExecution extends AggregateRoot {
   private id: string;
   private routingId: string;

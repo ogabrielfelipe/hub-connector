@@ -120,6 +120,7 @@ export async function routingRoutes(app: FastifyInstance) {
   );
 
 
+  // TODO: Implementar a validação da x-api-key. Validando e cruzando se a Rota pertence ao Gateway
   app.post(
     "/:routingSlug/execute",
     {

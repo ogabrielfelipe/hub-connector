@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+
+// TODO: Implementar a chamada de API para envio na rota indicada no routingId
 export class OnRoutingExecutionCreatedHandler {
   async handle(event: any) {
     console.log("⚡ Processando RouteExecutionCreated...");
@@ -6,12 +9,6 @@ export class OnRoutingExecutionCreatedHandler {
     console.log("Route ID:", event.routingId);
     console.log("Payload:", event.payload);
 
-    console.log(event)
 
-    // Aqui pode:
-    // - chamar outro caso de uso
-    // - disparar processamento assíncrono
-    // - enviar para outra fila
-    // - enviar webhook
   }
 }

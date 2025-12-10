@@ -1,8 +1,9 @@
 import { Queue } from "bullmq";
 import { BullMqDomainEventBus } from "./BullMqDomainEventBus";
+import { connection } from "../config/bullmq/bullmqConnection";
 
 export const domainEventsQueue = new Queue("domain-events", {
-  connection: { host: "localhost", port: 6380 },
+  connection,
   defaultJobOptions: {
     removeOnComplete: true,
     removeOnFail: false,
