@@ -1,14 +1,16 @@
-vi.mock("@/shared/infra/events/event-queue", () => ({
-  domainEventBus: {
-    publish: vi.fn(),
-  },
-}));
+
 import { CreateRoutingExecutionUseCase } from "@/core/application/routing/use-case/execute-route/CreateRoutingExecutionUseCase";
 import { InMemoryRoutingRepository } from "../../repositories/InMemoryRoutingRepository";
 import { InMemoryGatewayReposiory } from "../../../gateway/repositories/InMemoryGatewayReposiory";
 import { gatewayFactory } from "../../../gateway/factories/gatewayFactory";
 import { routingFactory } from "../../factories/routingFactory";
 import { InMemoryRoutingExecutionRepository } from "../../repositories/InMemoryRoutingExecutionRepository";
+
+vi.mock("@/infra/events/event-queue", () => ({
+  domainEventBus: {
+    publish: vi.fn(),
+  },
+}));
 
 import { domainEventBus } from "@/infra/events/event-queue";
 
