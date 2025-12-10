@@ -5,7 +5,8 @@ import { RoutingExecutionConverter } from "../converters/RoutingExecutionConvert
 import { domainEventBus } from "@/infra/events/event-queue";
 
 export class MongoRoutingExecutionRepository
-  implements IRoutingExecutionRepository {
+  implements IRoutingExecutionRepository
+{
   private routingExecutionConverter: RoutingExecutionConverter;
 
   constructor() {

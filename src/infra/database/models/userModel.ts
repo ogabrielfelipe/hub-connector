@@ -30,5 +30,4 @@ const UserSchema = new Schema<UserDocument>(
 
 UserSchema.index({ active: 1, username: 1 });
 
-
 export const UserModel = model<UserDocument>("User", UserSchema);

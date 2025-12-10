@@ -50,9 +50,9 @@ const RoutingExecutionSchema = new Schema<RoutingExecutionDocument>(
   { timestamps: true },
 );
 
-RoutingExecutionSchema.index({ routingId: 1 })
-RoutingExecutionSchema.index({ status: 1 })
-RoutingExecutionSchema.index({ finishedAt: 1 })
+RoutingExecutionSchema.index({ routingId: 1 });
+RoutingExecutionSchema.index({ status: 1 });
+RoutingExecutionSchema.index({ finishedAt: 1 });
 
 export const RoutingExecutionModel = model<RoutingExecutionDocument>(
   "RoutingExecution",

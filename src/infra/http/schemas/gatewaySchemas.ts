@@ -59,5 +59,4 @@ export const DeleteGatewaySchema = z.object({
   gatewayId: z.uuid(),
 });
 
-export const DeleteGatewayResponseSchema = z.object({
-});
+export const DeleteGatewayResponseSchema = z.object({});

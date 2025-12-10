@@ -18,7 +18,11 @@ import {
   UpdateRoutingResponseSchema,
   UpdateRoutingSchema,
 } from "../schemas/routingSchemas";
-import { createRoutingExecutionParamsSchema, createRoutingExecutionResponseSchema, createRoutingExecutionSchema } from "../schemas/routingExecutionSchemas";
+import {
+  createRoutingExecutionParamsSchema,
+  createRoutingExecutionResponseSchema,
+  createRoutingExecutionSchema,
+} from "../schemas/routingExecutionSchemas";
 import { RoutingExecutionController } from "../controllers/RoutingExecutionController";
 import { MongoRoutingExecutionRepository } from "@/infra/database/repositories/MongoRoutingExecutionRepository";
 
@@ -40,7 +44,7 @@ export async function routingRoutes(app: FastifyInstance) {
 
   const routingExecutionController = new RoutingExecutionController(
     routingRepository,
-    routingExecutionRepository
+    routingExecutionRepository,
   );
 
   app.post(
@@ -119,7 +123,6 @@ export async function routingRoutes(app: FastifyInstance) {
     (req, reply) => routingController.findOne(req, reply),
   );
 
-
   // TODO: Implementar a validação da x-api-key. Validando e cruzando se a Rota pertence ao Gateway
   app.post(
     "/:routingSlug/execute",
@@ -131,7 +134,8 @@ export async function routingRoutes(app: FastifyInstance) {
         response: { 201: createRoutingExecutionResponseSchema },
         tags: ["Routing Executions"],
         summary: "Create a new routing execution",
-        description: "Endpoint to create a new routing execution in the system.",
+        description:
+          "Endpoint to create a new routing execution in the system.",
       },
     },
     (req, reply) => routingExecutionController.handle(req, reply),

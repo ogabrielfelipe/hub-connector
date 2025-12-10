@@ -3,7 +3,8 @@ import { IRoutingExecutionRepository } from "@/core/domain/routing/repositories/
 import { domainEventBus } from "@/infra/events/event-queue";
 
 export class InMemoryRoutingExecutionRepository
-  implements IRoutingExecutionRepository {
+  implements IRoutingExecutionRepository
+{
   private routingExecution: RoutingExecution[] = [];
 
   save(routingExecution: RoutingExecution): Promise<RoutingExecution> {

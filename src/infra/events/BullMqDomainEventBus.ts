@@ -2,7 +2,7 @@ import { DomainEvent } from "@/core/domain/routing/AggregateRoot";
 import { Queue } from "bullmq";
 
 export class BullMqDomainEventBus {
-  constructor(private readonly queue: Queue) { }
+  constructor(private readonly queue: Queue) {}
 
   async publish(events: DomainEvent[]) {
     for (const event of events) {

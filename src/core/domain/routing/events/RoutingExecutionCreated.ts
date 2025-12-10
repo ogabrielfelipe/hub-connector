@@ -7,5 +7,5 @@ export class RoutingExecutionCreated implements DomainEvent {
     public readonly routingExecutionId: string,
     public readonly routingId: string,
     public readonly payload: unknown,
-  ) { }
+  ) {}
 }

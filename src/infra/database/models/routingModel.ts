@@ -29,8 +29,7 @@ const RoutingSchema = new Schema<RoutingDocument>(
   { timestamps: true },
 );
 
-
-RoutingSchema.index({ slug: 1 })
-RoutingSchema.index({ gatewayId: 1, slug: 1 })
+RoutingSchema.index({ slug: 1 });
+RoutingSchema.index({ gatewayId: 1, slug: 1 });
 
 export const RoutingModel = model<RoutingDocument>("Routing", RoutingSchema);
