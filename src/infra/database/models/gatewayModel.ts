@@ -19,4 +19,6 @@ const GatewaySchema = new Schema<GatewayDocument>(
   { timestamps: true },
 );
 
+GatewaySchema.index({ xApiKey: 1 })
+
 export const GatewayModel = model<GatewayDocument>("Gateway", GatewaySchema);

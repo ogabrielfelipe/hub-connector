@@ -52,7 +52,7 @@ export class MongoUserRepository implements IUserRepository {
 
   async findByUsername(username: string): Promise<User | null> {
     const dto: UserDocument | null = await UserModel.findOne({
-      username,
+      username, $and: [{ active: true }]
     }).lean();
     if (!dto) {
       return null;
@@ -62,7 +62,7 @@ export class MongoUserRepository implements IUserRepository {
 
   async findByEmail(email: Email): Promise<User | null> {
     const dto: UserDocument | null = await UserModel.findOne({
-      email: email.getValue(),
+      email: email.getValue(), $and: [{ active: true }]
     }).lean();
     if (!dto) {
       return null;
