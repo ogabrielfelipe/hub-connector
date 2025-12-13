@@ -7,6 +7,7 @@ export interface RoutingDocument {
   description: string;
   gatewayId: string;
   url: string;
+  params: string;
   method: string;
   headers: string;
   deletedAt: Date | null;
@@ -22,6 +23,7 @@ const RoutingSchema = new Schema<RoutingDocument>(
     description: { type: String, required: true },
     gatewayId: { type: String, required: true },
     url: { type: String, required: true },
+    params: { type: String, required: true },
     method: { type: String, required: true },
     headers: { type: String, required: true },
     deletedAt: { type: Date, required: false, default: null },
@@ -29,7 +31,5 @@ const RoutingSchema = new Schema<RoutingDocument>(
   { timestamps: true },
 );
 
-RoutingSchema.index({ slug: 1 });
-RoutingSchema.index({ gatewayId: 1, slug: 1 });
 
 export const RoutingModel = model<RoutingDocument>("Routing", RoutingSchema);

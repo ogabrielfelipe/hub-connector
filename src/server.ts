@@ -24,11 +24,18 @@ import { gatewayRoutes } from "./infra/http/routes/GatewayRoutes";
 import { mongoDb } from "./infra/database";
 import { routingRoutes } from "./infra/http/routes/RoutingRoutes";
 import { configRoutes } from "./infra/http/routes/ConfigRoutes";
+import { runMigrations } from "./infra/database/migrations";
 
 const logger = new WinstonLoggerService();
 
 export async function buildServer() {
   await connectMongo();
+
+  if (process.env.NODE_ENV !== "production") {
+    await runMigrations();
+  }
+
+
   const app = fastify({
     logger: false,
   });

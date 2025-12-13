@@ -25,6 +25,7 @@ import {
 } from "../schemas/routingExecutionSchemas";
 import { RoutingExecutionController } from "../controllers/RoutingExecutionController";
 import { MongoRoutingExecutionRepository } from "@/infra/database/repositories/MongoRoutingExecutionRepository";
+import { apiKeyMiddleware } from "../middlewares/apiKeyMiddleware";
 
 export async function routingRoutes(app: FastifyInstance) {
   const gatewayRepository = new MongoGatewayRepository();
@@ -123,11 +124,10 @@ export async function routingRoutes(app: FastifyInstance) {
     (req, reply) => routingController.findOne(req, reply),
   );
 
-  // TODO: Implementar a validação da x-api-key. Validando e cruzando se a Rota pertence ao Gateway
   app.post(
     "/:routingSlug/execute",
     {
-      preHandler: [],
+      preHandler: [apiKeyMiddleware],
       schema: {
         params: createRoutingExecutionParamsSchema,
         body: createRoutingExecutionSchema,

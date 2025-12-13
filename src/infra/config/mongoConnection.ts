@@ -6,7 +6,9 @@ export async function connectMongo(uri?: string) {
 
   const mongoUri = uri || env.MONGO_URI;
 
-  await mongoose.connect(mongoUri);
+  await mongoose.connect(mongoUri, {
+    autoIndex: process.env.NODE_ENV !== "production",
+  });
 
   console.log("Connected to MongoDB with Mongoose!");
 }
