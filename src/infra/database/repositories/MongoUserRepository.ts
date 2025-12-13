@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { RedisCacheRepository } from "@/infra/cache/redis/RedisCacheRepository";
 import { User } from "../../../core/domain/user/entities/User";
 import type {
   IUserRepository,
@@ -6,6 +7,7 @@ import type {
 } from "../../../core/domain/user/repositories/IUserRepository";
 import type { Email } from "../../../core/domain/user/value-objects/Email";
 import { UserModel, type UserDocument } from "../models/userModel";
+import { CacheRepository } from "@/core/application/ports/CacheRepository";
 
 export class MongoUserRepository implements IUserRepository {
   private toDomain(dto: UserDocument): User {
@@ -31,6 +33,12 @@ export class MongoUserRepository implements IUserRepository {
     };
   }
 
+  private cacheRepository: CacheRepository;
+
+  constructor() {
+    this.cacheRepository = new RedisCacheRepository();
+  }
+
   async save(user: User): Promise<User> {
     const dto = this.toPersistence(user);
     const saved = await UserModel.findOneAndUpdate({ _id: dto._id! }, dto, {
@@ -38,19 +46,32 @@ export class MongoUserRepository implements IUserRepository {
       new: true,
       setDefaultsOnInsert: true,
     }).lean();
-
+    await this.cacheRepository.set(`users:${saved._id!.toString()}`, saved);
+    await this.cacheRepository.set(`users:byUsername:${saved.username}`, saved);
+    await this.cacheRepository.set(`users:byEmail:${saved.email}`, saved);
     return this.toDomain(saved as UserDocument);
   }
 
   async findById(id: string): Promise<User | null> {
+    const cached = await this.cacheRepository.get<UserDocument>(`users:${id}`);
+    if (cached) {
+      return this.toDomain(cached);
+    }
     const dto: UserDocument | null = await UserModel.findById(id).lean();
     if (!dto) {
       return null;
     }
+    await this.cacheRepository.set(`users:${dto._id!.toString()}`, dto);
+    await this.cacheRepository.set(`users:byUsername:${dto.username}`, dto);
+    await this.cacheRepository.set(`users:byEmail:${dto.email}`, dto);
     return this.toDomain(dto);
   }
 
   async findByUsername(username: string): Promise<User | null> {
+    const cached = await this.cacheRepository.get<UserDocument>(`users:byUsername:${username}`);
+    if (cached) {
+      return this.toDomain(cached);
+    }
     const dto: UserDocument | null = await UserModel.findOne({
       username,
       $and: [{ active: true }],
@@ -58,10 +79,16 @@ export class MongoUserRepository implements IUserRepository {
     if (!dto) {
       return null;
     }
+    await this.cacheRepository.set(`users:byUsername:${dto.username}`, dto);
+    await this.cacheRepository.set(`users:byEmail:${dto.email}`, dto);
     return this.toDomain(dto);
   }
 
   async findByEmail(email: Email): Promise<User | null> {
+    const cached = await this.cacheRepository.get<UserDocument>(`users:byEmail:${email.getValue()}`);
+    if (cached) {
+      return this.toDomain(cached);
+    }
     const dto: UserDocument | null = await UserModel.findOne({
       email: email.getValue(),
       $and: [{ active: true }],
@@ -69,6 +96,8 @@ export class MongoUserRepository implements IUserRepository {
     if (!dto) {
       return null;
     }
+    await this.cacheRepository.set(`users:byEmail:${dto.email}`, dto);
+    await this.cacheRepository.set(`users:byUsername:${dto.username}`, dto);
     return this.toDomain(dto);
   }
 
@@ -98,9 +127,15 @@ export class MongoUserRepository implements IUserRepository {
     if (!updated) {
       throw new Error("User not found");
     }
+    await this.cacheRepository.set(`users-${updated._id!.toString()}`, updated);
+    await this.cacheRepository.set(`users:byUsername:${updated.username}`, updated);
+    await this.cacheRepository.set(`users:byEmail:${updated.email}`, updated);
     return this.toDomain(updated as UserDocument);
   }
   async delete(id: string): Promise<void> {
     await UserModel.findByIdAndDelete(id);
+    await this.cacheRepository.del(`users:${id}`);
+    await this.cacheRepository.del(`users:byUsername:${id}`);
+    await this.cacheRepository.del(`users:byEmail:${id}`);
   }
 }
