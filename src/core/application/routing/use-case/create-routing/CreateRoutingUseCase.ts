@@ -8,6 +8,7 @@ import UserNotFoundError from "@/core/domain/user/errors/UserNotFoundError";
 import { NotPermissionError } from "../../../errors/NotPermissionError";
 import { IGatewayRepository } from "@/core/domain/gateway/repositories/IGatewayRepository";
 import GatewayNotFoundError from "@/core/domain/gateway/errors/GatewayNotFoundError";
+import { extractParamsFromUrl } from "../utils/extractParamsFromUrl";
 
 interface CreateRoutingCaseCommand {
   currentUserId: string;
@@ -64,16 +65,22 @@ export class CreateRoutingUseCase {
 
     const slug = command.slug.replace(" ", "-");
 
+    const params = extractParamsFromUrl(command.url);
+
     const routing = Routing.createNew(
       command.name,
       slug,
       command.description,
       gateway.getId(),
       command.url,
+      params,
       command.method,
       command.headers,
     );
+
     const result = await this.routingRepository.save(routing);
     return result;
   }
+
+
 }

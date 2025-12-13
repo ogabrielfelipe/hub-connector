@@ -7,6 +7,7 @@ export class Routing {
   private description: string;
   private gatewayId: string;
   private url: string;
+  private params: Record<string, string>;
   private method: string;
   private headers: Record<string, string>;
   private createdAt: Date;
@@ -20,6 +21,7 @@ export class Routing {
     description: string,
     gatewayId: string,
     url: string,
+    params: Record<string, string>,
     method: string,
     headers: Record<string, string>,
     createdAt: Date,
@@ -32,6 +34,7 @@ export class Routing {
     this.description = description;
     this.gatewayId = gatewayId;
     this.url = url;
+    this.params = params;
     this.method = method;
     this.headers = headers;
     this.createdAt = createdAt;
@@ -45,6 +48,7 @@ export class Routing {
     description: string,
     gatewayId: string,
     url: string,
+    params: Record<string, string>,
     method: string,
     headers: Record<string, string>,
   ) {
@@ -60,6 +64,7 @@ export class Routing {
       description,
       gatewayId,
       url,
+      params,
       method,
       headers,
       createdAt,
@@ -75,6 +80,7 @@ export class Routing {
     description: string,
     gatewayId: string,
     url: string,
+    params: Record<string, string>,
     method: string,
     headers: Record<string, string>,
     createdAt: Date,
@@ -88,6 +94,7 @@ export class Routing {
       description,
       gatewayId,
       url,
+      params,
       method,
       headers,
       createdAt,
@@ -118,6 +125,10 @@ export class Routing {
 
   public getUrl(): string {
     return this.url;
+  }
+
+  public getParams(): Record<string, string> {
+    return this.params;
   }
 
   public getMethod(): string {
@@ -157,6 +168,11 @@ export class Routing {
 
   public updateUrl(url: string): void {
     this.url = url;
+    this.updatedAt = new Date();
+  }
+
+  public updateParams(params: Record<string, string>): void {
+    this.params = params;
     this.updatedAt = new Date();
   }
 

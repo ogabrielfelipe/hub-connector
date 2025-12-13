@@ -7,6 +7,7 @@ import { Actions } from "../../../security/casl.types";
 import { NotPermissionError } from "../../../errors/NotPermissionError";
 import RoutingNotFoundError from "@/core/domain/routing/errors/RoutingNotFoundError";
 import { Routing } from "@/core/domain/routing/entities/Routing";
+import { extractParamsFromUrl } from "../utils/extractParamsFromUrl";
 
 interface UpdateRoutingUseCaseCommand {
   currentUserId: string;
@@ -73,6 +74,7 @@ export class UpdateRoutingUseCase {
 
     if (command.url) {
       routing.updateUrl(command.url);
+      routing.updateParams(extractParamsFromUrl(command.url));
     }
 
     if (command.method) {
