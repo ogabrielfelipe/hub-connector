@@ -31,6 +31,7 @@ export interface IRoutingRepository {
   findById(id: string): Promise<Routing | null>;
   findOneDetail(id: string): Promise<RoutingDetail | null>;
   findOneBySlug(slug: string): Promise<Routing | null>;
+  findAllByGatewayId(gatewayId: string): Promise<Routing[]>;
   findAll({
     name,
     slug,
