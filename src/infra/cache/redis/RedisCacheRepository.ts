@@ -1,5 +1,5 @@
 import { CacheRepository } from "@/core/application/ports/CacheRepository";
-import { redis } from "./redisconnection";
+import { redis } from "./redisConnection";
 
 export class RedisCacheRepository implements CacheRepository {
     private readonly ttlSecondsFix: number = 60 * 60; // 1 hour
@@ -25,6 +25,7 @@ export class RedisCacheRepository implements CacheRepository {
         for await (const key of stream) {
             keys.push(key);
         }
+
         if (keys.length > 0) {
             await redis.del(...keys);
         }
