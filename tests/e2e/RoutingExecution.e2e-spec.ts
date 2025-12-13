@@ -1,12 +1,9 @@
-
 import { buildServer } from "@/server";
 import { FastifyInstance } from "fastify";
 import { v4 as uuidV4 } from "uuid";
 import { InMemoryGatewayReposiory } from "../unit/gateway/repositories/InMemoryGatewayReposiory";
 import { InMemoryRoutingRepository } from "../unit/routing/repositories/InMemoryRoutingRepository";
 let app: FastifyInstance;
-
-
 
 describe("Routing Execution E2E", () => {
   beforeAll(async () => {

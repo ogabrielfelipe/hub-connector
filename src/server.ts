@@ -52,8 +52,7 @@ export async function buildServer(deps?: {
     deps?.gatewayRepository ?? new MongoGatewayRepository();
 
   const routingRepository =
-    deps?.routingRepository ??
-    new MongoRoutingRepository(gatewayRepository);
+    deps?.routingRepository ?? new MongoRoutingRepository(gatewayRepository);
 
   app.decorate("gatewayRepository", gatewayRepository);
   app.decorate("routingRepository", routingRepository);

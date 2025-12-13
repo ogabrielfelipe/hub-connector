@@ -13,17 +13,20 @@ export async function apiKeyMiddleware(
       return reply.status(401).send({ error: "Unauthorized" });
     }
 
-    const gateway = await req.server.db.gateway.findOne<GatewayDocument>({ xApiKey }).lean()  // await gatewayRepo.findByKey(String(xApiKey));
+    const gateway = await req.server.db.gateway
+      .findOne<GatewayDocument>({ xApiKey })
+      .lean(); // await gatewayRepo.findByKey(String(xApiKey));
 
-
-    console.log("gateway", gateway)
+    console.log("gateway", gateway);
     if (!gateway) {
       return reply.status(401).send({ error: "G Unauthorized" });
     }
 
-    const routes = await req.server.db.routing.find<RoutingDocument[]>({ gatewayId: gateway._id }).lean()  // await routingRepo.findAllByGatewayId(gateway.getId());
+    const routes = await req.server.db.routing
+      .find<RoutingDocument[]>({ gatewayId: gateway._id })
+      .lean(); // await routingRepo.findAllByGatewayId(gateway.getId());
 
-    console.log("routes", routes)
+    console.log("routes", routes);
 
     if (!routes) {
       return reply.status(401).send({ error: "R Unauthorized" });
@@ -31,13 +34,13 @@ export async function apiKeyMiddleware(
 
     const routingSlug = (req.params as { routingSlug: string }).routingSlug;
 
-    console.log(routingSlug)
+    console.log(routingSlug);
 
     const route = routes.find(
       (route: RoutingDocument) => route.slug == routingSlug,
     );
 
-    console.log("route", route)
+    console.log("route", route);
 
     if (!route) {
       return reply.status(401).send({ error: "Unauthorized" });
