@@ -15,12 +15,12 @@ export type LogStatusType = {
   createdAt: Date;
 };
 
-// TODO: Implementar os params caso a rota tenha params
 export class RoutingExecution extends AggregateRoot {
   private id: string;
   private routingId: string;
   private status: RoutingExecutionStatus;
   private logStatus: LogStatusType[];
+  private params?: unknown;
   private payload?: unknown;
   private logExecution?: unknown;
   private errorMessage?: string | null;
@@ -35,6 +35,7 @@ export class RoutingExecution extends AggregateRoot {
     logStatus: LogStatusType[],
     createdAt: Date,
     updatedAt: Date,
+    params?: unknown,
     payload?: unknown,
     logExecution?: unknown,
     errorMessage?: string | null,
@@ -45,6 +46,7 @@ export class RoutingExecution extends AggregateRoot {
     this.routingId = routingId;
     this.status = status;
     this.logStatus = logStatus;
+    this.params = params;
     this.payload = payload;
     this.logExecution = logExecution;
     this.errorMessage = errorMessage;
@@ -57,6 +59,7 @@ export class RoutingExecution extends AggregateRoot {
     routingId: string,
     status: RoutingExecutionStatus,
     logStatus: LogStatusType[],
+    params?: unknown,
     payload?: unknown,
     logExecution?: unknown,
     errorMessage?: string | null,
@@ -73,6 +76,7 @@ export class RoutingExecution extends AggregateRoot {
       logStatus,
       createdAt,
       updatedAt,
+      params,
       payload,
       logExecution,
       errorMessage,
@@ -90,6 +94,7 @@ export class RoutingExecution extends AggregateRoot {
     routingId: string,
     status: RoutingExecutionStatus,
     logStatus: LogStatusType[],
+    params?: unknown,
     payload?: unknown,
     logExecution?: unknown,
     errorMessage?: string | null,
@@ -106,6 +111,7 @@ export class RoutingExecution extends AggregateRoot {
       logStatus,
       createdAt,
       updatedAt,
+      params,
       payload,
       logExecution,
       errorMessage,
@@ -122,6 +128,7 @@ export class RoutingExecution extends AggregateRoot {
     logStatus: LogStatusType[],
     createdAt: Date,
     updatedAt: Date,
+    params?: unknown,
     payload?: unknown,
     logExecution?: unknown,
     errorMessage?: string,
@@ -134,6 +141,7 @@ export class RoutingExecution extends AggregateRoot {
       logStatus,
       createdAt,
       updatedAt,
+      params,
       payload,
       logExecution,
       errorMessage,
@@ -155,6 +163,10 @@ export class RoutingExecution extends AggregateRoot {
 
   public getLogStatus(): LogStatusType[] {
     return this.logStatus;
+  }
+
+  public getParams(): unknown {
+    return this.params;
   }
 
   public getPayload(): unknown {

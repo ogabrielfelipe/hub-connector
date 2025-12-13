@@ -17,6 +17,7 @@ export const CreateRoutingResponseSchema = z.object({
   description: z.string(),
   gatewayId: z.string(),
   url: z.string(),
+  params: z.record(z.string(), z.string()),
   method: z.string(),
   headers: z.record(z.string(), z.string()),
 });
