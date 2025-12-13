@@ -68,7 +68,9 @@ export class MongoUserRepository implements IUserRepository {
   }
 
   async findByUsername(username: string): Promise<User | null> {
-    const cached = await this.cacheRepository.get<UserDocument>(`users:byUsername:${username}`);
+    const cached = await this.cacheRepository.get<UserDocument>(
+      `users:byUsername:${username}`,
+    );
     if (cached) {
       return this.toDomain(cached);
     }
@@ -85,7 +87,9 @@ export class MongoUserRepository implements IUserRepository {
   }
 
   async findByEmail(email: Email): Promise<User | null> {
-    const cached = await this.cacheRepository.get<UserDocument>(`users:byEmail:${email.getValue()}`);
+    const cached = await this.cacheRepository.get<UserDocument>(
+      `users:byEmail:${email.getValue()}`,
+    );
     if (cached) {
       return this.toDomain(cached);
     }
@@ -128,7 +132,10 @@ export class MongoUserRepository implements IUserRepository {
       throw new Error("User not found");
     }
     await this.cacheRepository.set(`users-${updated._id!.toString()}`, updated);
-    await this.cacheRepository.set(`users:byUsername:${updated.username}`, updated);
+    await this.cacheRepository.set(
+      `users:byUsername:${updated.username}`,
+      updated,
+    );
     await this.cacheRepository.set(`users:byEmail:${updated.email}`, updated);
     return this.toDomain(updated as UserDocument);
   }

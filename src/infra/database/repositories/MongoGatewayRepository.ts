@@ -19,7 +19,9 @@ export class MongoGatewayRepository implements IGatewayRepository {
   }
 
   async findById(id: string): Promise<Gateway | null> {
-    const cached = await this.cacheRepository.get<GatewayDocument>(`gateways:detail:${id}`);
+    const cached = await this.cacheRepository.get<GatewayDocument>(
+      `gateways:detail:${id}`,
+    );
     if (cached) {
       return this.gatewayConverter.toDomain(cached);
     }
@@ -31,7 +33,9 @@ export class MongoGatewayRepository implements IGatewayRepository {
     return this.gatewayConverter.toDomain(dto);
   }
   async findByKey(key: string): Promise<Gateway | null> {
-    const cached = await this.cacheRepository.get<GatewayDocument>(`gateways:key:${key}`);
+    const cached = await this.cacheRepository.get<GatewayDocument>(
+      `gateways:key:${key}`,
+    );
     if (cached) {
       return this.gatewayConverter.toDomain(cached);
     }
@@ -91,7 +95,10 @@ export class MongoGatewayRepository implements IGatewayRepository {
       new: true,
       setDefaultsOnInsert: true,
     }).lean();
-    await this.cacheRepository.set(`gateways:detail:${dto._id!.toString()}`, saved);
+    await this.cacheRepository.set(
+      `gateways:detail:${dto._id!.toString()}`,
+      saved,
+    );
     await this.cacheRepository.set(`gateways:key:${dto.xApiKey}`, saved);
     return this.gatewayConverter.toDomain(saved as GatewayDocument);
   }
@@ -105,7 +112,10 @@ export class MongoGatewayRepository implements IGatewayRepository {
     if (!updated) {
       throw new Error("Gateway not found");
     }
-    await this.cacheRepository.set(`gateways:detail:${updated._id!.toString()}`, updated);
+    await this.cacheRepository.set(
+      `gateways:detail:${updated._id!.toString()}`,
+      updated,
+    );
     await this.cacheRepository.set(`gateways:key:${updated.xApiKey}`, updated);
     return this.gatewayConverter.toDomain(updated as GatewayDocument);
   }

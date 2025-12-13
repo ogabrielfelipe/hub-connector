@@ -25,22 +25,38 @@ import { mongoDb } from "./infra/database";
 import { routingRoutes } from "./infra/http/routes/RoutingRoutes";
 import { configRoutes } from "./infra/http/routes/ConfigRoutes";
 import { runMigrations } from "./infra/database/migrations";
+import { MongoGatewayRepository } from "./infra/database/repositories/MongoGatewayRepository";
+import { MongoRoutingRepository } from "./infra/database/repositories/MongoRoutingRepository";
+import { IGatewayRepository } from "./core/domain/gateway/repositories/IGatewayRepository";
+import { IRoutingRepository } from "./core/domain/routing/repositories/IRoutingRepository";
 
 const logger = new WinstonLoggerService();
 
-export async function buildServer() {
+export async function buildServer(deps?: {
+  gatewayRepository?: IGatewayRepository;
+  routingRepository?: IRoutingRepository;
+}) {
   await connectMongo();
 
   if (process.env.NODE_ENV !== "production") {
     await runMigrations();
   }
 
-
   const app = fastify({
     logger: false,
   });
 
   app.decorate("db", mongoDb);
+
+  const gatewayRepository =
+    deps?.gatewayRepository ?? new MongoGatewayRepository();
+
+  const routingRepository =
+    deps?.routingRepository ??
+    new MongoRoutingRepository(gatewayRepository);
+
+  app.decorate("gatewayRepository", gatewayRepository);
+  app.decorate("routingRepository", routingRepository);
 
   app.setErrorHandler((error, _req, reply) => {
     console.log(error);

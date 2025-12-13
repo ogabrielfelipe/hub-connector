@@ -1,12 +1,22 @@
+
 import { buildServer } from "@/server";
 import { FastifyInstance } from "fastify";
 import { v4 as uuidV4 } from "uuid";
-
+import { InMemoryGatewayReposiory } from "../unit/gateway/repositories/InMemoryGatewayReposiory";
+import { InMemoryRoutingRepository } from "../unit/routing/repositories/InMemoryRoutingRepository";
 let app: FastifyInstance;
+
+
 
 describe("Routing Execution E2E", () => {
   beforeAll(async () => {
-    app = await buildServer();
+    const gatewayRepository = new InMemoryGatewayReposiory();
+    const routingRepository = new InMemoryRoutingRepository(gatewayRepository);
+
+    app = await buildServer({
+      gatewayRepository,
+      routingRepository,
+    });
     await app.ready();
   });
 
@@ -28,6 +38,7 @@ describe("Routing Execution E2E", () => {
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
+      params: JSON.stringify({}),
       method: "GET",
       headers: JSON.stringify({
         "Content-Type": "application/json",
@@ -37,6 +48,9 @@ describe("Routing Execution E2E", () => {
     const response = await app.inject({
       method: "POST",
       url: `/routings/${route.slug}/execute`,
+      headers: {
+        "x-api-key": gateway.xApiKey,
+      },
       payload: {
         payload: {},
       },

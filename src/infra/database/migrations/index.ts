@@ -4,12 +4,12 @@ import { up as createRoutingExecutionsIndexes } from "./create-routing-execution
 import { up as createGatewayIndexes } from "./create-gateway-indexes";
 
 export async function runMigrations() {
-    console.log("Running migrations...");
+  console.log("Running migrations...");
 
-    await createRoutingIndexes();
-    await createUserIndexes();
-    await createRoutingExecutionsIndexes();
-    await createGatewayIndexes();
+  await createRoutingIndexes();
+  await createUserIndexes();
+  await createRoutingExecutionsIndexes();
+  await createGatewayIndexes();
 
-    console.log("Migrations completed");
+  console.log("Migrations completed");
 }

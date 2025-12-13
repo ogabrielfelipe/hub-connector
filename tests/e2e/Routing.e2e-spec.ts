@@ -68,6 +68,7 @@ describe("Routing E2E", () => {
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
+      params: JSON.stringify({}),
       method: "GET",
       headers: JSON.stringify({
         "Content-Type": "application/json",
@@ -114,6 +115,7 @@ describe("Routing E2E", () => {
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
+      params: JSON.stringify({}),
       method: "GET",
       headers: JSON.stringify({
         "Content-Type": "application/json",
@@ -151,6 +153,7 @@ describe("Routing E2E", () => {
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
+      params: JSON.stringify({}),
       method: "GET",
       headers: JSON.stringify({
         "Content-Type": "application/json",
@@ -196,6 +199,7 @@ describe("Routing E2E", () => {
       description: "Test",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
+      params: JSON.stringify({}),
       method: "GET",
       headers: JSON.stringify({
         "Content-Type": "application/json",
@@ -209,6 +213,7 @@ describe("Routing E2E", () => {
       description: "Test 2",
       gatewayId: gateway._id,
       url: "http://localhost:3333",
+      params: JSON.stringify({}),
       method: "GET",
       headers: JSON.stringify({
         "Content-Type": "application/json",

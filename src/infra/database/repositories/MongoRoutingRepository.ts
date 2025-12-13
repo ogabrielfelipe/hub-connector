@@ -39,7 +39,10 @@ export class MongoRoutingRepository implements IRoutingRepository {
       },
     ).lean();
 
-    await this.cacheRepository.set(`routings:detail:${routingModel._id!.toString()}`, routingModel);
+    await this.cacheRepository.set(
+      `routings:detail:${routingModel._id!.toString()}`,
+      routingModel,
+    );
     return this.routingConverter.toDomain(routingModel);
   }
 
@@ -65,7 +68,10 @@ export class MongoRoutingRepository implements IRoutingRepository {
       throw new Error("Routing not found");
     }
 
-    await this.cacheRepository.set(`routings:detail:${routingModel._id!.toString()}`, routingModel);
+    await this.cacheRepository.set(
+      `routings:detail:${routingModel._id!.toString()}`,
+      routingModel,
+    );
     return this.routingConverter.toDomain(routingModel);
   }
 
@@ -75,13 +81,19 @@ export class MongoRoutingRepository implements IRoutingRepository {
       throw new Error("Routing not found");
     }
     await routingModel.deleteOne();
-    await this.cacheRepository.del(`routings:detail:${routingModel._id!.toString()}`);
-    await this.cacheRepository.del(`routings:byGatewayId:${routingModel.gatewayId}`);
+    await this.cacheRepository.del(
+      `routings:detail:${routingModel._id!.toString()}`,
+    );
+    await this.cacheRepository.del(
+      `routings:byGatewayId:${routingModel.gatewayId}`,
+    );
     await this.cacheRepository.del(`routings:bySlug:${routingModel.slug}`);
   }
 
   async findById(id: string): Promise<Routing | null> {
-    const cached = await this.cacheRepository.get<RoutingDocument>(`routings:detail:${id}`);
+    const cached = await this.cacheRepository.get<RoutingDocument>(
+      `routings:detail:${id}`,
+    );
     if (cached) {
       return this.routingConverter.toDomain(cached);
     }
@@ -89,12 +101,17 @@ export class MongoRoutingRepository implements IRoutingRepository {
     if (!routingModel) {
       return null;
     }
-    await this.cacheRepository.set(`routings:detail:${routingModel._id!.toString()}`, routingModel);
+    await this.cacheRepository.set(
+      `routings:detail:${routingModel._id!.toString()}`,
+      routingModel,
+    );
     return this.routingConverter.toDomain(routingModel);
   }
 
   async findOneBySlug(slug: string): Promise<Routing | null> {
-    const cached = await this.cacheRepository.get<RoutingDocument>(`routings:bySlug:${slug}`);
+    const cached = await this.cacheRepository.get<RoutingDocument>(
+      `routings:bySlug:${slug}`,
+    );
     if (cached) {
       return this.routingConverter.toDomain(cached);
     }
@@ -102,21 +119,33 @@ export class MongoRoutingRepository implements IRoutingRepository {
     if (!routingModel) {
       return null;
     }
-    await this.cacheRepository.set(`routings:bySlug:${routingModel.slug}`, routingModel);
+    await this.cacheRepository.set(
+      `routings:bySlug:${routingModel.slug}`,
+      routingModel,
+    );
     return this.routingConverter.toDomain(routingModel);
   }
 
   async findAllByGatewayId(gatewayId: string): Promise<Routing[]> {
-    const cached = await this.cacheRepository.get<RoutingDocument[]>(`routings:byGatewayId:${gatewayId}`);
+    const cached = await this.cacheRepository.get<RoutingDocument[]>(
+      `routings:byGatewayId:${gatewayId}`,
+    );
     if (cached) {
-      return cached.map((routingModel) => this.routingConverter.toDomain(routingModel));
+      return cached.map((routingModel) =>
+        this.routingConverter.toDomain(routingModel),
+      );
     }
     const routingModels = await RoutingModel.find({ gatewayId }).lean();
     if (!routingModels) {
       return [];
     }
-    await this.cacheRepository.set(`routings:byGatewayId:${gatewayId}`, routingModels);
-    return routingModels.map((routingModel) => this.routingConverter.toDomain(routingModel));
+    await this.cacheRepository.set(
+      `routings:byGatewayId:${gatewayId}`,
+      routingModels,
+    );
+    return routingModels.map((routingModel) =>
+      this.routingConverter.toDomain(routingModel),
+    );
   }
 
   async findAll({
@@ -186,7 +215,9 @@ export class MongoRoutingRepository implements IRoutingRepository {
       gateway: GatewayDocument;
     }>(`routings:detail:${id}`);
     if (cached) {
-      return Object.assign(this.routingConverter.toDomain(cached.routing), { gateway: this.gatewayConverter.toDomain(cached.gateway) });
+      return Object.assign(this.routingConverter.toDomain(cached.routing), {
+        gateway: this.gatewayConverter.toDomain(cached.gateway),
+      });
     }
 
     const routingModel = await RoutingModel.findById(id).lean();
@@ -202,10 +233,13 @@ export class MongoRoutingRepository implements IRoutingRepository {
     }
 
     const routing = this.routingConverter.toDomain(routingModel);
-    await this.cacheRepository.set(`routings:detail:${routingModel._id!.toString()}`, {
-      routing: routingModel,
-      gateway: gateway,
-    });
+    await this.cacheRepository.set(
+      `routings:detail:${routingModel._id!.toString()}`,
+      {
+        routing: routingModel,
+        gateway: gateway,
+      },
+    );
     return Object.assign(routing, { gateway });
   }
 }

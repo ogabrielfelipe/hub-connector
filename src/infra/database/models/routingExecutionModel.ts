@@ -50,7 +50,6 @@ const RoutingExecutionSchema = new Schema<RoutingExecutionDocument>(
   { timestamps: true },
 );
 
-
 export const RoutingExecutionModel = model<RoutingExecutionDocument>(
   "RoutingExecution",
   RoutingExecutionSchema,

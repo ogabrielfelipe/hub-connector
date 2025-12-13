@@ -65,7 +65,13 @@ export class CreateRoutingUseCase {
 
     const slug = command.slug.replace(" ", "-");
 
-    const params = extractParamsFromUrl(command.url);
+    let params = {};
+    try {
+      params = extractParamsFromUrl(command.url);
+    } catch (error: unknown) {
+      this.logger.warn(`Invalid URL: ${command.url}`);
+      throw new Error(error as string);
+    }
 
     const routing = Routing.createNew(
       command.name,
@@ -81,6 +87,4 @@ export class CreateRoutingUseCase {
     const result = await this.routingRepository.save(routing);
     return result;
   }
-
-
 }

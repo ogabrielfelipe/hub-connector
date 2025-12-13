@@ -52,7 +52,7 @@ describe("CreateRoutingUseCase", () => {
       slug: "test",
       description: "test",
       gatewayId: gateway.getId(),
-      url: "test",
+      url: "https://example.test",
       method: "GET",
       headers: {},
     });

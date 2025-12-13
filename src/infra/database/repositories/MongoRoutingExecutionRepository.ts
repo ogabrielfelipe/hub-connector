@@ -1,13 +1,17 @@
 import { RoutingExecution } from "@/core/domain/routing/entities/RoutingEcxecution";
 import { IRoutingExecutionRepository } from "@/core/domain/routing/repositories/IRoutingExecutionRepository";
-import { RoutingExecutionDocument, RoutingExecutionModel } from "../models/routingExecutionModel";
+import {
+  RoutingExecutionDocument,
+  RoutingExecutionModel,
+} from "../models/routingExecutionModel";
 import { RoutingExecutionConverter } from "../converters/RoutingExecutionConverter";
 import { domainEventBus } from "@/infra/events/event-queue";
 import { RedisCacheRepository } from "@/infra/cache/redis/RedisCacheRepository";
 import { CacheRepository } from "@/core/application/ports/CacheRepository";
 
 export class MongoRoutingExecutionRepository
-  implements IRoutingExecutionRepository {
+  implements IRoutingExecutionRepository
+{
   private routingExecutionConverter: RoutingExecutionConverter;
   private cacheRepository: CacheRepository;
 
@@ -36,13 +40,21 @@ export class MongoRoutingExecutionRepository
     const events = routingExecution.pullDomainEvents();
     await domainEventBus.publish(events);
 
-    await this.cacheRepository.set(`routing-executions:detail:${routingExecutionModel._id!.toString()}`, routingExecutionModel);
-    await this.cacheRepository.set(`routing-executions:byRoutingId:${routingExecutionModel.routingId}`, routingExecutionModel);
+    await this.cacheRepository.set(
+      `routing-executions:detail:${routingExecutionModel._id!.toString()}`,
+      routingExecutionModel,
+    );
+    await this.cacheRepository.set(
+      `routing-executions:byRoutingId:${routingExecutionModel.routingId}`,
+      routingExecutionModel,
+    );
     return this.routingExecutionConverter.toDomain(routingExecutionModel);
   }
 
   async findById(id: string): Promise<RoutingExecution | null> {
-    const cached = await this.cacheRepository.get<RoutingExecutionDocument>(`routing-executions:detail:${id}`);
+    const cached = await this.cacheRepository.get<RoutingExecutionDocument>(
+      `routing-executions:detail:${id}`,
+    );
     if (cached) {
       return this.routingExecutionConverter.toDomain(cached);
     }
@@ -51,19 +63,29 @@ export class MongoRoutingExecutionRepository
     if (!routingExecutionModel) {
       return null;
     }
-    await this.cacheRepository.set(`routing-executions:detail:${routingExecutionModel._id!.toString()}`, routingExecutionModel);
+    await this.cacheRepository.set(
+      `routing-executions:detail:${routingExecutionModel._id!.toString()}`,
+      routingExecutionModel,
+    );
     return this.routingExecutionConverter.toDomain(routingExecutionModel);
   }
 
   async findByRoutingId(routingId: string): Promise<RoutingExecution[]> {
-    const cached = await this.cacheRepository.get<RoutingExecutionDocument[]>(`routing-executions:byRoutingId:${routingId}`);
+    const cached = await this.cacheRepository.get<RoutingExecutionDocument[]>(
+      `routing-executions:byRoutingId:${routingId}`,
+    );
     if (cached) {
-      return cached.map((model) => this.routingExecutionConverter.toDomain(model));
+      return cached.map((model) =>
+        this.routingExecutionConverter.toDomain(model),
+      );
     }
     const routingExecutionModels = await RoutingExecutionModel.find({
       routingId,
     }).lean();
-    await this.cacheRepository.set(`routing-executions:byRoutingId:${routingId}`, routingExecutionModels);
+    await this.cacheRepository.set(
+      `routing-executions:byRoutingId:${routingId}`,
+      routingExecutionModels,
+    );
     return routingExecutionModels.map((model) =>
       this.routingExecutionConverter.toDomain(model),
     );
@@ -91,8 +113,14 @@ export class MongoRoutingExecutionRepository
     if (!routingExecutionModel) {
       throw new Error("Routing execution not found");
     }
-    await this.cacheRepository.set(`routing-executions:detail:${routingExecutionModel._id!.toString()}`, routingExecutionModel);
-    await this.cacheRepository.set(`routing-executions:byRoutingId:${routingExecutionModel.routingId}`, routingExecutionModel);
+    await this.cacheRepository.set(
+      `routing-executions:detail:${routingExecutionModel._id!.toString()}`,
+      routingExecutionModel,
+    );
+    await this.cacheRepository.set(
+      `routing-executions:byRoutingId:${routingExecutionModel.routingId}`,
+      routingExecutionModel,
+    );
     return this.routingExecutionConverter.toDomain(routingExecutionModel);
   }
 
@@ -112,10 +140,14 @@ export class MongoRoutingExecutionRepository
   }> {
     const offset = (page - 1) * limit;
 
-    const cached = await this.cacheRepository.get<RoutingExecutionDocument[]>(`routing-executions:byRoutingId:${routingId}`);
+    const cached = await this.cacheRepository.get<RoutingExecutionDocument[]>(
+      `routing-executions:byRoutingId:${routingId}`,
+    );
     if (cached) {
       return {
-        docs: cached.map((model) => this.routingExecutionConverter.toDomain(model)),
+        docs: cached.map((model) =>
+          this.routingExecutionConverter.toDomain(model),
+        ),
         total: cached.length,
         page,
         limit,
@@ -132,7 +164,10 @@ export class MongoRoutingExecutionRepository
     const docs = routingExecutionModels.map((model) =>
       this.routingExecutionConverter.toDomain(model),
     );
-    await this.cacheRepository.set(`routing-executions:byRoutingId:${routingId}`, docs);
+    await this.cacheRepository.set(
+      `routing-executions:byRoutingId:${routingId}`,
+      docs,
+    );
     return {
       docs,
       total: routingExecutionModels.length,

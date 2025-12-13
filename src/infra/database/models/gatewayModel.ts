@@ -19,5 +19,4 @@ const GatewaySchema = new Schema<GatewayDocument>(
   { timestamps: true },
 );
 
-
 export const GatewayModel = model<GatewayDocument>("Gateway", GatewaySchema);

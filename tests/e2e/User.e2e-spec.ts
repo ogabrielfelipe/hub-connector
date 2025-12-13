@@ -4,6 +4,7 @@ import { loginAsAdmin } from "./utils/auth";
 
 import { v4 as uuidV4 } from "uuid";
 import bcrypt from "bcrypt";
+import { faker } from "@faker-js/faker";
 
 let app: FastifyInstance;
 
@@ -27,10 +28,10 @@ describe("User E2E", () => {
         Authorization: `Bearer ${token}`,
       },
       payload: {
-        name: "John Doe USER",
-        email: "john2.doe@mail.com",
+        name: faker.person.firstName(),
+        email: faker.internet.email(),
         role: "user",
-        username: "john2.doe",
+        username: faker.person.firstName(),
         password: "Test@123",
       },
     });

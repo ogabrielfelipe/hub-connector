@@ -14,7 +14,7 @@
     "test": "vitest",
     "test:unit": "vitest --config vitest.config.ts --run",
     "test:e2e": "vitest --config vitest.e2e.config.ts --run",
-    "test:e2e:watch": "vitest --config vitest.e2e.config.ts --run --watch",
+    "test:e2e:watch": "vitest --config vitest.e2e.config.ts --watch",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
     "prepare": "husky"

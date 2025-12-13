@@ -117,6 +117,12 @@ export class InMemoryRoutingRepository implements IRoutingRepository {
     return result;
   }
 
+
+  public async findAllByGatewayId(gatewayId: string): Promise<Routing[]> {
+    return this.repository.filter((r) => r.getGatewayId().toString() === gatewayId);
+  }
+
+
   public clear() {
     this.repository = [];
   }

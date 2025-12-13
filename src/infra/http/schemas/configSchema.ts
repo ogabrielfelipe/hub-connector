@@ -1,10 +1,7 @@
 import z from "zod";
 
-
-
 export const delPrefixCacheSchema = z.object({
-    prefix: z.string(),
+  prefix: z.string(),
 });
 
-export const delPrefixCacheResponseSchema = z.object({
-});
+export const delPrefixCacheResponseSchema = z.object({});
