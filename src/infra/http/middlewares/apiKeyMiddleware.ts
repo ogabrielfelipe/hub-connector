@@ -27,18 +27,15 @@ export async function apiKeyMiddleware(
       .find<RoutingDocument[]>({ gatewayId: gateway._id })
       .lean();
 
-
     if (!routes) {
       return reply.status(401).send({ error: "R Unauthorized" });
     }
 
     const routingSlug = (req.params as { routingSlug: string }).routingSlug;
 
-
     const route = routes.find(
       (route: RoutingDocument) => route.slug == routingSlug,
     );
-
 
     if (!route) {
       return reply.status(401).send({ error: "Unauthorized" });

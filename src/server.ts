@@ -41,7 +41,6 @@ export async function buildServer() {
 
   app.decorate("db", mongoDb);
 
-
   app.setErrorHandler((error, _req, reply) => {
     console.log(error);
 
