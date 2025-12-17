@@ -1,5 +1,4 @@
-import { GatewayDocument } from "@/infra/database/models/gatewayModel";
-import { RoutingDocument } from "@/infra/database/models/routingModel";
+import { Routing } from "@/core/domain/routing/entities/Routing";
 import { WinstonLoggerService } from "@/infra/logger/winston-logger.service";
 import { FastifyReply, FastifyRequest } from "fastify";
 
@@ -15,26 +14,23 @@ export async function apiKeyMiddleware(
       return reply.status(401).send({ error: "Unauthorized" });
     }
 
-    const gateway = await req.server.db.gateway
-      .findOne<GatewayDocument>({ xApiKey })
-      .lean();
+    const gateway = await req.server.gatewayRepository.findByKey(xApiKey as string);
 
     if (!gateway) {
-      return reply.status(401).send({ error: "G Unauthorized" });
+      return reply.status(401).send({ error: "Unauthorized" });
     }
 
-    const routes = await req.server.db.routing
-      .find<RoutingDocument[]>({ gatewayId: gateway._id })
-      .lean();
+    const routes = await req.server.routingRepository.findAllByGatewayId(gateway.getId());
 
     if (!routes) {
-      return reply.status(401).send({ error: "R Unauthorized" });
+      return reply.status(401).send({ error: "Unauthorized" });
     }
+
 
     const routingSlug = (req.params as { routingSlug: string }).routingSlug;
 
     const route = routes.find(
-      (route: RoutingDocument) => route.slug == routingSlug,
+      (route: Routing) => route.getSlug() == routingSlug,
     );
 
     if (!route) {

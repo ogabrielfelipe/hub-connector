@@ -10,7 +10,7 @@ let app: FastifyInstance;
 
 describe("User E2E", () => {
   beforeAll(async () => {
-    app = await buildServer();
+    app = await buildServer({});
     await app.ready();
   });
 
@@ -31,7 +31,7 @@ describe("User E2E", () => {
         name: faker.person.firstName(),
         email: faker.internet.email(),
         role: "user",
-        username: faker.person.firstName(),
+        username: faker.lorem.sentence({ min: 1, max: 2 }).replace(".", ""),
         password: "Test@123",
       },
     });

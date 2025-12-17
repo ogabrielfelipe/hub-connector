@@ -7,7 +7,7 @@ let app: FastifyInstance;
 
 describe("User E2E", () => {
   beforeAll(async () => {
-    app = await buildServer();
+    app = await buildServer({});
     await app.ready();
   });
 

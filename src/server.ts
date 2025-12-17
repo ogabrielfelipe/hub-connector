@@ -25,10 +25,20 @@ import { mongoDb } from "./infra/database";
 import { routingRoutes } from "./infra/http/routes/RoutingRoutes";
 import { configRoutes } from "./infra/http/routes/ConfigRoutes";
 import { runMigrations } from "./infra/database/migrations";
+import { IGatewayRepository } from "./core/domain/gateway/repositories/IGatewayRepository";
+import { IRoutingRepository } from "./core/domain/routing/repositories/IRoutingRepository";
+import { MongoGatewayRepository } from "./infra/database/repositories/MongoGatewayRepository";
+import { MongoRoutingRepository } from "./infra/database/repositories/MongoRoutingRepository";
 
 const logger = new WinstonLoggerService();
 
-export async function buildServer() {
+export async function buildServer({
+  gatewayRepository,
+  routingRepository,
+}: {
+  gatewayRepository?: IGatewayRepository;
+  routingRepository?: IRoutingRepository;
+}) {
   await connectMongo();
 
   if (process.env.NODE_ENV !== "production") {
@@ -39,7 +49,14 @@ export async function buildServer() {
     logger: false,
   });
 
+
+  const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();
+  const routingRepo = routingRepository ?? new MongoRoutingRepository(gatewayRepo);
+
   app.decorate("db", mongoDb);
+
+  app.decorate("gatewayRepository", gatewayRepo);
+  app.decorate("routingRepository", routingRepo);
 
   app.setErrorHandler((error, _req, reply) => {
     console.log(error);
@@ -123,7 +140,7 @@ export async function buildServer() {
 }
 
 export async function startHttpServer() {
-  const app = await buildServer();
+  const app = await buildServer({});
   await app.listen({ port: 3333, host: "0.0.0.0" });
   console.log("Server is running on http://0.0.0.0:3333");
 }
