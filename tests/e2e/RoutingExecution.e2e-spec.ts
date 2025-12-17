@@ -6,16 +6,13 @@ import { gatewayFactory } from "../unit/gateway/factories/gatewayFactory";
 import { routingFactory } from "../unit/routing/factories/routingFactory";
 let app: FastifyInstance;
 
-
 describe("Routing Execution E2E", () => {
   let gatewayRepository: InMemoryGatewayReposiory;
   let routingRepository: InMemoryRoutingRepository;
 
-
   beforeAll(async () => {
     gatewayRepository = new InMemoryGatewayReposiory();
     routingRepository = new InMemoryRoutingRepository(gatewayRepository);
-
 
     app = await buildServer({ gatewayRepository, routingRepository });
     await app.ready();
@@ -46,10 +43,9 @@ describe("Routing Execution E2E", () => {
       gatewayId: gatewayFac.getId(),
       url: route.getUrl(),
       params: JSON.stringify(route.getParams()),
-      method: 'POST',
+      method: "POST",
       headers: JSON.stringify({}),
     });
-
 
     const response = await app.inject({
       method: "POST",
@@ -61,7 +57,6 @@ describe("Routing Execution E2E", () => {
         payload: {},
       },
     });
-
 
     expect(response.statusCode).toBe(201);
   });

@@ -14,18 +14,21 @@ export async function apiKeyMiddleware(
       return reply.status(401).send({ error: "Unauthorized" });
     }
 
-    const gateway = await req.server.gatewayRepository.findByKey(xApiKey as string);
+    const gateway = await req.server.gatewayRepository.findByKey(
+      xApiKey as string,
+    );
 
     if (!gateway) {
       return reply.status(401).send({ error: "Unauthorized" });
     }
 
-    const routes = await req.server.routingRepository.findAllByGatewayId(gateway.getId());
+    const routes = await req.server.routingRepository.findAllByGatewayId(
+      gateway.getId(),
+    );
 
     if (!routes) {
       return reply.status(401).send({ error: "Unauthorized" });
     }
-
 
     const routingSlug = (req.params as { routingSlug: string }).routingSlug;
 

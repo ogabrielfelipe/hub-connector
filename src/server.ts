@@ -49,9 +49,9 @@ export async function buildServer({
     logger: false,
   });
 
-
   const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();
-  const routingRepo = routingRepository ?? new MongoRoutingRepository(gatewayRepo);
+  const routingRepo =
+    routingRepository ?? new MongoRoutingRepository(gatewayRepo);
 
   app.decorate("db", mongoDb);
 
