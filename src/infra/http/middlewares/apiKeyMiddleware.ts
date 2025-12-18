@@ -26,7 +26,7 @@ export async function apiKeyMiddleware(
       gateway.getId(),
     );
 
-    console.log(routes)
+    console.log(routes);
 
     if (!routes) {
       return reply.status(401).send({ error: "Routing not found" });
@@ -34,7 +34,7 @@ export async function apiKeyMiddleware(
 
     const routingSlug = (req.params as { routingSlug: string }).routingSlug;
 
-    console.log(routingSlug)
+    console.log(routingSlug);
 
     const route = routes.find(
       (route: Routing) => route.getSlug() == routingSlug,

@@ -15,15 +15,15 @@ export class OnRoutingExecutionCreatedHandler {
     const routingRepository = new MongoRoutingRepository(gatewayRepository);
     const routingExecutionRepository = new MongoRoutingExecutionRepository();
 
-
-
     const route = await routingRepository.findById(event.routingId);
 
     if (!route) {
       await disconnectMongo();
       throw new Error("Route not found");
     }
-    const routingExecution = await routingExecutionRepository.findById(event.routingExecutionId);
+    const routingExecution = await routingExecutionRepository.findById(
+      event.routingExecutionId,
+    );
 
     if (!routingExecution) {
       await disconnectMongo();
@@ -33,12 +33,11 @@ export class OnRoutingExecutionCreatedHandler {
     routingExecution.startProcessing();
     await routingExecutionRepository.update(routingExecution);
 
-
     try {
       const params = route.getParams();
       let url = route.getUrl();
 
-      console.log(event)
+      console.log(event);
 
       if (event.payload.params) {
         Object.keys(params).forEach((key) => {
@@ -55,7 +54,6 @@ export class OnRoutingExecutionCreatedHandler {
       routingExecution.completeProcessing();
       routingExecution.updateLogExecution(JSON.stringify(response.data));
       await routingExecutionRepository.update(routingExecution);
-
     } catch (error: any) {
       routingExecution.failProcessing(error);
       routingExecution.updateLogExecution(JSON.stringify(error));
@@ -63,7 +61,6 @@ export class OnRoutingExecutionCreatedHandler {
       await disconnectMongo();
       return;
     }
-
 
     await disconnectMongo();
   }
