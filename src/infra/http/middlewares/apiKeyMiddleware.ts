@@ -26,18 +26,22 @@ export async function apiKeyMiddleware(
       gateway.getId(),
     );
 
+    console.log(routes)
+
     if (!routes) {
-      return reply.status(401).send({ error: "Unauthorized" });
+      return reply.status(401).send({ error: "Routing not found" });
     }
 
     const routingSlug = (req.params as { routingSlug: string }).routingSlug;
+
+    console.log(routingSlug)
 
     const route = routes.find(
       (route: Routing) => route.getSlug() == routingSlug,
     );
 
     if (!route) {
-      return reply.status(401).send({ error: "Unauthorized" });
+      return reply.status(401).send({ error: "Routing not found" });
     }
   } catch (err: unknown) {
     logger.error((err as Error).message);

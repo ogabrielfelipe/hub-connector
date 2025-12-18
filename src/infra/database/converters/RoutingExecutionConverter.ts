@@ -32,6 +32,7 @@ export class RoutingExecutionConverter {
       logStatus,
       routingExecution.createdAt,
       routingExecution.updatedAt,
+      undefined,
       routingExecution.payload,
       routingExecution.logExecution,
       routingExecution.errorMessage || undefined,

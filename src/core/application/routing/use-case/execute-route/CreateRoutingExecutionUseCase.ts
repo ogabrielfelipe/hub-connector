@@ -9,6 +9,7 @@ import { IRoutingRepository } from "@/core/domain/routing/repositories/IRoutingR
 interface CreateRoutingExecutionUseCaseCommand {
   routingSlug: string;
   payload?: unknown;
+  params?: Record<string, unknown>;
 }
 
 export class CreateRoutingExecutionUseCase {
@@ -35,9 +36,10 @@ export class CreateRoutingExecutionUseCase {
       routing.getId(),
       RoutingExecutionStatus.PENDING,
       [],
+      command.params,
       command.payload,
-      null,
-      null,
+      undefined,
+      undefined,
       null,
     );
 

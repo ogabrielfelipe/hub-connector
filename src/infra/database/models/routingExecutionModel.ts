@@ -19,6 +19,7 @@ export interface RoutingExecutionDocument {
   status: RoutingExecutionStatus;
   logStatus: LogStatusDocument[];
   payload?: object;
+  response?: string;
   logExecution?: object;
   errorMessage?: string | null;
   finishedAt?: Date | null;
@@ -46,6 +47,7 @@ const RoutingExecutionSchema = new Schema<RoutingExecutionDocument>(
     logExecution: { type: Object },
     errorMessage: { type: String },
     finishedAt: { type: Date },
+    response: { type: String },
   },
   { timestamps: true },
 );

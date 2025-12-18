@@ -6,6 +6,7 @@ export const createRoutingExecutionParamsSchema = z.object({
 
 export const createRoutingExecutionSchema = z.object({
   payload: z.any().optional(),
+  params: z.record(z.string(), z.any()).optional(),
 });
 
 export const createRoutingExecutionResponseSchema = z.object({

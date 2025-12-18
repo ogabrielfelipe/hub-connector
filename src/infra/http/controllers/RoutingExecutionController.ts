@@ -24,11 +24,12 @@ export class RoutingExecutionController {
     const { routingSlug } = createRoutingExecutionParamsSchema.parse(
       req.params,
     );
-    const body = createRoutingExecutionSchema.parse(req.body);
+    const { payload, params } = createRoutingExecutionSchema.parse(req.body);
 
     const result = await this.createRoutingExecutionUseCase.execute({
       routingSlug,
-      payload: body,
+      payload,
+      params,
     });
     return reply.status(201).send(result);
   }

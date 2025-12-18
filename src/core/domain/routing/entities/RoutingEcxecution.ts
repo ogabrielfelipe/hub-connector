@@ -84,7 +84,7 @@ export class RoutingExecution extends AggregateRoot {
     );
 
     routingExecution.addDomainEvent(
-      new RoutingExecutionCreated(id, routingId, payload),
+      new RoutingExecutionCreated(id, routingId, { payload, params }),
     );
 
     return routingExecution;
