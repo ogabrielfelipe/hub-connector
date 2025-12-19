@@ -1,3 +1,2 @@
-cd api && pnpm run lint:fix 
-cd api && pnpm run format
-cd api && pnpm run test:unit
+pnpm run api:format
+pnpm run api:test:unit
