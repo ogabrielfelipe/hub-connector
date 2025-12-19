@@ -1,5 +1,32 @@
+# Dependencies
 node_modules/
+api/node_modules/
+frontend/node_modules/
+
+# Build outputs
 dist/
+api/dist/
+frontend/dist/
+frontend/build/
+
+# Environment files
 .env
 .env.local
+.env.production
+api/.env
+api/.env.local
+frontend/.env
+frontend/.env.local
+
+# Logs
 logs/
+api/logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

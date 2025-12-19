@@ -1,0 +1,30 @@
+{
+  "name": "hub-connector-monorepo",
+  "version": "1.0.0",
+  "description": "Hub Connector - Monorepo with API and Frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "husky",
+    "api:dev": "cd api && pnpm run dev:http",
+    "api:dev:worker": "cd api && pnpm run dev:worker",
+    "api:test": "cd api && pnpm run test",
+    "api:test:unit": "cd api && pnpm run test:unit",
+    "api:test:e2e": "cd api && pnpm run test:e2e",
+    "api:lint": "cd api && pnpm run lint",
+    "api:lint:fix": "cd api && pnpm run lint:fix",
+    "api:format": "cd api && pnpm run format",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:preview": "cd frontend && npm run preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.3",
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "husky": "^9.1.7"
+  }
+}
