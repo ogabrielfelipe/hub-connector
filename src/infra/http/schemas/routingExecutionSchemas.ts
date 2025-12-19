@@ -15,3 +15,22 @@ export const createRoutingExecutionResponseSchema = z.object({
   status: z.string(),
   createdAt: z.date(),
 });
+
+
+
+export const searchRoutingExecutionParamsSchema = z.object({
+  routingId: z.string().optional(),
+  status: z.string().optional(),
+  text: z.string().optional(),
+  from: z.date().optional(),
+  to: z.date().optional(),
+  page: z.coerce.number().default(1),
+  perPage: z.coerce.number().default(20),
+});
+
+export const searchRoutingExecutionResponseSchema = z.object({
+  items: z.array(z.any()),
+  total: z.number(),
+  page: z.number(),
+  perPage: z.number(),
+});

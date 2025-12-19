@@ -27,5 +27,53 @@ services:
     depends_on:
       - mongo
 
+  opensearch:
+    image: opensearchproject/opensearch:2.13.0
+    container_name: opensearch
+    environment:
+      # Modo single-node (dev / small prod)
+      - discovery.type=single-node
+
+      # Segurança desabilitada (DEV)
+      # 👉 Em produção, habilite security + TLS
+      - plugins.security.disabled=true
+
+      # Desabilita configuração de demo
+      - DISABLE_INSTALL_DEMO_CONFIG=true
+      
+      # JVM (ajuste conforme carga)
+      - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
+
+      # Performance básica
+      - bootstrap.memory_lock=true
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node-1
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+
+    ports:
+      - "9200:9200" # API
+      - "9600:9600" # Performance Analyzer
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fs http://localhost:9200/_cluster/health || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
 volumes:
   mongo_data:
+  opensearch_data:

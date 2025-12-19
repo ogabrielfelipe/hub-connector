@@ -22,15 +22,20 @@ import {
   createRoutingExecutionParamsSchema,
   createRoutingExecutionResponseSchema,
   createRoutingExecutionSchema,
+  searchRoutingExecutionParamsSchema,
+  searchRoutingExecutionResponseSchema,
 } from "../schemas/routingExecutionSchemas";
 import { RoutingExecutionController } from "../controllers/RoutingExecutionController";
 import { MongoRoutingExecutionRepository } from "@/infra/database/repositories/MongoRoutingExecutionRepository";
 import { apiKeyMiddleware } from "../middlewares/apiKeyMiddleware";
+import { OpenSearchRoutingExecutionsSearchRepository } from "@/infra/search/opensearch/OpenSearchRoutingExecutionsSearchRepository";
+import { SearchRoutingExecutionController } from "../controllers/SearchRoutingExecutionController";
 
 export async function routingRoutes(app: FastifyInstance) {
   const gatewayRepository = new MongoGatewayRepository();
   const routingRepository = new MongoRoutingRepository(gatewayRepository);
   const routingExecutionRepository = new MongoRoutingExecutionRepository();
+  const searchRoutingExecutionRepository = new OpenSearchRoutingExecutionsSearchRepository();
   const userRepository = new MongoUserRepository();
   const logger = new WinstonLoggerService();
   const caslFactory = new CaslAbilityFactory();
@@ -46,6 +51,10 @@ export async function routingRoutes(app: FastifyInstance) {
   const routingExecutionController = new RoutingExecutionController(
     routingRepository,
     routingExecutionRepository,
+  );
+
+  const searchRoutingExecutionController = new SearchRoutingExecutionController(
+    searchRoutingExecutionRepository,
   );
 
   app.post(
@@ -140,4 +149,24 @@ export async function routingRoutes(app: FastifyInstance) {
     },
     (req, reply) => routingExecutionController.handle(req, reply),
   );
+
+  app.get(
+    "/search-executions",
+    {
+      preHandler: [authMiddleware],
+      schema: {
+        querystring: searchRoutingExecutionParamsSchema,
+        response: { 200: searchRoutingExecutionResponseSchema },
+        tags: ["Routing Executions"],
+        summary: "Search routing executions",
+        description:
+          "Endpoint to search routing executions in the system.",
+      },
+    },
+    (req, reply) => searchRoutingExecutionController.handle(req, reply),
+  );
 }
+
+
+
+

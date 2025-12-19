@@ -14,6 +14,9 @@ const envSchema = z.object({
   //MONGODB
   MONGO_URI: z.string(),
 
+  // OPENSEARCH
+  OPENSEARCH_URI: z.string(),
+
   // AUTHENTICATION KEYS
   PUBLIC_KEY: z.string(),
   PRIVATE_KEY: z.string(),

@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import axios from "axios";
-import { connectMongo, disconnectMongo } from "../config/mongoConnection";
 import { MongoGatewayRepository } from "../database/repositories/MongoGatewayRepository";
 import { MongoRoutingExecutionRepository } from "../database/repositories/MongoRoutingExecutionRepository";
 import { MongoRoutingRepository } from "../database/repositories/MongoRoutingRepository";
+import { RoutingExecutionSearchIndexer } from "../search/opensearch/RoutingExecutionSearchIndexer";
+import { RoutingExecution } from "@/core/domain/routing/entities/RoutingEcxecution";
 
-// TODO: Refinar a implemnentação dos params; Implementar monitoração como prometheus e granafa
 export class OnRoutingExecutionCreatedHandler {
   async handle(event: any) {
-    await connectMongo();
-
     const gatewayRepository = new MongoGatewayRepository();
     const routingRepository = new MongoRoutingRepository(gatewayRepository);
     const routingExecutionRepository = new MongoRoutingExecutionRepository();
@@ -18,7 +16,6 @@ export class OnRoutingExecutionCreatedHandler {
     const route = await routingRepository.findById(event.routingId);
 
     if (!route) {
-      await disconnectMongo();
       throw new Error("Route not found");
     }
     const routingExecution = await routingExecutionRepository.findById(
@@ -26,9 +23,10 @@ export class OnRoutingExecutionCreatedHandler {
     );
 
     if (!routingExecution) {
-      await disconnectMongo();
       throw new Error("Routing execution not found");
     }
+
+    routingExecution.updatePayload(event.payload);
 
     routingExecution.startProcessing();
     await routingExecutionRepository.update(routingExecution);
@@ -54,14 +52,29 @@ export class OnRoutingExecutionCreatedHandler {
       routingExecution.completeProcessing();
       routingExecution.updateLogExecution(JSON.stringify(response.data));
       await routingExecutionRepository.update(routingExecution);
+      await this.indexRoutingExecution(routingExecution);
     } catch (error: any) {
       routingExecution.failProcessing(error);
       routingExecution.updateLogExecution(JSON.stringify(error));
       await routingExecutionRepository.update(routingExecution);
-      await disconnectMongo();
+      await this.indexRoutingExecution(routingExecution);
       return;
     }
-
-    await disconnectMongo();
   }
+
+  private async indexRoutingExecution(event: RoutingExecution) {
+    const routingExecutionSearchIndexer = new RoutingExecutionSearchIndexer();
+
+    await routingExecutionSearchIndexer.handle({
+      id: event.getId(),
+      routingId: event.getRoutingId(),
+      status: event.getStatus(),
+      payload: JSON.stringify(event.getPayload()),
+      params: JSON.stringify(event.getParams()),
+      logExecution: JSON.stringify(event.getLogExecution()),
+      createdAt: event.getCreatedAt(),
+      updatedAt: event.getUpdatedAt(),
+    });
+  }
+
 }

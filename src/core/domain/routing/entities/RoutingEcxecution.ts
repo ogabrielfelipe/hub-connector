@@ -241,4 +241,9 @@ export class RoutingExecution extends AggregateRoot {
     this.finishedAt = finishedAt;
     this.updatedAt = new Date();
   }
+
+  public updatePayload(payload: unknown): void {
+    this.payload = payload;
+    this.updatedAt = new Date();
+  }
 }
