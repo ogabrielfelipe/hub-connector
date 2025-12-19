@@ -39,11 +39,13 @@ cp .env.example .env
 ### Running the Application
 
 **HTTP Server:**
+
 ```bash
 pnpm run dev:http
 ```
 
 **Worker:**
+
 ```bash
 pnpm run dev:worker
 ```
@@ -59,21 +61,25 @@ docker-compose up -d
 ## Testing
 
 **Run all tests:**
+
 ```bash
 pnpm test
 ```
 
 **Unit tests:**
+
 ```bash
 pnpm run test:unit
 ```
 
 **E2E tests:**
+
 ```bash
 pnpm run test:e2e
 ```
 
 **Coverage:**
+
 ```bash
 pnpm run test:coverage
 ```
