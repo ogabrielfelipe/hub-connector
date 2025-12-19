@@ -35,7 +35,8 @@ export async function routingRoutes(app: FastifyInstance) {
   const gatewayRepository = new MongoGatewayRepository();
   const routingRepository = new MongoRoutingRepository(gatewayRepository);
   const routingExecutionRepository = new MongoRoutingExecutionRepository();
-  const searchRoutingExecutionRepository = new OpenSearchRoutingExecutionsSearchRepository();
+  const searchRoutingExecutionRepository =
+    new OpenSearchRoutingExecutionsSearchRepository();
   const userRepository = new MongoUserRepository();
   const logger = new WinstonLoggerService();
   const caslFactory = new CaslAbilityFactory();
@@ -159,14 +160,9 @@ export async function routingRoutes(app: FastifyInstance) {
         response: { 200: searchRoutingExecutionResponseSchema },
         tags: ["Routing Executions"],
         summary: "Search routing executions",
-        description:
-          "Endpoint to search routing executions in the system.",
+        description: "Endpoint to search routing executions in the system.",
       },
     },
     (req, reply) => searchRoutingExecutionController.handle(req, reply),
   );
 }
-
-
-
-

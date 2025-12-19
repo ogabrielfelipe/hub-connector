@@ -76,5 +76,4 @@ export class OnRoutingExecutionCreatedHandler {
       updatedAt: event.getUpdatedAt(),
     });
   }
-
 }

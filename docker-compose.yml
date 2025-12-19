@@ -40,7 +40,7 @@ services:
 
       # Desabilita configuração de demo
       - DISABLE_INSTALL_DEMO_CONFIG=true
-      
+
       # JVM (ajuste conforme carga)
       - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
 

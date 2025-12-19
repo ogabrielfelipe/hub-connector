@@ -4,34 +4,34 @@ import { searchRoutingExecutionParamsSchema } from "../schemas/routingExecutionS
 import { IRoutingExecutionSearchRepository } from "@/core/domain/routing/repositories/IRoutingExecutionSearchRepository";
 
 export class SearchRoutingExecutionController {
-    private searchRoutingExecutionsUseCase: SearchRoutingExecutionsUseCase;
-    constructor(
-        searchRepository: IRoutingExecutionSearchRepository
-    ) {
-        this.searchRoutingExecutionsUseCase = new SearchRoutingExecutionsUseCase(searchRepository);
-    }
+  private searchRoutingExecutionsUseCase: SearchRoutingExecutionsUseCase;
+  constructor(searchRepository: IRoutingExecutionSearchRepository) {
+    this.searchRoutingExecutionsUseCase = new SearchRoutingExecutionsUseCase(
+      searchRepository,
+    );
+  }
 
-    async handle(req: FastifyRequest, reply: FastifyReply) {
-        const {
-            routingId,
-            status,
-            text,
-            from,
-            to,
-            page = 1,
-            perPage = 20,
-        } = searchRoutingExecutionParamsSchema.parse(req.query);
+  async handle(req: FastifyRequest, reply: FastifyReply) {
+    const {
+      routingId,
+      status,
+      text,
+      from,
+      to,
+      page = 1,
+      perPage = 20,
+    } = searchRoutingExecutionParamsSchema.parse(req.query);
 
-        const result = await this.searchRoutingExecutionsUseCase.execute({
-            routingId,
-            status,
-            text,
-            from: from ? new Date(from) : undefined,
-            to: to ? new Date(to) : undefined,
-            page: page,
-            perPage: perPage,
-        });
+    const result = await this.searchRoutingExecutionsUseCase.execute({
+      routingId,
+      status,
+      text,
+      from: from ? new Date(from) : undefined,
+      to: to ? new Date(to) : undefined,
+      page: page,
+      perPage: perPage,
+    });
 
-        return reply.send(result);
-    }
+    return reply.send(result);
+  }
 }

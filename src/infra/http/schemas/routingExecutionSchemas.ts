@@ -16,8 +16,6 @@ export const createRoutingExecutionResponseSchema = z.object({
   createdAt: z.date(),
 });
 
-
-
 export const searchRoutingExecutionParamsSchema = z.object({
   routingId: z.string().optional(),
   status: z.string().optional(),
