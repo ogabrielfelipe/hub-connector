@@ -7,7 +7,7 @@ export class LoginUserUseCase {
     private readonly userRepo: IUserRepository,
     private readonly hasher: IPasswordHasher,
     private readonly token: ITokenService,
-  ) { }
+  ) {}
 
   async execute({
     username,
