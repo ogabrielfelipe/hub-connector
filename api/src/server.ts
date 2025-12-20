@@ -93,9 +93,7 @@ export async function buildServer({
     // Logar apenas em dev (opcional)
     logger.error(`Unexpected error: ${(error as Error).message}`, { error });
 
-
     if (error instanceof Error) {
-
       switch (error.message) {
         case "Invalid credentials":
           return reply.status(401).send({
@@ -160,7 +158,7 @@ export async function buildServer({
   fs.writeFileSync(
     "./swagger.json",
     JSON.stringify(swaggerObject, null, 2),
-    "utf-8"
+    "utf-8",
   );
 
   try {
