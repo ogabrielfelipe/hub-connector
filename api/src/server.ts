@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fastify from "fastify";
+import cors from "@fastify/cors";
 import { connectMongo } from "./infra/config/mongoConnection";
 import { usersRoutes } from "./infra/http/routes/UserRoutes";
 import { DomainError } from "./core/domain/errors/DomainError";
@@ -9,6 +10,7 @@ import { createBullBoard } from "@bull-board/api";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { getQueue } from "./infra/config/bullmq/queue";
 import { authRoutes } from "./infra/http/routes/AuthRoutes";
+import fs from "fs";
 
 import {
   jsonSchemaTransform,
@@ -49,6 +51,10 @@ export async function buildServer({
     logger: false,
   });
 
+  await app.register(cors, {
+    origin: true, // libera tudo
+  });
+
   const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();
   const routingRepo =
     routingRepository ?? new MongoRoutingRepository(gatewayRepo);
@@ -86,6 +92,23 @@ export async function buildServer({
 
     // Logar apenas em dev (opcional)
     logger.error(`Unexpected error: ${(error as Error).message}`, { error });
+
+
+    if (error instanceof Error) {
+
+      switch (error.message) {
+        case "Invalid credentials":
+          return reply.status(401).send({
+            message: error.message,
+          });
+          break;
+        default:
+          return reply.status(500).send({
+            message: error.message,
+          });
+          break;
+      }
+    }
 
     // Erro não previsto → 500
     reply.status(500).send({ error: "Internal server error" });
@@ -131,6 +154,15 @@ export async function buildServer({
     },
   });
 
+  await app.ready();
+
+  const swaggerObject = app.swagger();
+  fs.writeFileSync(
+    "./swagger.json",
+    JSON.stringify(swaggerObject, null, 2),
+    "utf-8"
+  );
+
   try {
     return app;
   } catch (err) {
@@ -141,6 +173,7 @@ export async function buildServer({
 
 export async function startHttpServer() {
   const app = await buildServer({});
+
   await app.listen({ port: 3333, host: "0.0.0.0" });
   console.log("Server is running on http://0.0.0.0:3333");
 }

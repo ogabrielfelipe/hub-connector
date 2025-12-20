@@ -6,7 +6,6 @@ export async function createAdminSeeder() {
   const exists = await UserModel.findOne({ email: "admin@seed.com" });
   if (exists) return;
 
-  const passwordHash = await bcrypt.hash("admin", 10);
   await UserModel.create({
     _id: v4(),
     name: "admin",
@@ -14,7 +13,7 @@ export async function createAdminSeeder() {
     email: "admin@seed.com",
     role: "admin",
     active: true,
-    password: passwordHash,
+    password: bcrypt.hashSync("admin@2123", 10),
   });
 
   console.log("Admin created");

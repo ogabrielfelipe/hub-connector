@@ -106,8 +106,7 @@ Este projeto usa Husky e Commitlint configurados globalmente:
 
 ### Monitoração das Rotas
 
-- [ ] Deve ser possível consultar uma transação pelo JobID (Usuários: ADMIN, DEV, USER);
-- [ ] Deve ser possível realizar a consulta des transações pela rota, categoria, status e payload (Usuários: ADMIN, DEV, USER);
+- [x] Deve ser possível realizar a consulta des transações pela rota, categoria, status e payload (Usuários: ADMIN, DEV, USER);
 
 ## Licença
 
