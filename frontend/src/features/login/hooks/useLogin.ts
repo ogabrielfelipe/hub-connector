@@ -1,12 +1,16 @@
-import { postAuthLogin } from "@/api/hubConnectorAPI";
+import { postAuthLogin } from "@/shared/api/hubConnectorAPI";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { formLoginSchema, type FormLoginSchema } from "../types";
+import { useAuth } from "@/shared/contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 
 export function useLogin() {
     const [isLoading, setIsLoading] = useState(false)
+    const { login } = useAuth()
+    const navigate = useNavigate();
 
     const {
         handleSubmit,
@@ -25,7 +29,8 @@ export function useLogin() {
         setIsLoading(true)
         try {
             const response = await postAuthLogin({ password: data.password, username: data.username })
-            console.log(response)
+            login(response.token)
+            navigate("/", { replace: true });
         } catch (error) {
             console.log(error)
         } finally {
