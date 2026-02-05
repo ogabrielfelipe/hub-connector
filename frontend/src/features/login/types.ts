@@ -1,3 +1,4 @@
+import type { FieldErrors } from "react-hook-form";
 import z from "zod";
 
 export const formLoginSchema = z.object({
@@ -6,3 +7,19 @@ export const formLoginSchema = z.object({
 });
 
 export type FormLoginSchema = z.infer<typeof formLoginSchema>;
+
+
+export type ErrorLogin = {
+    code: string
+    message: string
+    statusCode: number
+} | null | FieldErrors<FormLoginSchema>;
+
+
+export function isFieldErrors(error: ErrorLogin): error is FieldErrors<FormLoginSchema> {
+    return error !== null && !('statusCode' in error);
+}
+
+export function isErrorLogin(error: ErrorLogin): error is Exclude<ErrorLogin, FieldErrors<FormLoginSchema>> {
+    return error !== null && 'statusCode' in error;
+}

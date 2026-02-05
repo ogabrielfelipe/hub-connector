@@ -1,13 +1,3 @@
-
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/shared/components/ui/breadcrumb"
-
 import { Button } from "@/shared/components/ui/button"
 import {
     DropdownMenu,
@@ -25,26 +15,22 @@ import {
 
 import { Bell, CircleQuestionMark, Pin } from "lucide-react"
 import { Separator } from "./ui/separator"
+import { SidebarTrigger, useSidebar } from "./ui/sidebar"
+import { BreadcrumbCustom } from "./breadcrumb-custom"
 
 
 export default function Topbar() {
+    const { open } = useSidebar();
+
     return (
-        <div className="fixed top-0 left-64 right-0 flex items-center justify-between p-4 w-[calc(100%-256px)] h-16 bg-muted border-b  ">
-            <Breadcrumb>
-                <BreadcrumbList>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink href="#">Home</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbLink href="#">Library</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbPage>Current</BreadcrumbPage>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
+        <div className={`fixed top-0 ${open ? 'left-64 w-[calc(100%-256px)] transition-all duration-300' : 'left-0 w-full transition-all duration-300'} right-0 flex items-center justify-between p-4  h-16 bg-muted border-b  `}>
+
+            <div className="flex flex-row items-center gap-2">
+                <SidebarTrigger className="mr-5" />
+                <BreadcrumbCustom />
+
+
+            </div>
 
             <div className="flex flex-row items-center gap-2">
 

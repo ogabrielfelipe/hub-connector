@@ -1,5 +1,4 @@
 import PrivateTemplate from "@/shared/components/templates/privateTemplate";
-import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import {
     ChartContainer,

@@ -52,8 +52,17 @@ export async function buildServer({
   });
 
   await app.register(cors, {
-    origin: true, // libera tudo
+    origin: "*",
+    credentials: false,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "Origin",
+    ],
   });
+
 
   const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();
   const routingRepo =
@@ -99,12 +108,10 @@ export async function buildServer({
           return reply.status(401).send({
             message: error.message,
           });
-          break;
         default:
           return reply.status(500).send({
             message: error.message,
           });
-          break;
       }
     }
 

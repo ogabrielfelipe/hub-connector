@@ -31,7 +31,7 @@ export function AppSidebar() {
                     Visão Geral
                 </a>
 
-                <a href="#" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
+                <a href="/users" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
                     <Users className="mr-2" fill="currentColor" />
                     Acessos
                 </a>

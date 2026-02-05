@@ -3,7 +3,7 @@ import { useDashboard } from "../hooks/useDashboard";
 import { Navigate } from "react-router-dom";
 
 
-export default function DashboardContainer() {
+export function DashboardContainer() {
     const { isAuthenticated } = useDashboard()
 
     if (!isAuthenticated) {

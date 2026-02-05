@@ -2,11 +2,11 @@ export default {
     hub: {
         input: "../api/swagger.json",
         output: {
-            target: "src/api",
+            target: "src/shared/api",
             client: "react-query",
             override: {
                 mutator: {
-                    path: "src/api/http.ts",
+                    path: "src/shared/api/http.ts",
                     name: "customFetcher",
                 },
             }
