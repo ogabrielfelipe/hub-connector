@@ -131,7 +131,7 @@ export class MongoUserRepository implements IUserRepository {
     if (!updated) {
       throw new Error("User not found");
     }
-    await this.cacheRepository.set(`users-${updated._id!.toString()}`, updated);
+    await this.cacheRepository.set(`users:${updated._id!.toString()}`, updated);
     await this.cacheRepository.set(
       `users:byUsername:${updated.username}`,
       updated,

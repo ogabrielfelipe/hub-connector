@@ -66,9 +66,9 @@ export class UpdateUserUseCase {
     }
     if (command.role) {
       user.updateRole(
-        command.role === "ADMIN"
+        command.role === "admin"
           ? UserRole.ADMIN
-          : command.role === "USER"
+          : command.role === "user"
             ? UserRole.USER
             : UserRole.DEV,
       );
