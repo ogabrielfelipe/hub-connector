@@ -26,7 +26,7 @@ export const FindAllGatewaySchema = z
       if (val === "false") return false;
       if (val === true || val === false) return val;
       return undefined;
-    }, z.boolean().optional()),
+    }, z.boolean().optional()).optional(),
     page: z.coerce.number().default(1),
     limit: z.coerce.number().default(10),
   })
