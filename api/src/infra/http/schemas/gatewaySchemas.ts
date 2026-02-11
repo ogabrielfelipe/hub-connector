@@ -20,13 +20,15 @@ export const FindOneGatewaySchema = z.object({
 export const FindAllGatewaySchema = z
   .object({
     name: z.string().optional(),
-    active: z.preprocess((val) => {
-      if (val === undefined) return undefined;
-      if (val === "true") return true;
-      if (val === "false") return false;
-      if (val === true || val === false) return val;
-      return undefined;
-    }, z.boolean().optional()).optional(),
+    active: z
+      .preprocess((val) => {
+        if (val === undefined) return undefined;
+        if (val === "true") return true;
+        if (val === "false") return false;
+        if (val === true || val === false) return val;
+        return undefined;
+      }, z.boolean().optional())
+      .optional(),
     page: z.coerce.number().default(1),
     limit: z.coerce.number().default(10),
   })
