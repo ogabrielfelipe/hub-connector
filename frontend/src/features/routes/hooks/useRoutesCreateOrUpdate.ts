@@ -13,7 +13,7 @@ interface Props {
 
 export function useRoutesCreateOrUpdate({ routingId }: Props) {
     const navigate = useNavigate();
-    const { data: gatewaysData, isLoading: isLoadingGateways } = useGetGateways();
+    const { data: gatewaysData } = useGetGateways();
     const methodsForm = useForm<RouteFormValues>({
         defaultValues: {
             name: "",
