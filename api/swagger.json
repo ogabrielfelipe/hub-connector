@@ -1306,23 +1306,13 @@
                         },
                         "active": {
                           "type": "boolean"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
                         }
                       },
                       "required": [
                         "id",
                         "name",
                         "xApiKey",
-                        "active",
-                        "createdAt",
-                        "updatedAt"
+                        "active"
                       ],
                       "additionalProperties": false
                     },

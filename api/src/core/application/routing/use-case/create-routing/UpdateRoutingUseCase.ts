@@ -85,6 +85,6 @@ export class UpdateRoutingUseCase {
       routing.updateHeaders(command.headers);
     }
 
-    return this.routingRepository.save(routing);
+    return this.routingRepository.update(routing);
   }
 }

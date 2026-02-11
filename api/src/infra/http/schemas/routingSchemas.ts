@@ -57,8 +57,6 @@ export const FindOneRoutingResponseSchema = z.object({
     name: z.string(),
     xApiKey: z.string(),
     active: z.boolean(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
   }),
   url: z.string(),
   method: z.string(),
