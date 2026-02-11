@@ -20,7 +20,13 @@ export const FindOneGatewaySchema = z.object({
 export const FindAllGatewaySchema = z
   .object({
     name: z.string().optional(),
-    active: z.coerce.boolean().optional(),
+    active: z.preprocess((val) => {
+      if (val === undefined) return undefined;
+      if (val === "true") return true;
+      if (val === "false") return false;
+      if (val === true || val === false) return val;
+      return undefined;
+    }, z.boolean().optional()),
     page: z.coerce.number().default(1),
     limit: z.coerce.number().default(10),
   })
@@ -51,8 +57,8 @@ export const UpdateGatewayResponseSchema = z.object({
   name: z.string(),
   xApiKey: z.string(),
   active: z.boolean(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 });
 
 export const DeleteGatewaySchema = z.object({
