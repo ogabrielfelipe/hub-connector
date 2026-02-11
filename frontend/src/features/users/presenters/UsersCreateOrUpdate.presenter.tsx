@@ -29,7 +29,7 @@ interface Props {
 
 export function UsersCreateOrUpdatePresenter({ register, control, isEdit, onSubmit, errors, isLoading }: Props) {
     return (
-        <PrivateTemplate isLoading={isLoading}>
+        <PrivateTemplate title={isEdit ? "Edição de Usuário" : "Criação de Usuário"} isLoading={isLoading}>
             <div className="flex flex-col gap-1">
                 <h1 className="text-2xl font-bold">{isEdit ? "Edição de Usuário" : "Criação de Usuário"}</h1>
                 <p className="text-muted-foreground">{isEdit ? "Edição de um usuário existente." : "Criação de um novo usuário."}</p>

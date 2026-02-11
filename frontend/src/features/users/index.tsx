@@ -1,2 +1,2 @@
-export { UsersContainer } from './container/Users.container';
-export { UsersCreateOrUpdateContainer } from './container/UsersCreateOrUpdate.container';
+export { UsersContainer } from './containers/Users.container';
+export { UsersCreateOrUpdateContainer } from './containers/UsersCreateOrUpdate.container';

@@ -45,7 +45,7 @@ export default function DashboardPresenter() {
 
 
     return (
-        <PrivateTemplate>
+        <PrivateTemplate title="Visão Geral">
             <div>
                 <h1 className="text-2xl font-bold">Visão Geral</h1>
                 <p className="text-muted-foreground">Status em tempo real da infraestrutura de APIs.</p>

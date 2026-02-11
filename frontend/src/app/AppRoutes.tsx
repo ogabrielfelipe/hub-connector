@@ -4,6 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import { DashboardContainer } from "@/features/dashboard";
 import { UsersContainer } from "@/features/users";
 import { UsersCreateOrUpdateContainer } from "@/features/users";
+import { GatewaysContainer, GatewaysCreateOrUpdateContainer } from "@/features/gateways";
 
 export function AppRoutes() {
     return (
@@ -30,6 +31,10 @@ export function AppRoutes() {
                 }
             />
 
+            {/**
+             * Users routes
+             */}
+
             <Route
                 path="/users/new"
                 element={
@@ -44,6 +49,39 @@ export function AppRoutes() {
                 element={
                     <PrivateRoute>
                         <UsersCreateOrUpdateContainer />
+                    </PrivateRoute>
+                }
+            />
+
+
+            {/**
+             * Gateways routes
+             */}
+
+
+            <Route
+                path="/gateways"
+                element={
+                    <PrivateRoute>
+                        <GatewaysContainer />
+                    </PrivateRoute>
+                }
+            />
+
+            <Route
+                path="/gateways/new"
+                element={
+                    <PrivateRoute>
+                        <GatewaysCreateOrUpdateContainer />
+                    </PrivateRoute>
+                }
+            />
+
+            <Route
+                path="/gateways/edit/:id"
+                element={
+                    <PrivateRoute>
+                        <GatewaysCreateOrUpdateContainer />
                     </PrivateRoute>
                 }
             />

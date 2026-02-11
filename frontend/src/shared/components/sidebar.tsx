@@ -46,7 +46,7 @@ export function AppSidebar() {
                             Rotas
                         </a>
 
-                        <a href="#" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
+                        <a href="/gateways" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
                             <Server className="mr-2" />
                             Gateways
                         </a>

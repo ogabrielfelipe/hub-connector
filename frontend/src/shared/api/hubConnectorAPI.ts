@@ -232,7 +232,7 @@ export type PostGateways201 = {
 
 export type GetGatewaysParams = {
 name?: string;
-active?: boolean;
+active: boolean;
 page?: number;
 limit?: number;
 };
@@ -1040,7 +1040,7 @@ export const usePostGateways = <TError = unknown,
  * @summary Find all gateways
  */
 export const getGateways = (
-    params?: GetGatewaysParams,
+    params: GetGatewaysParams,
  signal?: AbortSignal
 ) => {
       
@@ -1062,7 +1062,7 @@ export const getGetGatewaysQueryKey = (params?: GetGatewaysParams,) => {
     }
 
     
-export const getGetGatewaysQueryOptions = <TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
+export const getGetGatewaysQueryOptions = <TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(params: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -1085,7 +1085,7 @@ export type GetGatewaysQueryError = unknown
 
 
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params: undefined |  GetGatewaysParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
+ params: GetGatewaysParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getGateways>>,
           TError,
@@ -1095,7 +1095,7 @@ export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, 
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
+ params: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getGateways>>,
           TError,
@@ -1105,7 +1105,7 @@ export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, 
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
+ params: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -1113,7 +1113,7 @@ export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, 
  */
 
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
+ params: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

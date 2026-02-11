@@ -13,6 +13,10 @@ export function useLogin() {
     const navigate = useNavigate();
     const [error, setError] = useState<ErrorLogin | null>(null)
 
+    useEffect(() => {
+        document.title = "Login | Hub Connector";
+    }, []);
+
     const {
         handleSubmit,
         formState: { errors },

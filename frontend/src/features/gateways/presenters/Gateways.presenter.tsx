@@ -1,5 +1,7 @@
 import PrivateTemplate from "@/shared/components/templates/privateTemplate";
 import { Button } from "@/shared/components/ui/button";
+import { Ellipsis, Filter, Pencil, Plus, Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
@@ -25,51 +27,56 @@ import {
 } from "@/shared/components/ui/dialog"
 import {
     Field,
+    FieldError,
     FieldGroup,
     FieldLabel,
     FieldLegend,
     FieldSet,
 } from "@/shared/components/ui/field"
-import { Ellipsis, Filter, Pencil, Plus, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { DataPagination } from "@/shared/components/data-pagination";
-import type { GetUsers200, GetUsers200DocsItem } from "@/shared/api/hubConnectorAPI";
 import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form";
-import type { UserFormValues } from "../types";
+import { DataPagination } from "@/shared/components/data-pagination";
+import type { GetGateways200, GetGateways200DocsItem, GetGatewaysParams } from "@/shared/api/hubConnectorAPI";
+import type React from "react";
 
-interface Props {
-    users: GetUsers200 | null,
-    onSubmitFilter: React.SubmitEventHandler<HTMLFormElement>,
-    handleDeleteUser: (id: string) => void,
-    register: UseFormRegister<UserFormValues>,
-    onChangePage: (page: number) => void,
-    onChangePerPage: (perPage: number) => void,
-    errors: FieldErrors<UserFormValues>,
-    control: Control<UserFormValues>,
-    isLoading: boolean,
+interface GatewaysPresenterProps {
+    onSubmitFilter: React.SubmitEventHandler<GetGatewaysParams>;
+    gateways: GetGateways200 | null;
+    isLoading: boolean;
+    handleDeleteGateway: (id: string) => void;
+    handlePageChange: (page: number) => void;
+    handlePerPageChange: (perPage: number) => void;
+    errors: FieldErrors<GetGatewaysParams>;
+    register: UseFormRegister<GetGatewaysParams>;
+    control: Control<GetGatewaysParams>;
 }
 
-export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, register, control, onChangePage, onChangePerPage, isLoading }: Props): React.JSX.Element {
+export function GatewaysPresenter({
+    gateways,
+    isLoading,
+    handleDeleteGateway,
+    handlePageChange,
+    handlePerPageChange,
+    onSubmitFilter,
+    errors,
+    register,
+    control
+}: GatewaysPresenterProps) {
     return (
-        <PrivateTemplate isLoading={isLoading}>
+        <PrivateTemplate title="Gateways" isLoading={isLoading}>
             <div className="flex flex-row justify-between items-center gap-4">
                 <div className="flex flex-col gap-1">
-                    <h1 className="text-2xl font-bold">Gestão de Acessos</h1>
-                    <p className="text-muted-foreground">Gerenciamento de usuários e acessos.</p>
+                    <h1 className="text-2xl font-bold">Gestão de Gateways</h1>
+                    <p className="text-muted-foreground">Gerenciamento de gateways.</p>
                 </div>
 
                 <Button variant="default" asChild>
-                    <Link to="/users/new">
+                    <Link to="/gateways/new">
                         <Plus />
-                        Novo Usuário
+                        Novo Gateway
                     </Link>
                 </Button>
             </div>
 
-
-            {/**
-             * Filters
-             */}
             <Card className="mt-4">
                 <CardContent>
                     <form onSubmit={onSubmitFilter}>
@@ -77,33 +84,35 @@ export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, regist
                             <FieldLegend className="text-lg font-semibold">Filtros</FieldLegend>
                             <FieldGroup className="flex flex-row gap-4 w-full items-center">
                                 <Field orientation="vertical">
-                                    <FieldLabel htmlFor="username">Nome de Usuário</FieldLabel>
-                                    <Input id="username" autoComplete="off" type="text" placeholder="john.doe" {...register("username")} />
-                                </Field>
-                                <Field orientation="vertical">
                                     <FieldLabel htmlFor="name">Nome</FieldLabel>
-                                    <Input id="name" autoComplete="off" type="text" placeholder="John Doe" {...register("name")} />
+                                    <Input id="name" autoComplete="off" type="text" placeholder="Nome do gateway" {...register("name")} />
+                                    {errors.name && <FieldError>{errors.name.message}</FieldError>}
                                 </Field>
                                 <Field orientation="vertical">
-                                    <FieldLabel htmlFor="role">Perfil</FieldLabel>
+                                    <FieldLabel htmlFor="active">Status</FieldLabel>
                                     <Controller
-                                        name="role"
+                                        name="active"
                                         control={control}
-                                        defaultValue="all"
+                                        defaultValue={"2"}
                                         render={({ field }) => (
                                             <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
+                                                value={field.value?.toString() === "true" ? "1" : field.value?.toString() === "false" ? "0" : "2"}
+                                                onValueChange={(value) => {
+                                                    if (value === "2") {
+                                                        field.onChange(2);
+                                                    } else {
+                                                        field.onChange(value === "1");
+                                                    }
+                                                }}
                                             >
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Todos" />
                                                 </SelectTrigger>
 
                                                 <SelectContent>
-                                                    <SelectItem value="admin">Administrador</SelectItem>
-                                                    <SelectItem value="user">Usuário</SelectItem>
-                                                    <SelectItem value="developer">Desenvolvedor</SelectItem>
-                                                    <SelectItem value="all">Todos</SelectItem>
+                                                    <SelectItem value="2">Todos</SelectItem>
+                                                    <SelectItem value="1">Ativo</SelectItem>
+                                                    <SelectItem value="0">Inativo</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         )}
@@ -133,34 +142,30 @@ export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, regist
                     <Table>
                         <TableCaption>
                             <DataPagination
-                                total={users?.total || 0}
-                                page={users?.page || 1}
-                                perPage={users?.limit || 10}
+                                total={gateways?.total || 0}
+                                page={gateways?.page || 1}
+                                perPage={gateways?.limit || 10}
                                 onPageChange={(page) => {
-                                    console.log(page)
-                                    onChangePage(page)
+                                    handlePageChange(page)
                                 }}
                                 onPerPageChange={(perPage) => {
-                                    console.log(perPage)
-                                    onChangePerPage(perPage)
+                                    handlePerPageChange(perPage)
                                 }}
                             />
                         </TableCaption>
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="text-right"><Ellipsis className="w-4 h-4" /></TableHead>
-                                <TableHead>Nome de Usuário</TableHead>
                                 <TableHead>Nome</TableHead>
-                                <TableHead>Perfil</TableHead>
                                 <TableHead>Status</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users?.docs.map((user: GetUsers200DocsItem) => (
-                                <TableRow key={user.id}>
+                            {gateways?.docs.map((gateway: GetGateways200DocsItem) => (
+                                <TableRow key={gateway.id}>
                                     <TableCell className="font-medium flex flex-row gap-2">
                                         <Button variant={"outline"} className="cursor-pointer" title="Editar" asChild>
-                                            <Link to={`/users/edit/${user.id}`}><Pencil /></Link>
+                                            <Link to={`/gateways/edit/${gateway.id}`}><Pencil /></Link>
                                         </Button>
 
                                         <Dialog>
@@ -171,24 +176,22 @@ export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, regist
                                             </DialogTrigger>
                                             <DialogContent>
                                                 <DialogHeader>
-                                                    <DialogTitle>Deletar usuário</DialogTitle>
+                                                    <DialogTitle>Deletar gateway</DialogTitle>
                                                     <DialogDescription>
-                                                        Tem certeza que deseja deletar este usuário?
+                                                        Tem certeza que deseja deletar este gateway?
                                                     </DialogDescription>
                                                 </DialogHeader>
                                                 <DialogFooter>
                                                     <DialogClose asChild>
                                                         <Button variant="outline">Cancelar</Button>
                                                     </DialogClose>
-                                                    <Button variant="destructive" onClick={() => handleDeleteUser(user.id)} disabled={isLoading}>Deletar</Button>
+                                                    <Button variant="destructive" onClick={() => handleDeleteGateway(gateway.id)} disabled={isLoading}>Deletar</Button>
                                                 </DialogFooter>
                                             </DialogContent>
                                         </Dialog>
                                     </TableCell>
-                                    <TableCell className="font-medium">{user.username}</TableCell>
-                                    <TableCell>{user.name}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
-                                    <TableCell>{user.active ? "Ativo" : "Inativo"}</TableCell>
+                                    <TableCell className="font-medium">{gateway.name}</TableCell>
+                                    <TableCell>{gateway.active ? "Ativo" : "Inativo"}</TableCell>
 
                                 </TableRow>
                             ))}
@@ -197,8 +200,6 @@ export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, regist
 
                 </CardContent>
             </Card>
-
-
-        </PrivateTemplate >
+        </PrivateTemplate>
     )
 }
