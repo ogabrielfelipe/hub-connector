@@ -45,7 +45,11 @@ export class UserController {
       caslFactory,
       logger,
     );
-    this.findAllUserUseCase = new FindAllUsersUseCase(userRepository);
+    this.findAllUserUseCase = new FindAllUsersUseCase(
+      userRepository,
+      caslFactory,
+      logger,
+    );
     this.deleteUserUseCase = new DeleteUserUseCase(
       userRepository,
       caslFactory,
@@ -111,6 +115,7 @@ export class UserController {
 
   public async getUsers(req: FastifyRequest, reply: FastifyReply) {
     const query = FindAllUsersSchema.parse(req.query);
+    const currentUser = req.user;
 
     const filters: {
       filters: { name?: string; username?: string; role?: string };
@@ -132,7 +137,7 @@ export class UserController {
       filters.filters.role = query.role;
     }
 
-    const result = await this.findAllUserUseCase.execute(filters);
+    const result = await this.findAllUserUseCase.execute(filters, currentUser!.userId);
     return reply.status(200).send({
       docs: result.docs,
       total: result.total,
