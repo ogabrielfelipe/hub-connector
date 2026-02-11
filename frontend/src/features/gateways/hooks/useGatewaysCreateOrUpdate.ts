@@ -25,7 +25,10 @@ export function useGatewaysCreateOrUpdate({ gatewayId }: Props) {
         reset,
         control,
     } = useForm<GatewayCreateOrUpdateForm>({
-        resolver: zodResolver(GatewayCreateOrUpdateFormSchema)
+        resolver: zodResolver(GatewayCreateOrUpdateFormSchema),
+        defaultValues: {
+            active: true,
+        }
     });
 
     const { data: gateway, isLoading: isFetchingGateway } = useGetGatewaysGatewayId(gatewayId ?? "", {
@@ -79,6 +82,8 @@ export function useGatewaysCreateOrUpdate({ gatewayId }: Props) {
                 })
             }
         }
+    }, (errors) => {
+        console.log(errors);
     })
 
 

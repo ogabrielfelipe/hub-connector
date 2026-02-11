@@ -6,9 +6,9 @@ import { useForm } from "react-hook-form";
 export function useGateways() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [queryParams, setQueryParams] = useState<GetGatewaysParams>({
-        active: undefined,
         page: 1,
         limit: 10,
+        active: undefined,
     });
 
     const {

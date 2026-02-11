@@ -93,13 +93,13 @@ export function GatewaysPresenter({
                                     <Controller
                                         name="active"
                                         control={control}
-                                        defaultValue={"2"}
+                                        defaultValue={undefined}
                                         render={({ field }) => (
                                             <Select
                                                 value={field.value?.toString() === "true" ? "1" : field.value?.toString() === "false" ? "0" : "2"}
                                                 onValueChange={(value) => {
                                                     if (value === "2") {
-                                                        field.onChange(2);
+                                                        field.onChange(undefined);
                                                     } else {
                                                         field.onChange(value === "1");
                                                     }
