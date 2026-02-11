@@ -14,18 +14,29 @@ import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group"
 import { Separator } from "@/shared/components/ui/separator";
 import { Check, ChevronsLeftRight, Eye, ShieldUser } from "lucide-react";
 import { Link } from "react-router-dom";
+import type { Control, FieldErrors, UseFormRegister } from "react-hook-form";
+import { Controller } from "react-hook-form";
+import type { UserCreateOrUpdateForm } from "../types";
 
+interface Props {
+    onSubmit: React.SubmitEventHandler<HTMLFormElement>;
+    errors: FieldErrors<UserCreateOrUpdateForm>;
+    isEdit: boolean;
+    register: UseFormRegister<UserCreateOrUpdateForm>;
+    control: Control<UserCreateOrUpdateForm>;
+    isLoading: boolean;
+}
 
-export function UsersCreateOrUpdatePresenter() {
+export function UsersCreateOrUpdatePresenter({ register, control, isEdit, onSubmit, errors, isLoading }: Props) {
     return (
-        <PrivateTemplate>
+        <PrivateTemplate isLoading={isLoading}>
             <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-bold">Criação de Usuário</h1>
-                <p className="text-muted-foreground">Criação de um novo usuário.</p>
+                <h1 className="text-2xl font-bold">{isEdit ? "Edição de Usuário" : "Criação de Usuário"}</h1>
+                <p className="text-muted-foreground">{isEdit ? "Edição de um usuário existente." : "Criação de um novo usuário."}</p>
             </div>
 
 
-            <form>
+            <form onSubmit={onSubmit}>
                 <Card className="mt-4">
                     <CardContent>
                         <FieldSet>
@@ -34,19 +45,19 @@ export function UsersCreateOrUpdatePresenter() {
                                 <div className="flex flex-row gap-4">
                                     <Field>
                                         <FieldLabel htmlFor="username">Nome do Usuário</FieldLabel>
-                                        <Input id="username" autoComplete="off" placeholder="john.doe" />
-                                        <FieldError>Nome do usuário não pode ter espaços.</FieldError>
+                                        <Input id="username" autoComplete="off" placeholder="john.doe" disabled={isEdit} {...register("username")} />
+                                        <FieldError>{errors.username?.message}</FieldError>
                                     </Field>
                                     <Field>
                                         <FieldLabel htmlFor="email">Email</FieldLabel>
-                                        <Input id="email" autoComplete="off" aria-invalid />
-                                        <FieldError>Email inválido.</FieldError>
+                                        <Input id="email" autoComplete="off" aria-invalid {...register("email")} />
+                                        <FieldError>{errors.email?.message}</FieldError>
                                     </Field>
                                 </div>
                                 <Field>
                                     <FieldLabel htmlFor="name">Nome Completo</FieldLabel>
-                                    <Input id="name" autoComplete="off" aria-invalid />
-                                    <FieldError>Nome completo inválido.</FieldError>
+                                    <Input id="name" autoComplete="off" aria-invalid {...register("name")} />
+                                    <FieldError>{errors.name?.message}</FieldError>
                                 </Field>
                             </FieldGroup>
                         </FieldSet>
@@ -58,13 +69,13 @@ export function UsersCreateOrUpdatePresenter() {
                             <FieldGroup className="flex flex-row gap-4">
                                 <Field>
                                     <FieldLabel htmlFor="password">Senha</FieldLabel>
-                                    <Input id="password" autoComplete="off" type="password" placeholder="john.doe" />
-                                    <FieldError>Nome do usuário não pode ter espaços.</FieldError>
+                                    <Input id="password" autoComplete="off" type="password" placeholder="********" {...register("password")} />
+                                    <FieldError>{errors.password?.message}</FieldError>
                                 </Field>
                                 <Field>
                                     <FieldLabel htmlFor="password_confirmation">Confirmar Senha</FieldLabel>
-                                    <Input id="password_confirmation" autoComplete="off" type="password" aria-invalid />
-                                    <FieldError>Nome completo inválido.</FieldError>
+                                    <Input id="password_confirmation" autoComplete="off" type="password" placeholder="********" aria-invalid {...register("password_confirmation")} />
+                                    <FieldError>{errors.password_confirmation?.message}</FieldError>
                                 </Field>
                             </FieldGroup>
                         </FieldSet>
@@ -74,84 +85,96 @@ export function UsersCreateOrUpdatePresenter() {
                         <FieldSet className="w-full flex flex-col items-center justify-center">
                             <FieldLegend variant="legend" className="font-semibold">Nível de Acesso</FieldLegend>
 
-                            <RadioGroup defaultValue="user" className="flex flex-row gap-4 w-full justify-center">
-                                <Field
-                                    className="border rounded-xl p-4 m-2 cursor-pointer  has-data-[state=checked]:border-primary/50 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-2 hover:bg-muted/40 transition">
-                                    <FieldLabel className="flex flex-col gap-4 cursor-pointer has-data-[state=checked]:bg-transparent" htmlFor="admin">
-                                        <div className="flex justify-between items-center self-start gap-4">
-                                            <RadioGroupItem
-                                                value="admin"
-                                                id="admin"
-                                                className="mt-1 peer sr-only"
-                                            />
-                                            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-yellow-100 text-yellow-700 shrink-0">
-                                                <ShieldUser className="w-6 h-6" />
-                                            </div>
-                                        </div>
+                            <Controller
+                                name="role"
+                                control={control}
+                                defaultValue="user"
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        defaultValue="user"
+                                        className="flex flex-row gap-4 w-full justify-center"
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                    >
+                                        <Field
+                                            className="border rounded-xl p-4 m-2 cursor-pointer  has-data-[state=checked]:border-primary/50 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-2 hover:bg-muted/40 transition">
+                                            <FieldLabel className="flex flex-col gap-4 cursor-pointer has-data-[state=checked]:bg-transparent" htmlFor="admin">
+                                                <div className="flex justify-between items-center self-start gap-4">
+                                                    <RadioGroupItem
+                                                        value="admin"
+                                                        id="admin"
+                                                        className="mt-1 peer sr-only"
+                                                    />
+                                                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-yellow-100 text-yellow-700 shrink-0">
+                                                        <ShieldUser className="w-6 h-6" />
+                                                    </div>
+                                                </div>
 
-                                        <div className="flex flex-col gap-1">
-                                            <h2 className="font-semibold text-base">Administrador</h2>
+                                                <div className="flex flex-col gap-1">
+                                                    <h2 className="font-semibold text-base">Administrador</h2>
 
-                                            <p className="text-sm text-muted-foreground leading-snug w-56">
-                                                Acesso total a todas as configurações e gestão de usuários.
-                                            </p>
-                                        </div>
-
-
-                                    </FieldLabel>
-                                </Field>
-
-                                <Field
-                                    className="border rounded-xl p-4 m-2 cursor-pointer  has-data-[state=checked]:border-primary/50 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-2 hover:bg-muted/40 transition">
-                                    <FieldLabel className="flex flex-col gap-4 cursor-pointer has-data-[state=checked]:bg-transparent" htmlFor="user">
-                                        <div className="flex justify-between items-center self-start gap-4">
-                                            <RadioGroupItem
-                                                value="user"
-                                                id="user"
-                                                className="mt-1 peer sr-only"
-                                            />
-                                            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-yellow-100 text-yellow-700 shrink-0">
-                                                <Eye className="w-6 h-6" />
-                                            </div>
-                                        </div>
-
-                                        <div className="flex flex-col gap-1">
-                                            <h2 className="font-semibold text-base">Usuário</h2>
-
-                                            <p className="text-sm text-muted-foreground leading-snug w-56">
-                                                Acesso apenas para leitura de logs e dashboards.
-                                            </p>
-                                        </div>
+                                                    <p className="text-sm text-muted-foreground leading-snug w-56">
+                                                        Acesso total a todas as configurações e gestão de usuários.
+                                                    </p>
+                                                </div>
 
 
-                                    </FieldLabel>
-                                </Field>
-                                <Field
-                                    className="border rounded-xl p-4 m-2 cursor-pointer  has-data-[state=checked]:border-primary/50 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-2 hover:bg-muted/40 transition">
-                                    <FieldLabel className="flex flex-col gap-4 cursor-pointer has-data-[state=checked]:bg-transparent" htmlFor="dev">
-                                        <div className="flex justify-between items-center self-start gap-4">
-                                            <RadioGroupItem
-                                                value="dev"
-                                                id="dev"
-                                                className="mt-1 peer sr-only"
-                                            />
-                                            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-yellow-100 text-yellow-700 shrink-0">
-                                                <ChevronsLeftRight className="w-6 h-6" />
-                                            </div>
-                                        </div>
+                                            </FieldLabel>
+                                        </Field>
 
-                                        <div className="flex flex-col gap-1">
-                                            <h2 className="font-semibold text-base">Desenvolvedor</h2>
+                                        <Field
+                                            className="border rounded-xl p-4 m-2 cursor-pointer  has-data-[state=checked]:border-primary/50 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-2 hover:bg-muted/40 transition">
+                                            <FieldLabel className="flex flex-col gap-4 cursor-pointer has-data-[state=checked]:bg-transparent" htmlFor="user">
+                                                <div className="flex justify-between items-center self-start gap-4">
+                                                    <RadioGroupItem
+                                                        value="user"
+                                                        id="user"
+                                                        className="mt-1 peer sr-only"
+                                                    />
+                                                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-yellow-100 text-yellow-700 shrink-0">
+                                                        <Eye className="w-6 h-6" />
+                                                    </div>
+                                                </div>
 
-                                            <p className="text-sm text-muted-foreground leading-snug w-56">
-                                                Gerencia rotas de APIs, logs e chaves de acesso.
-                                            </p>
-                                        </div>
+                                                <div className="flex flex-col gap-1">
+                                                    <h2 className="font-semibold text-base">Usuário</h2>
+
+                                                    <p className="text-sm text-muted-foreground leading-snug w-56">
+                                                        Acesso apenas para leitura de logs e dashboards.
+                                                    </p>
+                                                </div>
 
 
-                                    </FieldLabel>
-                                </Field>
-                            </RadioGroup>
+                                            </FieldLabel>
+                                        </Field>
+                                        <Field
+                                            className="border rounded-xl p-4 m-2 cursor-pointer  has-data-[state=checked]:border-primary/50 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-2 hover:bg-muted/40 transition">
+                                            <FieldLabel className="flex flex-col gap-4 cursor-pointer has-data-[state=checked]:bg-transparent" htmlFor="dev">
+                                                <div className="flex justify-between items-center self-start gap-4">
+                                                    <RadioGroupItem
+                                                        value="dev"
+                                                        id="dev"
+                                                        className="mt-1 peer sr-only"
+                                                    />
+                                                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-yellow-100 text-yellow-700 shrink-0">
+                                                        <ChevronsLeftRight className="w-6 h-6" />
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex flex-col gap-1">
+                                                    <h2 className="font-semibold text-base">Desenvolvedor</h2>
+
+                                                    <p className="text-sm text-muted-foreground leading-snug w-56">
+                                                        Gerencia rotas de APIs, logs e chaves de acesso.
+                                                    </p>
+                                                </div>
+
+
+                                            </FieldLabel>
+                                        </Field>
+                                    </RadioGroup>
+                                )}
+                            />
                         </FieldSet>
                     </CardContent>
                     <CardFooter className="flex  gap-4 justify-end">

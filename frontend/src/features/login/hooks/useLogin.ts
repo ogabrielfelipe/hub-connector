@@ -30,7 +30,7 @@ export function useLogin() {
         setIsLoading(true)
         try {
             const response = await postAuthLogin({ password: data.password, username: data.username })
-            login(response.token)
+            await login(response.token)
             navigate("/", { replace: true });
         } catch (error) {
             console.log(error)

@@ -1,88 +1,63 @@
-import { deleteUsersId, useGetUsers, type GetUsers200 } from "@/shared/api/hubConnectorAPI";
-import { useEffect, useState } from "react";
+import { deleteUsersId, useGetUsers, type GetUsersParams } from "@/shared/api/hubConnectorAPI";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { UserFormValues } from "../types";
 
 
 export function useUser() {
-    const [users, setUsers] = useState<GetUsers200 | unknown>()
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [queryParams, setQueryParams] = useState<GetUsersParams>({
+        page: 1,
+        limit: 10,
+    });
 
     const {
         handleSubmit,
         formState: { errors },
         register,
-        control,
-        getValues,
+        control
     } = useForm<UserFormValues>({
-        defaultValues: {
-        },
+        defaultValues: {},
     })
 
-    const {
-        limit,
-        name,
-        page,
-        role,
-        username,
-    } = getValues()
+    const getUser = useGetUsers(queryParams);
 
-    const getUser = useGetUsers(
-        {
-            limit: limit || 10,
-            name: name || undefined,
-            page: page || 1,
-            role: role === 'all' ? undefined : role,
-            username: username || undefined,
-        },
-    );
-
-    useEffect(() => {
-        async function getUsers() {
-            try {
-                const response = getUser.data;
-                if (response) {
-                    setUsers(response)
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getUsers()
-    }, [getUser])
-
-
-
-    const onSubmitFilter = handleSubmit(async (data) => {
-        try {
-            if (data.role === "all") {
-                data.role = undefined
-            }
-
-            const response = await getUser.refetch();
-            if (response) {
-                setUsers(response.data)
-                console.log(response.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
+    const onSubmitFilter = handleSubmit((data) => {
+        setQueryParams((prev) => ({
+            ...prev,
+            ...data,
+            role: data.role === 'all' ? undefined : data.role,
+            page: 1,
+        }));
     })
-
 
     async function handleDeleteUser(id: string) {
         try {
+            setIsDeleting(true)
             await deleteUsersId(id)
-            getUser.refetch()
-
+            await getUser.refetch();
         } catch (error) {
             console.log(error)
+        } finally {
+            setIsDeleting(false)
         }
     }
 
+    const handlePageChange = (page: number) => {
+        setQueryParams((prev) => ({ ...prev, page }));
+    }
+
+    const handlePerPageChange = (perPage: number) => {
+        setQueryParams((prev) => ({ ...prev, limit: perPage, page: 1 }));
+    }
+
     return {
-        users,
+        users: getUser.data ?? null,
+        isLoading: getUser.isLoading || isDeleting,
         onSubmitFilter,
         handleDeleteUser,
+        handlePageChange,
+        handlePerPageChange,
         errors,
         register,
         control,

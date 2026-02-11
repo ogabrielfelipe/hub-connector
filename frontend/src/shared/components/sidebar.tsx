@@ -17,9 +17,11 @@ import {
 import { History, LayoutDashboard, LogOut, Server, SignpostBig, User, Users } from "lucide-react"
 import { Button } from "./ui/button"
 import { Avatar } from "@radix-ui/react-avatar"
-import { AvatarFallback, AvatarImage } from "./ui/avatar"
+import { AvatarFallback } from "./ui/avatar"
+import { useAuth } from "@/shared/contexts/authContext"
 
 export function AppSidebar() {
+    const { logout, userLogged } = useAuth()
     return (
         <Sidebar>
             <SidebarHeader>
@@ -73,12 +75,12 @@ export function AppSidebar() {
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="flex items-center p-2 h-auto">
                             <Avatar className="size-10">
-                                <AvatarFallback>JS</AvatarFallback>
-                                <AvatarImage src="https://github.com/shadcn.png" className="rounded-full" />
+                                <AvatarFallback>{userLogged?.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
+
                             </Avatar>
                             <div>
-                                <h1 className="text-sm font-medium">Nome do Usuário</h1>
-                                <p className="text-xs text-muted-foreground">email@usuario.com</p>
+                                <h1 className="text-sm font-medium">{userLogged?.name}</h1>
+                                <p className="text-xs text-muted-foreground">{userLogged?.email}</p>
                             </div>
                         </Button>
                     </DropdownMenuTrigger>
@@ -88,7 +90,7 @@ export function AppSidebar() {
                                 <User className="mr-2" />
                                 Perfil
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer p-2">
+                            <DropdownMenuItem className="cursor-pointer p-2" onClick={() => logout()}>
                                 <LogOut className="mr-2" />
                                 Sair
                             </DropdownMenuItem>

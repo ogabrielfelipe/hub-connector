@@ -34,21 +34,24 @@ import { Ellipsis, Filter, Pencil, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DataPagination } from "@/shared/components/data-pagination";
 import type { GetUsers200, GetUsers200DocsItem } from "@/shared/api/hubConnectorAPI";
-import { Controller, type UseFormRegister } from "react-hook-form";
+import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form";
 import type { UserFormValues } from "../types";
 
 interface Props {
-    users: GetUsers200 | unknown,
-    onSubmitFilter: React.FormEventHandler<HTMLFormElement>,
+    users: GetUsers200 | null,
+    onSubmitFilter: React.SubmitEventHandler<HTMLFormElement>,
     handleDeleteUser: (id: string) => void,
     register: UseFormRegister<UserFormValues>,
-    errors: any,
-    control: any,
+    onChangePage: (page: number) => void,
+    onChangePerPage: (perPage: number) => void,
+    errors: FieldErrors<UserFormValues>,
+    control: Control<UserFormValues>,
+    isLoading: boolean,
 }
 
-export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, register, control }: Props): React.JSX.Element {
+export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, register, control, onChangePage, onChangePerPage, isLoading }: Props): React.JSX.Element {
     return (
-        <PrivateTemplate>
+        <PrivateTemplate isLoading={isLoading}>
             <div className="flex flex-row justify-between items-center gap-4">
                 <div className="flex flex-col gap-1">
                     <h1 className="text-2xl font-bold">Gestão de Acessos</h1>
@@ -130,11 +133,17 @@ export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, regist
                     <Table>
                         <TableCaption>
                             <DataPagination
-                                total={48}
-                                page={1}
-                                perPage={10}
-                                onPageChange={() => { }}
-                                onPerPageChange={() => { }}
+                                total={users?.total || 0}
+                                page={users?.page || 1}
+                                perPage={users?.limit || 10}
+                                onPageChange={(page) => {
+                                    console.log(page)
+                                    onChangePage(page)
+                                }}
+                                onPerPageChange={(perPage) => {
+                                    console.log(perPage)
+                                    onChangePerPage(perPage)
+                                }}
                             />
                         </TableCaption>
                         <TableHeader>
@@ -171,7 +180,7 @@ export function UsersPresenter({ users, onSubmitFilter, handleDeleteUser, regist
                                                     <DialogClose asChild>
                                                         <Button variant="outline">Cancelar</Button>
                                                     </DialogClose>
-                                                    <Button variant="destructive" onClick={() => handleDeleteUser(user.id)}>Deletar</Button>
+                                                    <Button variant="destructive" onClick={() => handleDeleteUser(user.id)} disabled={isLoading}>Deletar</Button>
                                                 </DialogFooter>
                                             </DialogContent>
                                         </Dialog>

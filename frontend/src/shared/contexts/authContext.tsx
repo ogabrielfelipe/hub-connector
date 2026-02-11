@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react-hooks/set-state-in-effect */
+
 "use client";
 
 import {
@@ -10,6 +10,7 @@ import {
     type ReactNode,
 } from "react";
 import Cookies from "js-cookie";
+import { getAuthMe, type GetAuthMe200 } from "../api/hubConnectorAPI";
 
 // =====================
 // Tipagens
@@ -17,7 +18,8 @@ import Cookies from "js-cookie";
 interface AuthContextData {
     token: string | null;
     isAuthenticated: boolean;
-    isLoading: boolean;
+    userLogged: GetAuthMe200 | null;
+    isLoadingAuth: boolean;
     login: (token: string, redirectTo?: string) => void;
     logout: () => void;
 }
@@ -41,21 +43,13 @@ const AuthContext = createContext<AuthContextData | undefined>(undefined);
 // Provider
 // =====================
 export function AuthProvider({ children }: AuthProviderProps) {
-    const [token, setToken] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [token, setToken] = useState<string | null>(() => {
+        return Cookies.get(TOKEN_KEY) || null;
+    })
+    const [userLogged, setUserLogged] = useState<GetAuthMe200 | null>(null);
+    const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 
-    // =====================
-    // Carrega token do cookie
-    // =====================
-    useEffect(() => {
-        const storedToken = Cookies.get(TOKEN_KEY);
 
-        if (storedToken) {
-            setToken(storedToken);
-        }
-
-        setIsLoading(false);
-    }, []);
 
     // =====================
     // Login
@@ -81,12 +75,49 @@ export function AuthProvider({ children }: AuthProviderProps) {
     };
 
 
+
+    useEffect(() => {
+
+        if (!token) {
+            setUserLogged(null);
+            setIsLoadingAuth(false);
+            return;
+        }
+
+        let isActive = true;
+
+        const getUserLogged = async () => {
+            try {
+                const response = await getAuthMe();
+
+                if (!isActive) setUserLogged(response);
+            } catch (error) {
+                console.log(error);
+                if (isActive) {
+                    setUserLogged(null);
+                    setToken(null);
+                    Cookies.remove(TOKEN_KEY);
+                }
+            } finally {
+                if (isActive) setIsLoadingAuth(false);
+            }
+        };
+
+        getUserLogged();
+
+        return () => {
+            isActive = false;
+        };
+    }, [token]);
+
+
     // Value
     // =====================
     const value: AuthContextData = {
         token,
-        isAuthenticated: !!token,
-        isLoading,
+        isAuthenticated: !!userLogged,
+        isLoadingAuth,
+        userLogged,
         login,
         logout,
     };

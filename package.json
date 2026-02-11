@@ -16,7 +16,8 @@
     "api:format": "cd api && pnpm run format",
     "frontend:dev": "cd frontend && npm run dev",
     "frontend:build": "cd frontend && npm run build",
-    "frontend:preview": "cd frontend && npm run preview"
+    "frontend:preview": "cd frontend && npm run preview",
+    "dev": "concurrently \"pnpm run api:dev\" \"pnpm run api:dev:worker\" \"pnpm run frontend:dev\""
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
+    "concurrently": "^9.2.1",
     "husky": "^9.1.7"
   }
 }
