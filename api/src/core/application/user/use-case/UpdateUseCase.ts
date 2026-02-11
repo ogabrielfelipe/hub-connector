@@ -64,6 +64,12 @@ export class UpdateUserUseCase {
     if (command.email) {
       user.updateEmail(command.email);
     }
+
+    if (currentUser.getRole() !== UserRole.ADMIN) {
+      if (command.role) {
+        throw new NotPermissionError();
+      }
+    }
     if (command.role) {
       user.updateRole(
         command.role === "admin"
