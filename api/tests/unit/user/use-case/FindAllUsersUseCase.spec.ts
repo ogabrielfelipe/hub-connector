@@ -97,12 +97,20 @@ describe("FindAllUsersUseCase", () => {
       "123456",
     );
 
+    const fakeAdmin = User.createNew(
+      "John Doe",
+      "john.doe",
+      new Email("john.doe@hub.com"),
+      UserRole.ADMIN,
+      "123456",
+    );
+
     repo.save(fakeUser);
     repo.save(fakeUser2);
 
     const result = await useCase.execute(
       { filters: {}, limit: 1, page: 1 },
-      fakeUser.getId(),
+      fakeAdmin.getId(),
     );
 
     expect(result.docs).toHaveLength(1);
@@ -112,7 +120,7 @@ describe("FindAllUsersUseCase", () => {
 
     const result2 = await useCase.execute(
       { filters: {}, limit: 1, page: 2 },
-      fakeUser.getId(),
+      fakeAdmin.getId(),
     );
 
     expect(result2.docs).toHaveLength(1);
