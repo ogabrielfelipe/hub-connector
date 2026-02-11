@@ -90,7 +90,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             try {
                 const response = await getAuthMe();
 
-                if (!isActive) setUserLogged(response);
+                if (isActive) setUserLogged(response);
             } catch (error) {
                 console.log(error);
                 if (isActive) {

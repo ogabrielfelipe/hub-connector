@@ -10,10 +10,12 @@ export default function PrivateRoute({ children }: Props) {
     const { isAuthenticated, isLoadingAuth } = useAuth();
 
     if (isLoadingAuth) {
-        return <Loading />; // ou spinner
+        console.log("loading")
+        return <Loading />;
     }
 
     if (!isAuthenticated) {
+        console.log("not authenticated")
         return <Navigate to="/login" replace />;
     }
 

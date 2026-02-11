@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export function useLogin() {
     const [isLoading, setIsLoading] = useState(false)
-    const { login } = useAuth()
+    const { login, isAuthenticated } = useAuth()
     const navigate = useNavigate();
     const [error, setError] = useState<ErrorLogin | null>(null)
 
@@ -49,6 +49,12 @@ export function useLogin() {
             setError(errors)
         }
     }, [errors])
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/", { replace: true });
+        }
+    }, [isAuthenticated, navigate])
 
     return {
         register,
