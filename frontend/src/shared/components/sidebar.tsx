@@ -86,9 +86,11 @@ export function AppSidebar() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
-                            <DropdownMenuItem className="cursor-pointer p-2">
-                                <User className="mr-2" />
-                                Perfil
+                            <DropdownMenuItem className="cursor-pointer p-2" asChild>
+                                <a href={`/users/edit/${userLogged?.id}`}>
+                                    <User className="mr-2" />
+                                    Perfil
+                                </a>
                             </DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer p-2" onClick={() => logout()}>
                                 <LogOut className="mr-2" />
