@@ -107,6 +107,7 @@ describe("FindAllUsersUseCase", () => {
 
     repo.save(fakeUser);
     repo.save(fakeUser2);
+    repo.save(fakeAdmin);
 
     const result = await useCase.execute(
       { filters: {}, limit: 1, page: 1 },
