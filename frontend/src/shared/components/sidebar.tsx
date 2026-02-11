@@ -41,8 +41,8 @@ export function AppSidebar() {
                 <SidebarGroup>
                     <SidebarGroupLabel>GERENCIAMENTO</SidebarGroupLabel>
                     <SidebarGroupContent>
-                        <a href="#" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
-                            <SignpostBig />
+                        <a href="/routes" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
+                            <SignpostBig className="mr-2" />
                             Rotas
                         </a>
 

@@ -12,6 +12,8 @@ import { Link, useLocation } from "react-router-dom"
 const breadcrumbNameMap: Record<string, string> = {
     "dashboard": "Dashboard",
     "users": "Acessos",
+    "gateways": "Gateways",
+    "routes": "Rotas",
     "edit": "Editar",
     "new": "Novo",
 }
