@@ -15,14 +15,13 @@ interface FindAllUsersUseCaseCommand {
 }
 
 export class FindAllUsersUseCase {
-
   private readonly abilityFactory: CaslAbilityFactory;
   private readonly logger: ILogger;
 
   constructor(
     private readonly userRepo: IUserRepository,
     abilityFactory: CaslAbilityFactory,
-    logger: ILogger
+    logger: ILogger,
   ) {
     this.abilityFactory = abilityFactory;
     this.logger = logger;
@@ -30,9 +29,8 @@ export class FindAllUsersUseCase {
 
   async execute(
     command: FindAllUsersUseCaseCommand,
-    currentUserId: string
+    currentUserId: string,
   ): Promise<{ docs: User[]; total: number; page: number; limit: number }> {
-
     const currentUser = await this.userRepo.findById(currentUserId);
     if (!currentUser) {
       throw new UserNotFoundError();
@@ -47,7 +45,7 @@ export class FindAllUsersUseCase {
     );
 
     const filteredUsers = users.docs.filter((user) =>
-      ability.can(Actions.Read, user)
+      ability.can(Actions.Read, user),
     );
 
     const usersFiltered = {

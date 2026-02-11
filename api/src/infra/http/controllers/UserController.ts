@@ -137,7 +137,10 @@ export class UserController {
       filters.filters.role = query.role;
     }
 
-    const result = await this.findAllUserUseCase.execute(filters, currentUser!.userId);
+    const result = await this.findAllUserUseCase.execute(
+      filters,
+      currentUser!.userId,
+    );
     return reply.status(200).send({
       docs: result.docs,
       total: result.total,
