@@ -20,12 +20,14 @@ import { Avatar } from "@radix-ui/react-avatar"
 import { AvatarFallback } from "./ui/avatar"
 import { useAuth } from "@/shared/contexts/authContext"
 
+import logo from "@/assets/logo_v2.png"
+
 export function AppSidebar() {
     const { logout, userLogged } = useAuth()
     return (
         <Sidebar>
             <SidebarHeader>
-                <img src="https://placehold.co/150x50" alt="Hub Connector" />
+                <img src={logo} alt="Hub Connector" />
             </SidebarHeader>
             <SidebarContent className="flex flex-col gap-2 p-2">
                 <a href="/" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
@@ -58,7 +60,7 @@ export function AppSidebar() {
                 <SidebarGroup>
                     <SidebarGroupLabel>MONITORIA</SidebarGroupLabel>
                     <SidebarGroupContent>
-                        <a href="#" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
+                        <a href="/transactions" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
                             <History className="mr-2" />
                             Logs de Transações
                         </a>

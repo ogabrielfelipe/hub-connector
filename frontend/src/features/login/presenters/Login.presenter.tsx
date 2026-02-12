@@ -6,6 +6,8 @@ import { type UseFormRegister } from "react-hook-form";
 import { isErrorLogin, isFieldErrors, type ErrorLogin, type FormLoginSchema } from "../types";
 import { Button } from "@/shared/components/ui/button";
 
+import logo from "@/assets/logo_v1.png"
+
 import {
     Alert,
     AlertDescription,
@@ -28,7 +30,8 @@ export function LoginPresenter({ onSubmit, isLoading, errors, register }: LoginP
                 <Card className="w-full max-w-7xl py-0">
                     <CardContent className="grid grid-cols-2 px-0">
                         <div className="w-full h-full overflow-hidden">
-                            <img src="https://placehold.co/700x500" className="object-cover block w-full h-full" alt="Hub Connector" />
+                            {/*<img src="https://placehold.co/700x500" className="object-cover block w-full h-full" alt="Hub Connector" />*/}
+                            <img src={logo} className="object-cover block w-full h-full" alt="Hub Connector" />
                         </div>
 
                         <div className="flex flex-col gap-5 w-full h-full  p-5">

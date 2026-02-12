@@ -18,7 +18,7 @@ export function HeadersField() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-sm flex items-center gap-2">
-                    📋 Headers Personalizados
+                    Headers Personalizados
                 </h3>
 
                 <Button

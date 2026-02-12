@@ -6,6 +6,7 @@ import { UsersContainer } from "@/features/users";
 import { UsersCreateOrUpdateContainer } from "@/features/users";
 import { GatewaysContainer, GatewaysCreateOrUpdateContainer } from "@/features/gateways";
 import { RoutesContainer, RoutesCreateOrUpdateContainer } from "@/features/routes";
+import { ShowTransactionContainer, TransactionsContainer } from "@/features/transactions";
 
 export function AppRoutes() {
     return (
@@ -117,6 +118,29 @@ export function AppRoutes() {
                     </PrivateRoute>
                 }
             />
+
+            {/**
+             * Transactions routes
+             **/
+            }
+            <Route
+                path="/transactions"
+                element={
+                    <PrivateRoute>
+                        <TransactionsContainer />
+                    </PrivateRoute>
+                }
+            />
+
+            <Route
+                path="/transactions/:id"
+                element={
+                    <PrivateRoute>
+                        <ShowTransactionContainer />
+                    </PrivateRoute>
+                }
+            />
+
 
             {/* 404 */}
             <Route path="*" element={<h1 className="text-center text-2xl font-bold">Página não encontrada</h1>} />

@@ -330,7 +330,9 @@ export type GetRoutings200DocsItem = {
   id: string;
   name: string;
   slug: string;
+  url: string;
   description: string;
+  method: string;
   gateway: GetRoutings200DocsItemGateway;
   deletedAt: GetRoutings200DocsItemDeletedAt;
 };
@@ -375,8 +377,6 @@ export type GetRoutingsRoutingId200Gateway = {
   name: string;
   xApiKey: string;
   active: boolean;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type GetRoutingsRoutingId200Headers = {[key: string]: string};
@@ -408,6 +408,7 @@ export type PostRoutingsRoutingSlugExecute201 = {
 
 export type GetRoutingsSearchExecutionsParams = {
 routingId?: string;
+id?: string;
 status?: string;
 text?: string;
 from?: unknown;
