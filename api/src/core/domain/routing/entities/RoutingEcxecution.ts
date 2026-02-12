@@ -22,6 +22,9 @@ export class RoutingExecution extends AggregateRoot {
   private logStatus: LogStatusType[];
   private params?: unknown;
   private payload?: unknown;
+  private latency?: number;
+  private url?: string;
+  private statusReturnAPI?: number;
   private logExecution?: unknown;
   private errorMessage?: string | null;
   private finishedAt?: Date | null;
@@ -193,6 +196,18 @@ export class RoutingExecution extends AggregateRoot {
     return this.updatedAt;
   }
 
+  public getLatency(): number | undefined {
+    return this.latency;
+  }
+
+  public getStatusReturnAPI(): number | undefined {
+    return this.statusReturnAPI;
+  }
+
+  public getUrl(): string | undefined {
+    return this.url;
+  }
+
   public startProcessing(): void {
     this.updateStatus(RoutingExecutionStatus.PROCESSING);
   }
@@ -244,6 +259,21 @@ export class RoutingExecution extends AggregateRoot {
 
   public updatePayload(payload: unknown): void {
     this.payload = payload;
+    this.updatedAt = new Date();
+  }
+
+  public updateLatency(latency: number): void {
+    this.latency = latency;
+    this.updatedAt = new Date();
+  }
+
+  public updateStatusReturnAPI(statusReturnAPI: number): void {
+    this.statusReturnAPI = statusReturnAPI;
+    this.updatedAt = new Date();
+  }
+
+  public updateUrl(url: string): void {
+    this.url = url;
     this.updatedAt = new Date();
   }
 }

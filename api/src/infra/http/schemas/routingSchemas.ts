@@ -77,7 +77,9 @@ export const FindAllRoutingResponseSchema = z.object({
       id: z.string(),
       name: z.string(),
       slug: z.string(),
+      url: z.string(),
       description: z.string(),
+      method: z.string(),
       gateway: z.object({
         id: z.uuid(),
         name: z.string(),

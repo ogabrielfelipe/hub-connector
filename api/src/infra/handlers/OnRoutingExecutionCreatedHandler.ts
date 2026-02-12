@@ -6,6 +6,7 @@ import { MongoRoutingExecutionRepository } from "../database/repositories/MongoR
 import { MongoRoutingRepository } from "../database/repositories/MongoRoutingRepository";
 import { RoutingExecutionSearchIndexer } from "../search/opensearch/RoutingExecutionSearchIndexer";
 import { RoutingExecution } from "@/core/domain/routing/entities/RoutingEcxecution";
+import { performance } from 'node:perf_hooks';
 
 export class OnRoutingExecutionCreatedHandler {
   async handle(event: any) {
@@ -31,11 +32,11 @@ export class OnRoutingExecutionCreatedHandler {
     routingExecution.startProcessing();
     await routingExecutionRepository.update(routingExecution);
 
+    let latency = 0;
+
     try {
       const params = route.getParams();
       let url = route.getUrl();
-
-      console.log(event);
 
       if (event.payload.params) {
         Object.keys(params).forEach((key) => {
@@ -43,19 +44,31 @@ export class OnRoutingExecutionCreatedHandler {
         });
       }
 
+      const start = performance.now();
+
       const response = await axios(url, {
         method: route.getMethod(),
         headers: route.getHeaders(),
         data: JSON.stringify(event.payload),
       });
 
+      const end = performance.now();
+      latency = end - start;
+
+
       routingExecution.completeProcessing();
-      routingExecution.updateLogExecution(JSON.stringify(response.data));
+      routingExecution.updateLatency(Number(latency.toFixed(4)));
+      routingExecution.updateStatusReturnAPI(response.status);
+      routingExecution.updateLogExecution(response.data);
+      routingExecution.updateUrl(url);
       await routingExecutionRepository.update(routingExecution);
+
       await this.indexRoutingExecution(routingExecution);
     } catch (error: any) {
+      routingExecution.updateStatusReturnAPI(error.status);
       routingExecution.failProcessing(error);
-      routingExecution.updateLogExecution(JSON.stringify(error));
+      routingExecution.updateLogExecution(error);
+      routingExecution.updateLatency(Number(latency.toFixed(4)));
       await routingExecutionRepository.update(routingExecution);
       await this.indexRoutingExecution(routingExecution);
       return;
@@ -71,6 +84,9 @@ export class OnRoutingExecutionCreatedHandler {
       status: event.getStatus(),
       payload: JSON.stringify(event.getPayload()),
       params: JSON.stringify(event.getParams()),
+      latency: event.getLatency() || 0,
+      url: event.getUrl() || "",
+      statusReturnAPI: event.getStatusReturnAPI() || 0,
       logExecution: JSON.stringify(event.getLogExecution()),
       createdAt: event.getCreatedAt(),
       updatedAt: event.getUpdatedAt(),

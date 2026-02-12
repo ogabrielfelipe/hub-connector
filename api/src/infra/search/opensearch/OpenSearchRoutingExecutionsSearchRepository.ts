@@ -8,12 +8,13 @@ import {
 import { TotalHits } from "@opensearch-project/opensearch/api/_types/_core.search";
 
 export class OpenSearchRoutingExecutionsSearchRepository
-  implements IRoutingExecutionSearchRepository
-{
+  implements IRoutingExecutionSearchRepository {
   async search(
     params: RoutingExecutionSearchParams,
   ): Promise<RoutingExecutionSearchResult<any>> {
-    const { routingId, status, text, from, to, page, perPage } = params;
+    const { routingId, status, text, from, to, page, perPage, id } = params;
+
+    console.log(params);
 
     // Build the query
     const must: any[] = [];
@@ -26,11 +27,20 @@ export class OpenSearchRoutingExecutionsSearchRepository
       must.push({ term: { "status.keyword": status } });
     }
 
+    if (id) {
+      must.push({ term: { "id.keyword": id } });
+    }
+
     if (text) {
       must.push({
-        multi_match: {
-          query: text,
-          fields: ["payload", "params", "logExecution"],
+        bool: {
+          should: [
+            { wildcard: { "payload.keyword": `*${text}*` } },
+            { wildcard: { "params.keyword": `*${text}*` } },
+            { wildcard: { "logExecution.keyword": `*${text}*` } },
+            { wildcard: { "url.keyword": `*${text}*` } },
+          ],
+          minimum_should_match: 1,
         },
       });
     }
@@ -48,17 +58,6 @@ export class OpenSearchRoutingExecutionsSearchRepository
 
     // Calculate pagination
     const offset = (page - 1) * perPage;
-
-    console.log(must);
-    console.log(
-      JSON.stringify({
-        query: {
-          bool: {
-            must: must.length > 0 ? must : [{ match_all: {} }],
-          },
-        },
-      }),
-    );
 
     // Execute search
     const result = await openSearchClient.search({
@@ -83,6 +82,9 @@ export class OpenSearchRoutingExecutionsSearchRepository
       payload: hit._source.payload,
       params: hit._source.params,
       logExecution: hit._source.logExecution,
+      latency: hit._source.latency,
+      statusReturnAPI: hit._source.statusReturnAPI,
+      url: hit._source.url,
       createdAt: hit._source.createdAt,
       updatedAt: hit._source["@timestamp"],
     }));
@@ -94,4 +96,5 @@ export class OpenSearchRoutingExecutionsSearchRepository
       perPage,
     };
   }
+
 }

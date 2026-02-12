@@ -2,6 +2,7 @@
 
 export interface RoutingExecutionSearchParams {
   routingId?: string;
+  id?: string;
   status?: string;
   text?: string;
   from?: Date;

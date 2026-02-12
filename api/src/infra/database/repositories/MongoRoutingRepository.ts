@@ -200,7 +200,9 @@ export class MongoRoutingRepository implements IRoutingRepository {
           id: routingModel._id.toString(),
           name: routingModel.name,
           slug: routingModel.slug,
+          url: routingModel.url,
           description: routingModel.description,
+          method: routingModel.method,
           gateway: {
             id: gateway.getId(),
             name: gateway.getName(),

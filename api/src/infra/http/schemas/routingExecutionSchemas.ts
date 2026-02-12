@@ -18,10 +18,11 @@ export const createRoutingExecutionResponseSchema = z.object({
 
 export const searchRoutingExecutionParamsSchema = z.object({
   routingId: z.string().optional(),
+  id: z.string().optional(),
   status: z.string().optional(),
   text: z.string().optional(),
-  from: z.date().optional(),
-  to: z.date().optional(),
+  from: z.coerce.date().optional(),
+  to: z.coerce.date().optional(),
   page: z.coerce.number().default(1),
   perPage: z.coerce.number().default(20),
 });

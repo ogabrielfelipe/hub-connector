@@ -6,6 +6,8 @@ export type RoutingList = {
   name: string;
   slug: string;
   description: string;
+  method: string;
+  url: string;
   gateway: {
     id: string;
     name: string;

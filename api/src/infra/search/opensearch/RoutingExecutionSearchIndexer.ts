@@ -7,6 +7,9 @@ export interface RoutingExecutionSearchIndexerProps {
   payload: string;
   params: string;
   logExecution: string;
+  latency: number;
+  statusReturnAPI: number;
+  url: string;
   updatedAt: Date;
   createdAt: Date;
 }
@@ -23,6 +26,9 @@ export class RoutingExecutionSearchIndexer {
         payload: event.payload,
         params: event.params,
         logExecution: event.logExecution,
+        latency: event.latency,
+        statusReturnAPI: event.statusReturnAPI,
+        url: event.url,
         createdAt: event.createdAt,
       },
       id: event.id,
