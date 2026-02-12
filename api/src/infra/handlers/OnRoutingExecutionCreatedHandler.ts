@@ -6,7 +6,7 @@ import { MongoRoutingExecutionRepository } from "../database/repositories/MongoR
 import { MongoRoutingRepository } from "../database/repositories/MongoRoutingRepository";
 import { RoutingExecutionSearchIndexer } from "../search/opensearch/RoutingExecutionSearchIndexer";
 import { RoutingExecution } from "@/core/domain/routing/entities/RoutingEcxecution";
-import { performance } from 'node:perf_hooks';
+import { performance } from "node:perf_hooks";
 
 export class OnRoutingExecutionCreatedHandler {
   async handle(event: any) {
@@ -54,7 +54,6 @@ export class OnRoutingExecutionCreatedHandler {
 
       const end = performance.now();
       latency = end - start;
-
 
       routingExecution.completeProcessing();
       routingExecution.updateLatency(Number(latency.toFixed(4)));

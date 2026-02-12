@@ -20,7 +20,7 @@ export class SearchRoutingExecutionController {
       to,
       page = 1,
       perPage = 20,
-      id
+      id,
     } = searchRoutingExecutionParamsSchema.parse(req.query);
 
     const result = await this.searchRoutingExecutionsUseCase.execute({
