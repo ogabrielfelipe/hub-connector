@@ -32,11 +32,12 @@ export class OnRoutingExecutionCreatedHandler {
     routingExecution.startProcessing();
     await routingExecutionRepository.update(routingExecution);
 
-    let latency = 0;
+    const params = route.getParams();
+    let url = route.getUrl();
 
+    let latency = 0;
+    let start = 0;
     try {
-      const params = route.getParams();
-      let url = route.getUrl();
 
       if (event.payload.params) {
         Object.keys(params).forEach((key) => {
@@ -44,8 +45,8 @@ export class OnRoutingExecutionCreatedHandler {
         });
       }
 
-      const start = performance.now();
 
+      start = performance.now();
       const response = await axios(url, {
         method: route.getMethod(),
         headers: route.getHeaders(),
@@ -60,17 +61,19 @@ export class OnRoutingExecutionCreatedHandler {
       routingExecution.updateStatusReturnAPI(response.status);
       routingExecution.updateLogExecution(response.data);
       routingExecution.updateUrl(url);
-      await routingExecutionRepository.update(routingExecution);
-
-      await this.indexRoutingExecution(routingExecution);
     } catch (error: any) {
+      const end = performance.now();
+      latency = end - start;
       routingExecution.updateStatusReturnAPI(error.status);
-      routingExecution.failProcessing(error);
+      routingExecution.failProcessing(error.message);
       routingExecution.updateLogExecution(error);
       routingExecution.updateLatency(Number(latency.toFixed(4)));
-      await routingExecutionRepository.update(routingExecution);
-      await this.indexRoutingExecution(routingExecution);
-      return;
+      routingExecution.updateUrl(url);
+    } finally {
+      await Promise.all([
+        routingExecutionRepository.update(routingExecution),
+        this.indexRoutingExecution(routingExecution),
+      ]);
     }
   }
 

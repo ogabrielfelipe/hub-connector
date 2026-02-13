@@ -31,6 +31,7 @@ import { IGatewayRepository } from "./core/domain/gateway/repositories/IGatewayR
 import { IRoutingRepository } from "./core/domain/routing/repositories/IRoutingRepository";
 import { MongoGatewayRepository } from "./infra/database/repositories/MongoGatewayRepository";
 import { MongoRoutingRepository } from "./infra/database/repositories/MongoRoutingRepository";
+import { reportRoutes } from "./infra/http/routes/ReportRoutes";
 
 const logger = new WinstonLoggerService();
 
@@ -55,7 +56,7 @@ export async function buildServer({
     origin: "*",
     credentials: false,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Accept", "Origin"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept", "Origin", "x-api-key"],
   });
 
   const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();
@@ -144,6 +145,7 @@ export async function buildServer({
   app.register(gatewayRoutes, { prefix: "/gateways" });
   app.register(routingRoutes, { prefix: "/routings" });
   app.register(configRoutes, { prefix: "/config" });
+  app.register(reportRoutes, { prefix: "/report" });
 
   app.register(fastifySwaggerUI, {
     routePrefix: "/docs",

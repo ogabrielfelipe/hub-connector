@@ -1563,6 +1563,58 @@
           }
         }
       }
+    },
+    "/report/dashboard": {
+      "get": {
+        "summary": "Get dashboard report",
+        "tags": [
+          "Report"
+        ],
+        "description": "Endpoint to get the dashboard report.",
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_routes": {
+                      "type": "number"
+                    },
+                    "requests_today": {
+                      "type": "number"
+                    },
+                    "latency_average": {
+                      "type": "number"
+                    },
+                    "percent_error_per_route": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "number"
+                      }
+                    },
+                    "traffic_per_route": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "required": [
+                    "total_routes",
+                    "requests_today",
+                    "latency_average",
+                    "percent_error_per_route",
+                    "traffic_per_route"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
