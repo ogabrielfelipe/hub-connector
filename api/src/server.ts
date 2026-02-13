@@ -56,7 +56,13 @@ export async function buildServer({
     origin: "*",
     credentials: false,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Accept", "Origin", "x-api-key"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "Origin",
+      "x-api-key",
+    ],
   });
 
   const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();

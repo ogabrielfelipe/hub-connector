@@ -38,13 +38,11 @@ export class OnRoutingExecutionCreatedHandler {
     let latency = 0;
     let start = 0;
     try {
-
       if (event.payload.params) {
         Object.keys(params).forEach((key) => {
           url = url.replace(`:${key}`, event.payload.params[key]);
         });
       }
-
 
       start = performance.now();
       const response = await axios(url, {
