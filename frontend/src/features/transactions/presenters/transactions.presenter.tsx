@@ -1,8 +1,7 @@
 import PrivateTemplate from "@/shared/components/templates/privateTemplate";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
-import { Filter, RefreshCcw } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Filter } from "lucide-react";
 import { DatePickerWithRange } from "./components/date-picker-range";
 import { Field, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
@@ -24,9 +23,10 @@ interface TransactionsPresenterProps {
     handlePageChange: (page: number) => void;
     handlePerPageChange: (pageSize: number) => void;
     isLoading: boolean;
+    handleResendTransaction: (id: string) => void;
 }
 
-export function TransactionsPresenter({ register, control, errors, onSubmitFilter, routingsSearchExecutions, routings, handlePageChange, handlePerPageChange, isLoading }: TransactionsPresenterProps) {
+export function TransactionsPresenter({ register, control, errors, onSubmitFilter, routingsSearchExecutions, routings, handlePageChange, handlePerPageChange, isLoading, handleResendTransaction }: TransactionsPresenterProps) {
     return (
         <PrivateTemplate title="Logs de Transações" isLoading={isLoading}>
             <div className="flex flex-row justify-between items-center gap-4">
@@ -132,6 +132,7 @@ export function TransactionsPresenter({ register, control, errors, onSubmitFilte
                                     latency={Number(execution?.latency).toFixed(4).toString() || ""}
                                     requestPayload={JSON.parse(execution?.payload)}
                                     responseTrace={JSON.parse(execution?.logExecution)}
+                                    handleResendTransaction={handleResendTransaction}
 
                                 />
                             )

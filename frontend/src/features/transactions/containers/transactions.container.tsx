@@ -3,7 +3,7 @@ import { useTransactions } from "../hooks/useTransactions";
 
 
 export function TransactionsContainer() {
-    const { register, control, errors, onSubmitFilter, routingsSearchExecutions, routings, handlePageChange, handlePerPageChange, isLoading } = useTransactions();
+    const { register, control, errors, onSubmitFilter, routingsSearchExecutions, routings, handlePageChange, handlePerPageChange, isLoading, handleResendTransaction } = useTransactions();
     return (
         <TransactionsPresenter
             register={register}
@@ -15,6 +15,7 @@ export function TransactionsContainer() {
             isLoading={isLoading}
             handlePageChange={handlePageChange}
             handlePerPageChange={handlePerPageChange}
+            handleResendTransaction={handleResendTransaction}
         />
     )
 }

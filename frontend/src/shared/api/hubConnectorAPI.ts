@@ -60,11 +60,11 @@ export type PostUsers201 = {
 };
 
 export type GetUsersParams = {
-name?: string;
-username?: string;
-role?: GetUsersRole;
-page?: number;
-limit?: number;
+  name?: string;
+  username?: string;
+  role?: GetUsersRole;
+  page?: number;
+  limit?: number;
 };
 
 export type GetUsersRole = typeof GetUsersRole[keyof typeof GetUsersRole];
@@ -231,10 +231,10 @@ export type PostGateways201 = {
 };
 
 export type GetGatewaysParams = {
-name?: string;
-active?: boolean;
-page?: number;
-limit?: number;
+  name?: string;
+  active?: boolean;
+  page?: number;
+  limit?: number;
 };
 
 export type GetGateways200DocsItem = {
@@ -281,7 +281,7 @@ export type GetGatewaysGatewayId200 = {
   updatedAt: string;
 };
 
-export type PostRoutingsBodyHeaders = {[key: string]: string};
+export type PostRoutingsBodyHeaders = { [key: string]: string };
 
 export type PostRoutingsBody = {
   name: string;
@@ -294,9 +294,9 @@ export type PostRoutingsBody = {
   headers: PostRoutingsBodyHeaders;
 };
 
-export type PostRoutings201Params = {[key: string]: string};
+export type PostRoutings201Params = { [key: string]: string };
 
-export type PostRoutings201Headers = {[key: string]: string};
+export type PostRoutings201Headers = { [key: string]: string };
 
 export type PostRoutings201 = {
   id: string;
@@ -311,11 +311,11 @@ export type PostRoutings201 = {
 };
 
 export type GetRoutingsParams = {
-gatewayId?: string;
-name?: string;
-slug?: string;
-page?: number;
-limit?: number;
+  gatewayId?: string;
+  name?: string;
+  slug?: string;
+  page?: number;
+  limit?: number;
 };
 
 export type GetRoutings200DocsItemGateway = {
@@ -344,7 +344,7 @@ export type GetRoutings200 = {
   limit: number;
 };
 
-export type PutRoutingsRoutingIdBodyHeaders = {[key: string]: string};
+export type PutRoutingsRoutingIdBodyHeaders = { [key: string]: string };
 
 export type PutRoutingsRoutingIdBody = {
   name?: string;
@@ -356,7 +356,7 @@ export type PutRoutingsRoutingIdBody = {
   headers?: PutRoutingsRoutingIdBodyHeaders;
 };
 
-export type PutRoutingsRoutingId200Headers = {[key: string]: string};
+export type PutRoutingsRoutingId200Headers = { [key: string]: string };
 
 export type PutRoutingsRoutingId200 = {
   id: string;
@@ -379,7 +379,7 @@ export type GetRoutingsRoutingId200Gateway = {
   active: boolean;
 };
 
-export type GetRoutingsRoutingId200Headers = {[key: string]: string};
+export type GetRoutingsRoutingId200Headers = { [key: string]: string };
 
 export type GetRoutingsRoutingId200 = {
   id: string;
@@ -392,7 +392,7 @@ export type GetRoutingsRoutingId200 = {
   headers: GetRoutingsRoutingId200Headers;
 };
 
-export type PostRoutingsRoutingSlugExecuteBodyParams = {[key: string]: unknown};
+export type PostRoutingsRoutingSlugExecuteBodyParams = { [key: string]: unknown };
 
 export type PostRoutingsRoutingSlugExecuteBody = {
   payload?: unknown;
@@ -407,14 +407,14 @@ export type PostRoutingsRoutingSlugExecute201 = {
 };
 
 export type GetRoutingsSearchExecutionsParams = {
-routingId?: string;
-id?: string;
-status?: string;
-text?: string;
-from?: unknown;
-to?: unknown;
-page?: number;
-perPage?: number;
+  routingId?: string;
+  id?: string;
+  status?: string;
+  text?: string;
+  from?: unknown;
+  to?: unknown;
+  page?: number;
+  perPage?: number;
 };
 
 export type GetRoutingsSearchExecutions200 = {
@@ -426,115 +426,130 @@ export type GetRoutingsSearchExecutions200 = {
 
 export type DeleteConfigDelPrefixCachePrefix204 = { [key: string]: unknown };
 
+export type GetReportDashboard200PercentErrorPerRoute = { [key: string]: number };
+
+export type GetReportDashboard200TrafficPerRoute = { [key: string]: number };
+
+export type GetReportDashboard200 = {
+  total_routes: number;
+  requests_today: number;
+  latency_average: number;
+  percent_error_per_route: GetReportDashboard200PercentErrorPerRoute;
+  traffic_per_route: GetReportDashboard200TrafficPerRoute;
+};
+
 /**
  * Endpoint to create a new user in the system.
  * @summary Create a new user
  */
 export const postUsers = (
-    postUsersBody: PostUsersBody,
- signal?: AbortSignal
+  postUsersBody: PostUsersBody,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<PostUsers201>(
-      {url: `/users/`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
+
+
+  return customFetcher<PostUsers201>(
+    {
+      url: `/users/`, method: 'POST',
+      headers: { 'Content-Type': 'application/json', },
       data: postUsersBody, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPostUsersMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUsers>>, TError,{data: PostUsersBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postUsers>>, TError,{data: PostUsersBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postUsers>>, TError, { data: PostUsersBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postUsers>>, TError, { data: PostUsersBody }, TContext> => {
 
-const mutationKey = ['postUsers'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postUsers'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUsers>>, {data: PostUsersBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postUsers(data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUsers>>, { data: PostUsersBody }> = (props) => {
+    const { data } = props ?? {};
 
-    export type PostUsersMutationResult = NonNullable<Awaited<ReturnType<typeof postUsers>>>
-    export type PostUsersMutationBody = PostUsersBody
-    export type PostUsersMutationError = unknown
+    return postUsers(data,)
+  }
 
-    /**
- * @summary Create a new user
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostUsersMutationResult = NonNullable<Awaited<ReturnType<typeof postUsers>>>
+export type PostUsersMutationBody = PostUsersBody
+export type PostUsersMutationError = unknown
+
+/**
+* @summary Create a new user
+*/
 export const usePostUsers = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUsers>>, TError,{data: PostUsersBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postUsers>>,
-        TError,
-        {data: PostUsersBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postUsers>>, TError, { data: PostUsersBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postUsers>>,
+      TError,
+      { data: PostUsersBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPostUsersMutationOptions(options);
+  const mutationOptions = getPostUsersMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to get all users in the system.
  * @summary Get all users
  */
 export const getUsers = (
-    params?: GetUsersParams,
- signal?: AbortSignal
+  params?: GetUsersParams,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetUsers200>(
-      {url: `/users/`, method: 'GET',
-        params, signal
+
+
+  return customFetcher<GetUsers200>(
+    {
+      url: `/users/`, method: 'GET',
+      params, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetUsersQueryKey = (params?: GetUsersParams,) => {
-    return [
-    `/users/`, ...(params ? [params]: [])
-    ] as const;
-    }
+  return [
+    `/users/`, ...(params ? [params] : [])
+  ] as const;
+}
 
-    
-export const getGetUsersQueryOptions = <TData = Awaited<ReturnType<typeof getUsers>>, TError = unknown>(params?: GetUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>>, }
+
+export const getGetUsersQueryOptions = <TData = Awaited<ReturnType<typeof getUsers>>, TError = unknown>(params?: GetUsersParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUsersQueryKey(params);
+  const queryKey = queryOptions?.queryKey ?? getGetUsersQueryKey(params);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsers>>> = ({ signal }) => getUsers(params, signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsers>>> = ({ signal }) => getUsers(params, signal);
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetUsersQueryResult = NonNullable<Awaited<ReturnType<typeof getUsers>>>
@@ -542,43 +557,47 @@ export type GetUsersQueryError = unknown
 
 
 export function useGetUsers<TData = Awaited<ReturnType<typeof getUsers>>, TError = unknown>(
- params: undefined |  GetUsersParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getUsers>>,
-          TError,
-          Awaited<ReturnType<typeof getUsers>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params: undefined | GetUsersParams, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUsers>>,
+        TError,
+        Awaited<ReturnType<typeof getUsers>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetUsers<TData = Awaited<ReturnType<typeof getUsers>>, TError = unknown>(
- params?: GetUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getUsers>>,
-          TError,
-          Awaited<ReturnType<typeof getUsers>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetUsersParams, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUsers>>,
+        TError,
+        Awaited<ReturnType<typeof getUsers>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetUsers<TData = Awaited<ReturnType<typeof getUsers>>, TError = unknown>(
- params?: GetUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetUsersParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get all users
  */
 
 export function useGetUsers<TData = Awaited<ReturnType<typeof getUsers>>, TError = unknown>(
- params?: GetUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  params?: GetUsersParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetUsersQueryOptions(params,options)
+  const queryOptions = getGetUsersQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -592,109 +611,112 @@ export function useGetUsers<TData = Awaited<ReturnType<typeof getUsers>>, TError
  * @summary Update an existing user
  */
 export const putUsersId = (
-    id: string,
-    putUsersIdBody: PutUsersIdBody,
- ) => {
-      
-      
-      return customFetcher<PutUsersId200>(
-      {url: `/users/${id}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
+  id: string,
+  putUsersIdBody: PutUsersIdBody,
+) => {
+
+
+  return customFetcher<PutUsersId200>(
+    {
+      url: `/users/${id}`, method: 'PUT',
+      headers: { 'Content-Type': 'application/json', },
       data: putUsersIdBody
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPutUsersIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUsersId>>, TError,{id: string;data: PutUsersIdBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof putUsersId>>, TError,{id: string;data: PutUsersIdBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putUsersId>>, TError, { id: string; data: PutUsersIdBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof putUsersId>>, TError, { id: string; data: PutUsersIdBody }, TContext> => {
 
-const mutationKey = ['putUsersId'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['putUsersId'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putUsersId>>, {id: string;data: PutUsersIdBody}> = (props) => {
-          const {id,data} = props ?? {};
-
-          return  putUsersId(id,data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof putUsersId>>, { id: string; data: PutUsersIdBody }> = (props) => {
+    const { id, data } = props ?? {};
 
-    export type PutUsersIdMutationResult = NonNullable<Awaited<ReturnType<typeof putUsersId>>>
-    export type PutUsersIdMutationBody = PutUsersIdBody
-    export type PutUsersIdMutationError = unknown
+    return putUsersId(id, data,)
+  }
 
-    /**
- * @summary Update an existing user
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PutUsersIdMutationResult = NonNullable<Awaited<ReturnType<typeof putUsersId>>>
+export type PutUsersIdMutationBody = PutUsersIdBody
+export type PutUsersIdMutationError = unknown
+
+/**
+* @summary Update an existing user
+*/
 export const usePutUsersId = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUsersId>>, TError,{id: string;data: PutUsersIdBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putUsersId>>,
-        TError,
-        {id: string;data: PutUsersIdBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putUsersId>>, TError, { id: string; data: PutUsersIdBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof putUsersId>>,
+      TError,
+      { id: string; data: PutUsersIdBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPutUsersIdMutationOptions(options);
+  const mutationOptions = getPutUsersIdMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to get a user in the system.
  * @summary Get a user
  */
 export const getUsersId = (
-    id: string,
- signal?: AbortSignal
+  id: string,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetUsersId200>(
-      {url: `/users/${id}`, method: 'GET', signal
+
+
+  return customFetcher<GetUsersId200>(
+    {
+      url: `/users/${id}`, method: 'GET', signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetUsersIdQueryKey = (id?: string,) => {
-    return [
+  return [
     `/users/${id}`
-    ] as const;
-    }
+  ] as const;
+}
 
-    
-export const getGetUsersIdQueryOptions = <TData = Awaited<ReturnType<typeof getUsersId>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>>, }
+
+export const getGetUsersIdQueryOptions = <TData = Awaited<ReturnType<typeof getUsersId>>, TError = unknown>(id: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUsersIdQueryKey(id);
+  const queryKey = queryOptions?.queryKey ?? getGetUsersIdQueryKey(id);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsersId>>> = ({ signal }) => getUsersId(id, signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsersId>>> = ({ signal }) => getUsersId(id, signal);
 
-      
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, enabled: !!(id), ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetUsersIdQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersId>>>
@@ -702,43 +724,47 @@ export type GetUsersIdQueryError = unknown
 
 
 export function useGetUsersId<TData = Awaited<ReturnType<typeof getUsersId>>, TError = unknown>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getUsersId>>,
-          TError,
-          Awaited<ReturnType<typeof getUsersId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  id: string, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUsersId>>,
+        TError,
+        Awaited<ReturnType<typeof getUsersId>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetUsersId<TData = Awaited<ReturnType<typeof getUsersId>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getUsersId>>,
-          TError,
-          Awaited<ReturnType<typeof getUsersId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  id: string, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUsersId>>,
+        TError,
+        Awaited<ReturnType<typeof getUsersId>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetUsersId<TData = Awaited<ReturnType<typeof getUsersId>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  id: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get a user
  */
 
 export function useGetUsersId<TData = Awaited<ReturnType<typeof getUsersId>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  id: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersId>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetUsersIdQueryOptions(id,options)
+  const queryOptions = getGetUsersIdQueryOptions(id, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -752,172 +778,177 @@ export function useGetUsersId<TData = Awaited<ReturnType<typeof getUsersId>>, TE
  * @summary Delete a user
  */
 export const deleteUsersId = (
-    id: string,
- ) => {
-      
-      
-      return customFetcher<void>(
-      {url: `/users/${id}`, method: 'DELETE'
+  id: string,
+) => {
+
+
+  return customFetcher<void>(
+    {
+      url: `/users/${id}`, method: 'DELETE'
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getDeleteUsersIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUsersId>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteUsersId>>, TError,{id: string}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteUsersId>>, TError, { id: string }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof deleteUsersId>>, TError, { id: string }, TContext> => {
 
-const mutationKey = ['deleteUsersId'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['deleteUsersId'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUsersId>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  deleteUsersId(id,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUsersId>>, { id: string }> = (props) => {
+    const { id } = props ?? {};
 
-    export type DeleteUsersIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUsersId>>>
-    
-    export type DeleteUsersIdMutationError = unknown
+    return deleteUsersId(id,)
+  }
 
-    /**
- * @summary Delete a user
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteUsersIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUsersId>>>
+
+export type DeleteUsersIdMutationError = unknown
+
+/**
+* @summary Delete a user
+*/
 export const useDeleteUsersId = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUsersId>>, TError,{id: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteUsersId>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteUsersId>>, TError, { id: string }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof deleteUsersId>>,
+      TError,
+      { id: string },
+      TContext
+    > => {
 
-      const mutationOptions = getDeleteUsersIdMutationOptions(options);
+  const mutationOptions = getDeleteUsersIdMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint for user authentication and token generation.
  * @summary User login
  */
 export const postAuthLogin = (
-    postAuthLoginBody: PostAuthLoginBody,
- signal?: AbortSignal
+  postAuthLoginBody: PostAuthLoginBody,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<PostAuthLogin200>(
-      {url: `/auth/login`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
+
+
+  return customFetcher<PostAuthLogin200>(
+    {
+      url: `/auth/login`, method: 'POST',
+      headers: { 'Content-Type': 'application/json', },
       data: postAuthLoginBody, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPostAuthLoginMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthLogin>>, TError,{data: PostAuthLoginBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postAuthLogin>>, TError,{data: PostAuthLoginBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postAuthLogin>>, TError, { data: PostAuthLoginBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postAuthLogin>>, TError, { data: PostAuthLoginBody }, TContext> => {
 
-const mutationKey = ['postAuthLogin'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postAuthLogin'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthLogin>>, {data: PostAuthLoginBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postAuthLogin(data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthLogin>>, { data: PostAuthLoginBody }> = (props) => {
+    const { data } = props ?? {};
 
-    export type PostAuthLoginMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthLogin>>>
-    export type PostAuthLoginMutationBody = PostAuthLoginBody
-    export type PostAuthLoginMutationError = unknown
+    return postAuthLogin(data,)
+  }
 
-    /**
- * @summary User login
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostAuthLoginMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthLogin>>>
+export type PostAuthLoginMutationBody = PostAuthLoginBody
+export type PostAuthLoginMutationError = unknown
+
+/**
+* @summary User login
+*/
 export const usePostAuthLogin = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthLogin>>, TError,{data: PostAuthLoginBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postAuthLogin>>,
-        TError,
-        {data: PostAuthLoginBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postAuthLogin>>, TError, { data: PostAuthLoginBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postAuthLogin>>,
+      TError,
+      { data: PostAuthLoginBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPostAuthLoginMutationOptions(options);
+  const mutationOptions = getPostAuthLoginMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to get the current authenticated user's information.
  * @summary Get current user
  */
 export const getAuthMe = (
-    
- signal?: AbortSignal
+
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetAuthMe200>(
-      {url: `/auth/me`, method: 'GET', signal
+
+
+  return customFetcher<GetAuthMe200>(
+    {
+      url: `/auth/me`, method: 'GET', signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetAuthMeQueryKey = () => {
-    return [
+  return [
     `/auth/me`
-    ] as const;
-    }
+  ] as const;
+}
 
-    
-export const getGetAuthMeQueryOptions = <TData = Awaited<ReturnType<typeof getAuthMe>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>>, }
+
+export const getGetAuthMeQueryOptions = <TData = Awaited<ReturnType<typeof getAuthMe>>, TError = unknown>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAuthMeQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetAuthMeQueryKey();
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAuthMe>>> = ({ signal }) => getAuthMe(signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAuthMe>>> = ({ signal }) => getAuthMe(signal);
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetAuthMeQueryResult = NonNullable<Awaited<ReturnType<typeof getAuthMe>>>
@@ -925,43 +956,47 @@ export type GetAuthMeQueryError = unknown
 
 
 export function useGetAuthMe<TData = Awaited<ReturnType<typeof getAuthMe>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAuthMe>>,
-          TError,
-          Awaited<ReturnType<typeof getAuthMe>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getAuthMe>>,
+        TError,
+        Awaited<ReturnType<typeof getAuthMe>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAuthMe<TData = Awaited<ReturnType<typeof getAuthMe>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAuthMe>>,
-          TError,
-          Awaited<ReturnType<typeof getAuthMe>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getAuthMe>>,
+        TError,
+        Awaited<ReturnType<typeof getAuthMe>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAuthMe<TData = Awaited<ReturnType<typeof getAuthMe>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get current user
  */
 
 export function useGetAuthMe<TData = Awaited<ReturnType<typeof getAuthMe>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthMe>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetAuthMeQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -975,110 +1010,113 @@ export function useGetAuthMe<TData = Awaited<ReturnType<typeof getAuthMe>>, TErr
  * @summary Create a new gateway
  */
 export const postGateways = (
-    postGatewaysBody: PostGatewaysBody,
- signal?: AbortSignal
+  postGatewaysBody: PostGatewaysBody,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<PostGateways201>(
-      {url: `/gateways/`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
+
+
+  return customFetcher<PostGateways201>(
+    {
+      url: `/gateways/`, method: 'POST',
+      headers: { 'Content-Type': 'application/json', },
       data: postGatewaysBody, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPostGatewaysMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postGateways>>, TError,{data: PostGatewaysBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postGateways>>, TError,{data: PostGatewaysBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postGateways>>, TError, { data: PostGatewaysBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postGateways>>, TError, { data: PostGatewaysBody }, TContext> => {
 
-const mutationKey = ['postGateways'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postGateways'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postGateways>>, {data: PostGatewaysBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postGateways(data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postGateways>>, { data: PostGatewaysBody }> = (props) => {
+    const { data } = props ?? {};
 
-    export type PostGatewaysMutationResult = NonNullable<Awaited<ReturnType<typeof postGateways>>>
-    export type PostGatewaysMutationBody = PostGatewaysBody
-    export type PostGatewaysMutationError = unknown
+    return postGateways(data,)
+  }
 
-    /**
- * @summary Create a new gateway
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostGatewaysMutationResult = NonNullable<Awaited<ReturnType<typeof postGateways>>>
+export type PostGatewaysMutationBody = PostGatewaysBody
+export type PostGatewaysMutationError = unknown
+
+/**
+* @summary Create a new gateway
+*/
 export const usePostGateways = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postGateways>>, TError,{data: PostGatewaysBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postGateways>>,
-        TError,
-        {data: PostGatewaysBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postGateways>>, TError, { data: PostGatewaysBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postGateways>>,
+      TError,
+      { data: PostGatewaysBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPostGatewaysMutationOptions(options);
+  const mutationOptions = getPostGatewaysMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to find all gateways in the system.
  * @summary Find all gateways
  */
 export const getGateways = (
-    params?: GetGatewaysParams,
- signal?: AbortSignal
+  params?: GetGatewaysParams,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetGateways200>(
-      {url: `/gateways/`, method: 'GET',
-        params, signal
+
+
+  return customFetcher<GetGateways200>(
+    {
+      url: `/gateways/`, method: 'GET',
+      params, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetGatewaysQueryKey = (params?: GetGatewaysParams,) => {
-    return [
-    `/gateways/`, ...(params ? [params]: [])
-    ] as const;
-    }
+  return [
+    `/gateways/`, ...(params ? [params] : [])
+  ] as const;
+}
 
-    
-export const getGetGatewaysQueryOptions = <TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
+
+export const getGetGatewaysQueryOptions = <TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(params?: GetGatewaysParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetGatewaysQueryKey(params);
+  const queryKey = queryOptions?.queryKey ?? getGetGatewaysQueryKey(params);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGateways>>> = ({ signal }) => getGateways(params, signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getGateways>>> = ({ signal }) => getGateways(params, signal);
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetGatewaysQueryResult = NonNullable<Awaited<ReturnType<typeof getGateways>>>
@@ -1086,43 +1124,47 @@ export type GetGatewaysQueryError = unknown
 
 
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params: undefined |  GetGatewaysParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGateways>>,
-          TError,
-          Awaited<ReturnType<typeof getGateways>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params: undefined | GetGatewaysParams, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getGateways>>,
+        TError,
+        Awaited<ReturnType<typeof getGateways>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGateways>>,
-          TError,
-          Awaited<ReturnType<typeof getGateways>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetGatewaysParams, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getGateways>>,
+        TError,
+        Awaited<ReturnType<typeof getGateways>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetGatewaysParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Find all gateways
  */
 
 export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, TError = unknown>(
- params?: GetGatewaysParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  params?: GetGatewaysParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateways>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetGatewaysQueryOptions(params,options)
+  const queryOptions = getGetGatewaysQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -1136,172 +1178,177 @@ export function useGetGateways<TData = Awaited<ReturnType<typeof getGateways>>, 
  * @summary Update an existing gateway
  */
 export const putGatewaysGatewayId = (
-    gatewayId: string,
-    putGatewaysGatewayIdBody: PutGatewaysGatewayIdBody,
- ) => {
-      
-      
-      return customFetcher<PutGatewaysGatewayId200>(
-      {url: `/gateways/${gatewayId}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
+  gatewayId: string,
+  putGatewaysGatewayIdBody: PutGatewaysGatewayIdBody,
+) => {
+
+
+  return customFetcher<PutGatewaysGatewayId200>(
+    {
+      url: `/gateways/${gatewayId}`, method: 'PUT',
+      headers: { 'Content-Type': 'application/json', },
       data: putGatewaysGatewayIdBody
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPutGatewaysGatewayIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putGatewaysGatewayId>>, TError,{gatewayId: string;data: PutGatewaysGatewayIdBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof putGatewaysGatewayId>>, TError,{gatewayId: string;data: PutGatewaysGatewayIdBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putGatewaysGatewayId>>, TError, { gatewayId: string; data: PutGatewaysGatewayIdBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof putGatewaysGatewayId>>, TError, { gatewayId: string; data: PutGatewaysGatewayIdBody }, TContext> => {
 
-const mutationKey = ['putGatewaysGatewayId'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['putGatewaysGatewayId'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putGatewaysGatewayId>>, {gatewayId: string;data: PutGatewaysGatewayIdBody}> = (props) => {
-          const {gatewayId,data} = props ?? {};
-
-          return  putGatewaysGatewayId(gatewayId,data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof putGatewaysGatewayId>>, { gatewayId: string; data: PutGatewaysGatewayIdBody }> = (props) => {
+    const { gatewayId, data } = props ?? {};
 
-    export type PutGatewaysGatewayIdMutationResult = NonNullable<Awaited<ReturnType<typeof putGatewaysGatewayId>>>
-    export type PutGatewaysGatewayIdMutationBody = PutGatewaysGatewayIdBody
-    export type PutGatewaysGatewayIdMutationError = unknown
+    return putGatewaysGatewayId(gatewayId, data,)
+  }
 
-    /**
- * @summary Update an existing gateway
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PutGatewaysGatewayIdMutationResult = NonNullable<Awaited<ReturnType<typeof putGatewaysGatewayId>>>
+export type PutGatewaysGatewayIdMutationBody = PutGatewaysGatewayIdBody
+export type PutGatewaysGatewayIdMutationError = unknown
+
+/**
+* @summary Update an existing gateway
+*/
 export const usePutGatewaysGatewayId = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putGatewaysGatewayId>>, TError,{gatewayId: string;data: PutGatewaysGatewayIdBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putGatewaysGatewayId>>,
-        TError,
-        {gatewayId: string;data: PutGatewaysGatewayIdBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putGatewaysGatewayId>>, TError, { gatewayId: string; data: PutGatewaysGatewayIdBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof putGatewaysGatewayId>>,
+      TError,
+      { gatewayId: string; data: PutGatewaysGatewayIdBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPutGatewaysGatewayIdMutationOptions(options);
+  const mutationOptions = getPutGatewaysGatewayIdMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to delete an existing gateway in the system.
  * @summary Delete an existing gateway
  */
 export const deleteGatewaysGatewayId = (
-    gatewayId: string,
- ) => {
-      
-      
-      return customFetcher<DeleteGatewaysGatewayId204>(
-      {url: `/gateways/${gatewayId}`, method: 'DELETE'
+  gatewayId: string,
+) => {
+
+
+  return customFetcher<DeleteGatewaysGatewayId204>(
+    {
+      url: `/gateways/${gatewayId}`, method: 'DELETE'
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getDeleteGatewaysGatewayIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, TError,{gatewayId: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, TError,{gatewayId: string}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, TError, { gatewayId: string }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, TError, { gatewayId: string }, TContext> => {
 
-const mutationKey = ['deleteGatewaysGatewayId'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['deleteGatewaysGatewayId'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, {gatewayId: string}> = (props) => {
-          const {gatewayId} = props ?? {};
-
-          return  deleteGatewaysGatewayId(gatewayId,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, { gatewayId: string }> = (props) => {
+    const { gatewayId } = props ?? {};
 
-    export type DeleteGatewaysGatewayIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>>
-    
-    export type DeleteGatewaysGatewayIdMutationError = unknown
+    return deleteGatewaysGatewayId(gatewayId,)
+  }
 
-    /**
- * @summary Delete an existing gateway
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteGatewaysGatewayIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>>
+
+export type DeleteGatewaysGatewayIdMutationError = unknown
+
+/**
+* @summary Delete an existing gateway
+*/
 export const useDeleteGatewaysGatewayId = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, TError,{gatewayId: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteGatewaysGatewayId>>,
-        TError,
-        {gatewayId: string},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteGatewaysGatewayId>>, TError, { gatewayId: string }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof deleteGatewaysGatewayId>>,
+      TError,
+      { gatewayId: string },
+      TContext
+    > => {
 
-      const mutationOptions = getDeleteGatewaysGatewayIdMutationOptions(options);
+  const mutationOptions = getDeleteGatewaysGatewayIdMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to find a gateway by id in the system.
  * @summary Find a gateway by id
  */
 export const getGatewaysGatewayId = (
-    gatewayId: string,
- signal?: AbortSignal
+  gatewayId: string,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetGatewaysGatewayId200>(
-      {url: `/gateways/${gatewayId}`, method: 'GET', signal
+
+
+  return customFetcher<GetGatewaysGatewayId200>(
+    {
+      url: `/gateways/${gatewayId}`, method: 'GET', signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetGatewaysGatewayIdQueryKey = (gatewayId?: string,) => {
-    return [
+  return [
     `/gateways/${gatewayId}`
-    ] as const;
-    }
+  ] as const;
+}
 
-    
-export const getGetGatewaysGatewayIdQueryOptions = <TData = Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError = unknown>(gatewayId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>>, }
+
+export const getGetGatewaysGatewayIdQueryOptions = <TData = Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError = unknown>(gatewayId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetGatewaysGatewayIdQueryKey(gatewayId);
+  const queryKey = queryOptions?.queryKey ?? getGetGatewaysGatewayIdQueryKey(gatewayId);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGatewaysGatewayId>>> = ({ signal }) => getGatewaysGatewayId(gatewayId, signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getGatewaysGatewayId>>> = ({ signal }) => getGatewaysGatewayId(gatewayId, signal);
 
-      
 
-   return  { queryKey, queryFn, enabled: !!(gatewayId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, enabled: !!(gatewayId), ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetGatewaysGatewayIdQueryResult = NonNullable<Awaited<ReturnType<typeof getGatewaysGatewayId>>>
@@ -1309,43 +1356,47 @@ export type GetGatewaysGatewayIdQueryError = unknown
 
 
 export function useGetGatewaysGatewayId<TData = Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError = unknown>(
- gatewayId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGatewaysGatewayId>>,
-          TError,
-          Awaited<ReturnType<typeof getGatewaysGatewayId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  gatewayId: string, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getGatewaysGatewayId>>,
+        TError,
+        Awaited<ReturnType<typeof getGatewaysGatewayId>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGatewaysGatewayId<TData = Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError = unknown>(
- gatewayId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGatewaysGatewayId>>,
-          TError,
-          Awaited<ReturnType<typeof getGatewaysGatewayId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  gatewayId: string, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getGatewaysGatewayId>>,
+        TError,
+        Awaited<ReturnType<typeof getGatewaysGatewayId>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetGatewaysGatewayId<TData = Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError = unknown>(
- gatewayId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  gatewayId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Find a gateway by id
  */
 
 export function useGetGatewaysGatewayId<TData = Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError = unknown>(
- gatewayId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  gatewayId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGatewaysGatewayId>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetGatewaysGatewayIdQueryOptions(gatewayId,options)
+  const queryOptions = getGetGatewaysGatewayIdQueryOptions(gatewayId, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -1359,110 +1410,113 @@ export function useGetGatewaysGatewayId<TData = Awaited<ReturnType<typeof getGat
  * @summary Create a new routing
  */
 export const postRoutings = (
-    postRoutingsBody: PostRoutingsBody,
- signal?: AbortSignal
+  postRoutingsBody: PostRoutingsBody,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<PostRoutings201>(
-      {url: `/routings/`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
+
+
+  return customFetcher<PostRoutings201>(
+    {
+      url: `/routings/`, method: 'POST',
+      headers: { 'Content-Type': 'application/json', },
       data: postRoutingsBody, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPostRoutingsMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postRoutings>>, TError,{data: PostRoutingsBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postRoutings>>, TError,{data: PostRoutingsBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postRoutings>>, TError, { data: PostRoutingsBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postRoutings>>, TError, { data: PostRoutingsBody }, TContext> => {
 
-const mutationKey = ['postRoutings'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postRoutings'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postRoutings>>, {data: PostRoutingsBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postRoutings(data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postRoutings>>, { data: PostRoutingsBody }> = (props) => {
+    const { data } = props ?? {};
 
-    export type PostRoutingsMutationResult = NonNullable<Awaited<ReturnType<typeof postRoutings>>>
-    export type PostRoutingsMutationBody = PostRoutingsBody
-    export type PostRoutingsMutationError = unknown
+    return postRoutings(data,)
+  }
 
-    /**
- * @summary Create a new routing
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostRoutingsMutationResult = NonNullable<Awaited<ReturnType<typeof postRoutings>>>
+export type PostRoutingsMutationBody = PostRoutingsBody
+export type PostRoutingsMutationError = unknown
+
+/**
+* @summary Create a new routing
+*/
 export const usePostRoutings = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postRoutings>>, TError,{data: PostRoutingsBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postRoutings>>,
-        TError,
-        {data: PostRoutingsBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postRoutings>>, TError, { data: PostRoutingsBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postRoutings>>,
+      TError,
+      { data: PostRoutingsBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPostRoutingsMutationOptions(options);
+  const mutationOptions = getPostRoutingsMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to find all routings in the system.
  * @summary Find all routings
  */
 export const getRoutings = (
-    params?: GetRoutingsParams,
- signal?: AbortSignal
+  params?: GetRoutingsParams,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetRoutings200>(
-      {url: `/routings/`, method: 'GET',
-        params, signal
+
+
+  return customFetcher<GetRoutings200>(
+    {
+      url: `/routings/`, method: 'GET',
+      params, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetRoutingsQueryKey = (params?: GetRoutingsParams,) => {
-    return [
-    `/routings/`, ...(params ? [params]: [])
-    ] as const;
-    }
+  return [
+    `/routings/`, ...(params ? [params] : [])
+  ] as const;
+}
 
-    
-export const getGetRoutingsQueryOptions = <TData = Awaited<ReturnType<typeof getRoutings>>, TError = unknown>(params?: GetRoutingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>>, }
+
+export const getGetRoutingsQueryOptions = <TData = Awaited<ReturnType<typeof getRoutings>>, TError = unknown>(params?: GetRoutingsParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetRoutingsQueryKey(params);
+  const queryKey = queryOptions?.queryKey ?? getGetRoutingsQueryKey(params);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRoutings>>> = ({ signal }) => getRoutings(params, signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getRoutings>>> = ({ signal }) => getRoutings(params, signal);
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetRoutingsQueryResult = NonNullable<Awaited<ReturnType<typeof getRoutings>>>
@@ -1470,43 +1524,47 @@ export type GetRoutingsQueryError = unknown
 
 
 export function useGetRoutings<TData = Awaited<ReturnType<typeof getRoutings>>, TError = unknown>(
- params: undefined |  GetRoutingsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getRoutings>>,
-          TError,
-          Awaited<ReturnType<typeof getRoutings>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params: undefined | GetRoutingsParams, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRoutings>>,
+        TError,
+        Awaited<ReturnType<typeof getRoutings>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRoutings<TData = Awaited<ReturnType<typeof getRoutings>>, TError = unknown>(
- params?: GetRoutingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getRoutings>>,
-          TError,
-          Awaited<ReturnType<typeof getRoutings>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetRoutingsParams, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRoutings>>,
+        TError,
+        Awaited<ReturnType<typeof getRoutings>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRoutings<TData = Awaited<ReturnType<typeof getRoutings>>, TError = unknown>(
- params?: GetRoutingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetRoutingsParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Find all routings
  */
 
 export function useGetRoutings<TData = Awaited<ReturnType<typeof getRoutings>>, TError = unknown>(
- params?: GetRoutingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  params?: GetRoutingsParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutings>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetRoutingsQueryOptions(params,options)
+  const queryOptions = getGetRoutingsQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -1520,172 +1578,177 @@ export function useGetRoutings<TData = Awaited<ReturnType<typeof getRoutings>>, 
  * @summary Update an existing routing
  */
 export const putRoutingsRoutingId = (
-    routingId: string,
-    putRoutingsRoutingIdBody: PutRoutingsRoutingIdBody,
- ) => {
-      
-      
-      return customFetcher<PutRoutingsRoutingId200>(
-      {url: `/routings/${routingId}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
+  routingId: string,
+  putRoutingsRoutingIdBody: PutRoutingsRoutingIdBody,
+) => {
+
+
+  return customFetcher<PutRoutingsRoutingId200>(
+    {
+      url: `/routings/${routingId}`, method: 'PUT',
+      headers: { 'Content-Type': 'application/json', },
       data: putRoutingsRoutingIdBody
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPutRoutingsRoutingIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putRoutingsRoutingId>>, TError,{routingId: string;data: PutRoutingsRoutingIdBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof putRoutingsRoutingId>>, TError,{routingId: string;data: PutRoutingsRoutingIdBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putRoutingsRoutingId>>, TError, { routingId: string; data: PutRoutingsRoutingIdBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof putRoutingsRoutingId>>, TError, { routingId: string; data: PutRoutingsRoutingIdBody }, TContext> => {
 
-const mutationKey = ['putRoutingsRoutingId'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['putRoutingsRoutingId'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putRoutingsRoutingId>>, {routingId: string;data: PutRoutingsRoutingIdBody}> = (props) => {
-          const {routingId,data} = props ?? {};
-
-          return  putRoutingsRoutingId(routingId,data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof putRoutingsRoutingId>>, { routingId: string; data: PutRoutingsRoutingIdBody }> = (props) => {
+    const { routingId, data } = props ?? {};
 
-    export type PutRoutingsRoutingIdMutationResult = NonNullable<Awaited<ReturnType<typeof putRoutingsRoutingId>>>
-    export type PutRoutingsRoutingIdMutationBody = PutRoutingsRoutingIdBody
-    export type PutRoutingsRoutingIdMutationError = unknown
+    return putRoutingsRoutingId(routingId, data,)
+  }
 
-    /**
- * @summary Update an existing routing
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PutRoutingsRoutingIdMutationResult = NonNullable<Awaited<ReturnType<typeof putRoutingsRoutingId>>>
+export type PutRoutingsRoutingIdMutationBody = PutRoutingsRoutingIdBody
+export type PutRoutingsRoutingIdMutationError = unknown
+
+/**
+* @summary Update an existing routing
+*/
 export const usePutRoutingsRoutingId = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putRoutingsRoutingId>>, TError,{routingId: string;data: PutRoutingsRoutingIdBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putRoutingsRoutingId>>,
-        TError,
-        {routingId: string;data: PutRoutingsRoutingIdBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putRoutingsRoutingId>>, TError, { routingId: string; data: PutRoutingsRoutingIdBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof putRoutingsRoutingId>>,
+      TError,
+      { routingId: string; data: PutRoutingsRoutingIdBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPutRoutingsRoutingIdMutationOptions(options);
+  const mutationOptions = getPutRoutingsRoutingIdMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to delete an existing routing in the system.
  * @summary Delete an existing routing
  */
 export const deleteRoutingsRoutingId = (
-    routingId: string,
- ) => {
-      
-      
-      return customFetcher<DeleteRoutingsRoutingId204>(
-      {url: `/routings/${routingId}`, method: 'DELETE'
+  routingId: string,
+) => {
+
+
+  return customFetcher<DeleteRoutingsRoutingId204>(
+    {
+      url: `/routings/${routingId}`, method: 'DELETE'
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getDeleteRoutingsRoutingIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, TError,{routingId: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, TError,{routingId: string}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, TError, { routingId: string }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, TError, { routingId: string }, TContext> => {
 
-const mutationKey = ['deleteRoutingsRoutingId'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['deleteRoutingsRoutingId'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, {routingId: string}> = (props) => {
-          const {routingId} = props ?? {};
-
-          return  deleteRoutingsRoutingId(routingId,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, { routingId: string }> = (props) => {
+    const { routingId } = props ?? {};
 
-    export type DeleteRoutingsRoutingIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>>
-    
-    export type DeleteRoutingsRoutingIdMutationError = unknown
+    return deleteRoutingsRoutingId(routingId,)
+  }
 
-    /**
- * @summary Delete an existing routing
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteRoutingsRoutingIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>>
+
+export type DeleteRoutingsRoutingIdMutationError = unknown
+
+/**
+* @summary Delete an existing routing
+*/
 export const useDeleteRoutingsRoutingId = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, TError,{routingId: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteRoutingsRoutingId>>,
-        TError,
-        {routingId: string},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteRoutingsRoutingId>>, TError, { routingId: string }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof deleteRoutingsRoutingId>>,
+      TError,
+      { routingId: string },
+      TContext
+    > => {
 
-      const mutationOptions = getDeleteRoutingsRoutingIdMutationOptions(options);
+  const mutationOptions = getDeleteRoutingsRoutingIdMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to find a routing by id in the system.
  * @summary Find a routing by id
  */
 export const getRoutingsRoutingId = (
-    routingId: string,
- signal?: AbortSignal
+  routingId: string,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetRoutingsRoutingId200>(
-      {url: `/routings/${routingId}`, method: 'GET', signal
+
+
+  return customFetcher<GetRoutingsRoutingId200>(
+    {
+      url: `/routings/${routingId}`, method: 'GET', signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetRoutingsRoutingIdQueryKey = (routingId?: string,) => {
-    return [
+  return [
     `/routings/${routingId}`
-    ] as const;
-    }
+  ] as const;
+}
 
-    
-export const getGetRoutingsRoutingIdQueryOptions = <TData = Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError = unknown>(routingId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>>, }
+
+export const getGetRoutingsRoutingIdQueryOptions = <TData = Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError = unknown>(routingId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetRoutingsRoutingIdQueryKey(routingId);
+  const queryKey = queryOptions?.queryKey ?? getGetRoutingsRoutingIdQueryKey(routingId);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRoutingsRoutingId>>> = ({ signal }) => getRoutingsRoutingId(routingId, signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getRoutingsRoutingId>>> = ({ signal }) => getRoutingsRoutingId(routingId, signal);
 
-      
 
-   return  { queryKey, queryFn, enabled: !!(routingId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, enabled: !!(routingId), ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetRoutingsRoutingIdQueryResult = NonNullable<Awaited<ReturnType<typeof getRoutingsRoutingId>>>
@@ -1693,43 +1756,47 @@ export type GetRoutingsRoutingIdQueryError = unknown
 
 
 export function useGetRoutingsRoutingId<TData = Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError = unknown>(
- routingId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getRoutingsRoutingId>>,
-          TError,
-          Awaited<ReturnType<typeof getRoutingsRoutingId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  routingId: string, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRoutingsRoutingId>>,
+        TError,
+        Awaited<ReturnType<typeof getRoutingsRoutingId>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRoutingsRoutingId<TData = Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError = unknown>(
- routingId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getRoutingsRoutingId>>,
-          TError,
-          Awaited<ReturnType<typeof getRoutingsRoutingId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  routingId: string, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRoutingsRoutingId>>,
+        TError,
+        Awaited<ReturnType<typeof getRoutingsRoutingId>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRoutingsRoutingId<TData = Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError = unknown>(
- routingId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  routingId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Find a routing by id
  */
 
 export function useGetRoutingsRoutingId<TData = Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError = unknown>(
- routingId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  routingId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsRoutingId>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetRoutingsRoutingIdQueryOptions(routingId,options)
+  const queryOptions = getGetRoutingsRoutingIdQueryOptions(routingId, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -1743,111 +1810,114 @@ export function useGetRoutingsRoutingId<TData = Awaited<ReturnType<typeof getRou
  * @summary Create a new routing execution
  */
 export const postRoutingsRoutingSlugExecute = (
-    routingSlug: string,
-    postRoutingsRoutingSlugExecuteBody: PostRoutingsRoutingSlugExecuteBody,
- signal?: AbortSignal
+  routingSlug: string,
+  postRoutingsRoutingSlugExecuteBody: PostRoutingsRoutingSlugExecuteBody,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<PostRoutingsRoutingSlugExecute201>(
-      {url: `/routings/${routingSlug}/execute`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
+
+
+  return customFetcher<PostRoutingsRoutingSlugExecute201>(
+    {
+      url: `/routings/${routingSlug}/execute`, method: 'POST',
+      headers: { 'Content-Type': 'application/json', },
       data: postRoutingsRoutingSlugExecuteBody, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getPostRoutingsRoutingSlugExecuteMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, TError,{routingSlug: string;data: PostRoutingsRoutingSlugExecuteBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, TError,{routingSlug: string;data: PostRoutingsRoutingSlugExecuteBody}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, TError, { routingSlug: string; data: PostRoutingsRoutingSlugExecuteBody }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, TError, { routingSlug: string; data: PostRoutingsRoutingSlugExecuteBody }, TContext> => {
 
-const mutationKey = ['postRoutingsRoutingSlugExecute'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postRoutingsRoutingSlugExecute'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, {routingSlug: string;data: PostRoutingsRoutingSlugExecuteBody}> = (props) => {
-          const {routingSlug,data} = props ?? {};
-
-          return  postRoutingsRoutingSlugExecute(routingSlug,data,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, { routingSlug: string; data: PostRoutingsRoutingSlugExecuteBody }> = (props) => {
+    const { routingSlug, data } = props ?? {};
 
-    export type PostRoutingsRoutingSlugExecuteMutationResult = NonNullable<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>>
-    export type PostRoutingsRoutingSlugExecuteMutationBody = PostRoutingsRoutingSlugExecuteBody
-    export type PostRoutingsRoutingSlugExecuteMutationError = unknown
+    return postRoutingsRoutingSlugExecute(routingSlug, data,)
+  }
 
-    /**
- * @summary Create a new routing execution
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostRoutingsRoutingSlugExecuteMutationResult = NonNullable<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>>
+export type PostRoutingsRoutingSlugExecuteMutationBody = PostRoutingsRoutingSlugExecuteBody
+export type PostRoutingsRoutingSlugExecuteMutationError = unknown
+
+/**
+* @summary Create a new routing execution
+*/
 export const usePostRoutingsRoutingSlugExecute = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, TError,{routingSlug: string;data: PostRoutingsRoutingSlugExecuteBody}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>,
-        TError,
-        {routingSlug: string;data: PostRoutingsRoutingSlugExecuteBody},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>, TError, { routingSlug: string; data: PostRoutingsRoutingSlugExecuteBody }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postRoutingsRoutingSlugExecute>>,
+      TError,
+      { routingSlug: string; data: PostRoutingsRoutingSlugExecuteBody },
+      TContext
+    > => {
 
-      const mutationOptions = getPostRoutingsRoutingSlugExecuteMutationOptions(options);
+  const mutationOptions = getPostRoutingsRoutingSlugExecuteMutationOptions(options);
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+  return useMutation(mutationOptions, queryClient);
+}
+
 /**
  * Endpoint to search routing executions in the system.
  * @summary Search routing executions
  */
 export const getRoutingsSearchExecutions = (
-    params?: GetRoutingsSearchExecutionsParams,
- signal?: AbortSignal
+  params?: GetRoutingsSearchExecutionsParams,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return customFetcher<GetRoutingsSearchExecutions200>(
-      {url: `/routings/search-executions`, method: 'GET',
-        params, signal
+
+
+  return customFetcher<GetRoutingsSearchExecutions200>(
+    {
+      url: `/routings/search-executions`, method: 'GET',
+      params, signal
     },
-      );
-    }
-  
+  );
+}
+
 
 
 
 export const getGetRoutingsSearchExecutionsQueryKey = (params?: GetRoutingsSearchExecutionsParams,) => {
-    return [
-    `/routings/search-executions`, ...(params ? [params]: [])
-    ] as const;
-    }
+  return [
+    `/routings/search-executions`, ...(params ? [params] : [])
+  ] as const;
+}
 
-    
-export const getGetRoutingsSearchExecutionsQueryOptions = <TData = Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError = unknown>(params?: GetRoutingsSearchExecutionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>>, }
+
+export const getGetRoutingsSearchExecutionsQueryOptions = <TData = Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError = unknown>(params?: GetRoutingsSearchExecutionsParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetRoutingsSearchExecutionsQueryKey(params);
+  const queryKey = queryOptions?.queryKey ?? getGetRoutingsSearchExecutionsQueryKey(params);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>> = ({ signal }) => getRoutingsSearchExecutions(params, signal);
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>> = ({ signal }) => getRoutingsSearchExecutions(params, signal);
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetRoutingsSearchExecutionsQueryResult = NonNullable<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>>
@@ -1855,43 +1925,47 @@ export type GetRoutingsSearchExecutionsQueryError = unknown
 
 
 export function useGetRoutingsSearchExecutions<TData = Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError = unknown>(
- params: undefined |  GetRoutingsSearchExecutionsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getRoutingsSearchExecutions>>,
-          TError,
-          Awaited<ReturnType<typeof getRoutingsSearchExecutions>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params: undefined | GetRoutingsSearchExecutionsParams, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRoutingsSearchExecutions>>,
+        TError,
+        Awaited<ReturnType<typeof getRoutingsSearchExecutions>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRoutingsSearchExecutions<TData = Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError = unknown>(
- params?: GetRoutingsSearchExecutionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getRoutingsSearchExecutions>>,
-          TError,
-          Awaited<ReturnType<typeof getRoutingsSearchExecutions>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetRoutingsSearchExecutionsParams, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRoutingsSearchExecutions>>,
+        TError,
+        Awaited<ReturnType<typeof getRoutingsSearchExecutions>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRoutingsSearchExecutions<TData = Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError = unknown>(
- params?: GetRoutingsSearchExecutionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  params?: GetRoutingsSearchExecutionsParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Search routing executions
  */
 
 export function useGetRoutingsSearchExecutions<TData = Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError = unknown>(
- params?: GetRoutingsSearchExecutionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  params?: GetRoutingsSearchExecutionsParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getRoutingsSearchExecutions>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetRoutingsSearchExecutionsQueryOptions(params,options)
+  const queryOptions = getGetRoutingsSearchExecutionsQueryOptions(params, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -1905,60 +1979,157 @@ export function useGetRoutingsSearchExecutions<TData = Awaited<ReturnType<typeof
  * @summary Delete all keys by prefix
  */
 export const deleteConfigDelPrefixCachePrefix = (
-    prefix: string,
- ) => {
-      
-      
-      return customFetcher<DeleteConfigDelPrefixCachePrefix204>(
-      {url: `/config/del-prefix-cache/${prefix}`, method: 'DELETE'
+  prefix: string,
+) => {
+
+
+  return customFetcher<DeleteConfigDelPrefixCachePrefix204>(
+    {
+      url: `/config/del-prefix-cache/${prefix}`, method: 'DELETE'
     },
-      );
-    }
-  
+  );
+}
+
 
 
 export const getDeleteConfigDelPrefixCachePrefixMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, TError,{prefix: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, TError,{prefix: string}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, TError, { prefix: string }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, TError, { prefix: string }, TContext> => {
 
-const mutationKey = ['deleteConfigDelPrefixCachePrefix'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['deleteConfigDelPrefixCachePrefix'];
+  const { mutation: mutationOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, } };
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, {prefix: string}> = (props) => {
-          const {prefix} = props ?? {};
-
-          return  deleteConfigDelPrefixCachePrefix(prefix,)
-        }
-
-        
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, { prefix: string }> = (props) => {
+    const { prefix } = props ?? {};
 
-    export type DeleteConfigDelPrefixCachePrefixMutationResult = NonNullable<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>>
-    
-    export type DeleteConfigDelPrefixCachePrefixMutationError = unknown
+    return deleteConfigDelPrefixCachePrefix(prefix,)
+  }
 
-    /**
- * @summary Delete all keys by prefix
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteConfigDelPrefixCachePrefixMutationResult = NonNullable<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>>
+
+export type DeleteConfigDelPrefixCachePrefixMutationError = unknown
+
+/**
+* @summary Delete all keys by prefix
+*/
 export const useDeleteConfigDelPrefixCachePrefix = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, TError,{prefix: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>, TError, { prefix: string }, TContext>, }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof deleteConfigDelPrefixCachePrefix>>,
+      TError,
+      { prefix: string },
+      TContext
+    > => {
+
+  const mutationOptions = getDeleteConfigDelPrefixCachePrefixMutationOptions(options);
+
+  return useMutation(mutationOptions, queryClient);
+}
+
+/**
+ * Endpoint to get the dashboard report.
+ * @summary Get dashboard report
+ */
+export const getReportDashboard = (
+
+  signal?: AbortSignal
+) => {
+
+
+  return customFetcher<GetReportDashboard200>(
+    {
+      url: `/report/dashboard`, method: 'GET', signal
+    },
+  );
+}
+
+
+
+
+export const getGetReportDashboardQueryKey = () => {
+  return [
+    `/report/dashboard`
+  ] as const;
+}
+
+
+export const getGetReportDashboardQueryOptions = <TData = Awaited<ReturnType<typeof getReportDashboard>>, TError = unknown>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getReportDashboard>>, TError, TData>>, }
+) => {
+
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetReportDashboardQueryKey();
+
+
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getReportDashboard>>> = ({ signal }) => getReportDashboard(signal);
+
+
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getReportDashboard>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetReportDashboardQueryResult = NonNullable<Awaited<ReturnType<typeof getReportDashboard>>>
+export type GetReportDashboardQueryError = unknown
+
+
+export function useGetReportDashboard<TData = Awaited<ReturnType<typeof getReportDashboard>>, TError = unknown>(
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getReportDashboard>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getReportDashboard>>,
         TError,
-        {prefix: string},
-        TContext
-      > => {
+        Awaited<ReturnType<typeof getReportDashboard>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReportDashboard<TData = Awaited<ReturnType<typeof getReportDashboard>>, TError = unknown>(
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getReportDashboard>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getReportDashboard>>,
+        TError,
+        Awaited<ReturnType<typeof getReportDashboard>>
+      >, 'initialData'
+    >,
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReportDashboard<TData = Awaited<ReturnType<typeof getReportDashboard>>, TError = unknown>(
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getReportDashboard>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get dashboard report
+ */
 
-      const mutationOptions = getDeleteConfigDelPrefixCachePrefixMutationOptions(options);
+export function useGetReportDashboard<TData = Awaited<ReturnType<typeof getReportDashboard>>, TError = unknown>(
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getReportDashboard>>, TError, TData>>, }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-      return useMutation(mutationOptions, queryClient);
-    }
+  const queryOptions = getGetReportDashboardQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

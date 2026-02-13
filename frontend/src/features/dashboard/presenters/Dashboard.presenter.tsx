@@ -20,88 +20,67 @@ import {
     ItemMedia,
     ItemTitle,
 } from "@/shared/components/ui/item"
-import { Circle, Waypoints } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { ChartNoAxesColumn, Circle, Timer, Waypoints } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import type { GetReportDashboard200 } from "@/shared/api/hubConnectorAPI";
 
+interface DashboardPresenterProps {
+    dashboardData: GetReportDashboard200 | undefined;
+    isLoading: boolean;
+}
 
-export default function DashboardPresenter() {
-
-    const chartData = [
-        { dia: "27/01", desktop: 186 },
-        { dia: "28/01", desktop: 305 },
-        { dia: "29/01", desktop: 237 },
-        { dia: "30/01", desktop: 73 },
-        { dia: "31/01", desktop: 209 },
-        { dia: "01/02", desktop: 214 },
-    ]
-
+export default function DashboardPresenter({ dashboardData, isLoading }: DashboardPresenterProps) {
 
     const chartConfig = {
-        desktop: {
-            label: "Desktop",
+        traffic: {
+            label: "Tráfego",
             color: "var(--chart-1)",
         },
     } satisfies ChartConfig
 
-
     return (
-        <PrivateTemplate title="Visão Geral">
+        <PrivateTemplate title="Visão Geral" isLoading={isLoading}>
             <div>
                 <h1 className="text-2xl font-bold">Visão Geral</h1>
-                <p className="text-muted-foreground">Status em tempo real da infraestrutura de APIs.</p>
+                <p className="text-muted-foreground">Monitoramento das ultimas 24h.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-auto my-16 justify-items-center">
                 <Card className="w-80 h-auto">
                     <CardContent className="flex flex-col gap-5">
-                        <div className="flex flex-row gap-2 items-center justify-between">
-                            <div className="w-12 h-12 flex items-center justify-center bg-accent p-1 rounded-lg">
-                                <Waypoints className="w-12 h-12 p-2  rounded-lg" />
-                            </div>
-                            <div className="w-12 h-auto flex items-center justify-center bg-green-600 text-white p-1 rounded-lg">
-                                <span className="text-sm">+2,4%</span>
-                            </div>
+                        <div className="w-12 h-12 flex items-center justify-center bg-accent p-1 rounded-lg">
+                            <Waypoints className="w-12 h-12 p-2  rounded-lg" />
                         </div>
 
                         <div>
                             <h4 className="text-lg font-bold">Rotas Ativas</h4>
-                            <p className="text-muted-foreground text-5xl">245</p>
+                            <p className="text-muted-foreground text-5xl">{dashboardData?.total_routes}</p>
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card className="w-80 h-auto">
                     <CardContent className="flex flex-col gap-5">
-                        <div className="flex flex-row gap-2 items-center justify-between">
-                            <div className="w-12 h-12 flex items-center justify-center bg-accent p-1 rounded-lg">
-                                <Waypoints className="w-12 h-12 p-2  rounded-lg" />
-                            </div>
-                            <div className="w-12 h-auto flex items-center justify-center bg-green-600 text-white p-1 rounded-lg">
-                                <span className="text-sm">+2,4%</span>
-                            </div>
+                        <div className="w-12 h-12 flex items-center justify-center bg-accent p-1 rounded-lg">
+                            <ChartNoAxesColumn className="w-12 h-12 p-2  rounded-lg" />
                         </div>
 
                         <div>
-                            <h4 className="text-lg font-bold">Rotas Ativas</h4>
-                            <p className="text-muted-foreground text-5xl">245</p>
+                            <h4 className="text-lg font-bold">Requisições</h4>
+                            <p className="text-muted-foreground text-5xl">{dashboardData?.requests_today}</p>
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card className="w-80 h-auto">
                     <CardContent className="flex flex-col gap-5">
-                        <div className="flex flex-row gap-2 items-center justify-between">
-                            <div className="w-12 h-12 flex items-center justify-center bg-accent p-1 rounded-lg">
-                                <Waypoints className="w-12 h-12 p-2  rounded-lg" />
-                            </div>
-                            <div className="w-12 h-auto flex items-center justify-center bg-green-600 text-white p-1 rounded-lg">
-                                <span className="text-sm">+2,4%</span>
-                            </div>
+                        <div className="w-12 h-12 flex items-center justify-center bg-accent p-1 rounded-lg">
+                            <Timer className="w-12 h-12 p-2  rounded-lg" />
                         </div>
 
                         <div>
-                            <h4 className="text-lg font-bold">Rotas Ativas</h4>
-                            <p className="text-muted-foreground text-5xl">245</p>
+                            <h4 className="text-lg font-bold">Latência Média</h4>
+                            <p className="text-muted-foreground text-5xl">{dashboardData?.latency_average.toFixed(2)}<span className="text-xl">ms</span></p>
                         </div>
                     </CardContent>
                 </Card>
@@ -114,179 +93,80 @@ export default function DashboardPresenter() {
                             <h4 className="text-lg font-bold">Tráfego de APIs</h4>
                             <p className="text-muted-foreground">Volume de requisições por API</p>
                         </div>
-
-                        <div>
-                            <Select>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue defaultValue="7d" placeholder="7d" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="7d" >7 Dias</SelectItem>
-                                    <SelectItem value="30d">30 Dias</SelectItem>
-                                    <SelectItem value="3m">3 Meses</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
                     </CardHeader>
                     <CardContent>
                         <ChartContainer config={chartConfig}>
                             <AreaChart
                                 accessibilityLayer
-                                data={chartData}
+                                data={Object.entries(dashboardData?.traffic_per_route ?? {})
+                                    .map(([key, value]) => ({
+                                        route: key,
+                                        traffic: value,
+                                    }))
+                                    .sort((a, b) => b.traffic - a.traffic)}
                                 margin={{
                                     left: 12,
                                     right: 12,
                                 }}
                             >
                                 <CartesianGrid vertical={false} />
+
                                 <XAxis
-                                    dataKey="dia"
+                                    dataKey="route"
                                     tickLine={false}
                                     axisLine={false}
                                     tickMargin={8}
-                                    tickFormatter={(value) => value.slice(0, 5)}
+                                    tickFormatter={(value: string) => value.slice(0, 10) + "..."}
                                 />
+
+                                <YAxis
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickMargin={8}
+                                    allowDecimals={false}
+                                />
+
                                 <ChartTooltip
                                     cursor={false}
                                     content={<ChartTooltipContent indicator="line" />}
                                 />
+
                                 <Area
-                                    dataKey="desktop"
+                                    dataKey="traffic"
                                     type="natural"
-                                    fill="var(--color-desktop)"
+                                    fill="var(--color-traffic)"
                                     fillOpacity={0.4}
-                                    stroke="var(--color-desktop)"
+                                    stroke="var(--color-traffic)"
+                                    strokeWidth={2}
                                 />
                             </AreaChart>
                         </ChartContainer>
+
                     </CardContent>
                 </Card>
 
                 <Card className="w-full h-auto col-span-1">
                     <CardHeader>
-                        <h1>Status das Rotas</h1>
-                        <p>Monitoramento de rotas</p>
+                        <h1>Monitoramento de rotas</h1>
+                        <p>Rotas com erros</p>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-2 max-h-[calc(100vh-25rem)] overflow-y-auto">
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
 
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
+                        {Object.entries(dashboardData?.percent_error_per_route ?? {}).map(([key, value]) => (
+                            <Item variant="default" className="bg-red-500/10 border-red-500/20">
+                                <ItemMedia variant="default" className="">
+                                    <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
+                                </ItemMedia>
+                                <ItemContent>
+                                    <ItemTitle className="text-sm">{key}</ItemTitle>
+                                    <ItemDescription className="text-xs">
+                                        {value} requisições com erro
+                                    </ItemDescription>
+                                </ItemContent>
+                            </Item>
+                        ))}
 
 
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
-
-
-
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
-
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
-
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
-
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
-                        <Item variant="default" className="bg-red-500/10 border-red-500/20">
-                            <ItemMedia variant="default" className="">
-                                <Circle className="w-4 h-4 text-red-500" fill="currentColor" />
-                            </ItemMedia>
-                            <ItemContent>
-                                <ItemTitle className="text-sm">Criação de Pedido (v2/create-products)</ItemTitle>
-                                <ItemDescription className="text-xs">
-                                    95% de erros
-                                </ItemDescription>
-                            </ItemContent>
-                        </Item>
                     </CardContent>
                 </Card>
             </div>

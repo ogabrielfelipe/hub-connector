@@ -24,6 +24,7 @@ import logo from "@/assets/logo_v2.png"
 
 export function AppSidebar() {
     const { logout, userLogged } = useAuth()
+
     return (
         <Sidebar>
             <SidebarHeader>
@@ -35,27 +36,31 @@ export function AppSidebar() {
                     Visão Geral
                 </a>
 
-                <a href="/users" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
-                    <Users className="mr-2" fill="currentColor" />
-                    Acessos
-                </a>
+                {userLogged?.role === "admin" && (
+                    <a href="/users" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
+                        <Users className="mr-2" fill="currentColor" />
+                        Acessos
+                    </a>
+                )}
 
-                <SidebarGroup>
-                    <SidebarGroupLabel>GERENCIAMENTO</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <a href="/routes" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
-                            <SignpostBig className="mr-2" />
-                            Rotas
-                        </a>
+                {(userLogged?.role === "admin" || userLogged?.role === "dev") && (
+                    <SidebarGroup>
+                        <SidebarGroupLabel>GERENCIAMENTO</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                            <a href="/routes" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
+                                <SignpostBig className="mr-2" />
+                                Rotas
+                            </a>
 
-                        <a href="/gateways" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
-                            <Server className="mr-2" />
-                            Gateways
-                        </a>
+                            <a href="/gateways" className="hover:bg-primary/20 hover:border w-full h-8 flex items-center justify-start p-5 rounded-md  text-gray-500 hover:text-primary-foreground">
+                                <Server className="mr-2" />
+                                Gateways
+                            </a>
 
-                    </SidebarGroupContent>
+                        </SidebarGroupContent>
 
-                </SidebarGroup>
+                    </SidebarGroup>
+                )}
 
                 <SidebarGroup>
                     <SidebarGroupLabel>MONITORIA</SidebarGroupLabel>

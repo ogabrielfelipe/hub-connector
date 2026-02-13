@@ -14,6 +14,7 @@ const breadcrumbNameMap: Record<string, string> = {
     "users": "Acessos",
     "gateways": "Gateways",
     "routes": "Rotas",
+    "transactions": "Transações",
     "edit": "Editar",
     "new": "Novo",
 }

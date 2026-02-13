@@ -15,7 +15,8 @@ type Props = {
     route: { url: string, name: string }
     latency: string
     requestPayload: object
-    responseTrace: object
+    responseTrace: object,
+    handleResendTransaction: (id: string) => void
 }
 
 export function RequestLogItem({
@@ -27,6 +28,7 @@ export function RequestLogItem({
     latency,
     requestPayload,
     responseTrace,
+    handleResendTransaction,
 }: Props) {
     const [open, setOpen] = useState(false)
 
@@ -131,7 +133,7 @@ export function RequestLogItem({
                             </Link>
                         </Button>
 
-                        <Button size="sm" className="bg-yellow-500 hover:bg-yellow-600 text-black">
+                        <Button size="sm" className="bg-yellow-500 hover:bg-yellow-600 text-black" type="button" onClick={() => handleResendTransaction(id)}>
                             <RotateCcw className="w-4 h-4 mr-2" />
                             Reenviar
                         </Button>
