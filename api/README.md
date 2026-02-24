@@ -91,14 +91,7 @@ pnpm run test:coverage
 - `pnpm run format` - Format code with Prettier
 - `pnpm run seed` - Seed database
 
-## Project Structure
 
-```
-src/
-├── core/              # Domain layer (entities, use cases)
-├── infra/             # Infrastructure layer (database, HTTP, queues)
-└── main.ts            # Application entry point
-```
 
 ## License
 

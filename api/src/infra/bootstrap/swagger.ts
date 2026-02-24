@@ -47,7 +47,7 @@ export function configureSwagger(app: FastifyInstance) {
       authenticate: { realm: "docs" },
     });
 
-    // Scoped error handler -- catches the auth error BEFORE your global handler
+
     instance.setErrorHandler((error, req, reply) => {
       if ((error as any).statusCode === 401) {
         reply
@@ -56,7 +56,7 @@ export function configureSwagger(app: FastifyInstance) {
           .send({ message: "Unauthorized" });
         return;
       }
-      // For non-auth errors, delegate to the parent error handler
+
       throw error;
     });
 
@@ -87,9 +87,9 @@ export function generateSwaggerFiles(app: FastifyInstance) {
             method,
             details.tags
               ? {
-                  ...details,
-                  tags: details.tags.filter((tag: string) => tag !== "Public"),
-                }
+                ...details,
+                tags: details.tags.filter((tag: string) => tag !== "Public"),
+              }
               : details,
           ]),
         ),

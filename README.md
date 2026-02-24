@@ -92,11 +92,13 @@ Este projeto usa Husky e Commitlint configurados globalmente:
 - [x] Deve ser possível alterer as informações (Nome de Usuário, E-mail, Nome) (Usuário: ADMIN; Somente o próprio registro: DEV, USER);
 - [x] Deve ser possível inativar um usuário cadastrado (Usuário: ADMIN; Somente o próprio registro: DEV, USER);
 
+
 ### Autenticação e Validação:
 
 - [x] Deve ser possível Realizar Login;
 - [x] Deve ser possível recuperar os dados do usuário pelo token;
 - [x] Deve ser possível realizar o controle de permissões de acesso;
+- [ ] Deve ser possível realizar login por meio de SSO (Google e GitHub);
 
 ### Criação de Rotas:
 
