@@ -32,16 +32,9 @@ export class DashReportUseCase {
         perPage: this.DEFAULT_PER_PAGE,
       });
 
-    console.log({
-      from: subDays(new Date(), 1),
-      to: new Date(),
-      page: this.DEFAULT_PAGE,
-      perPage: this.DEFAULT_PER_PAGE,
-    });
 
     const percentErrorPerRoute = totalConnectorExecutions.items.reduce(
       (acc, item) => {
-        console.log(item);
         if (item.statusReturnAPI !== 200) {
           const route = totalRoutes.docs.find(
             (route) => route.id === item.routingId,
@@ -74,13 +67,6 @@ export class DashReportUseCase {
         0,
       ) / totalConnectorExecutions.total;
 
-    console.log({
-      total_routes: totalRoutes.total,
-      requests_today: totalConnectorExecutions.total,
-      latency_average: isNaN(latency_average) ? 0 : latency_average,
-      percent_error_per_route: percentErrorPerRoute,
-      traffic_per_route: trafficPerRoute,
-    });
 
     return {
       total_routes: totalRoutes.total,

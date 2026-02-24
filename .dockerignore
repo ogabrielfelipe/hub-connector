@@ -1,0 +1,7 @@
+node_modules
+.git
+.husky
+frontend
+api/node_modules
+api/dist
+api/coverage

@@ -43,7 +43,6 @@ export function useRoutesCreateOrUpdate({ routingId }: Props) {
 
     useEffect(() => {
         if (routing && gatewaysData?.docs) {
-            console.log(routing)
             reset({
                 name: routing.name,
                 slug: routing.slug,

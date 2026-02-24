@@ -142,7 +142,7 @@ export async function routingRoutes(app: FastifyInstance) {
         params: createRoutingExecutionParamsSchema,
         body: createRoutingExecutionSchema,
         response: { 201: createRoutingExecutionResponseSchema },
-        tags: ["Routing Executions"],
+        tags: ["Routing Executions", "Public"],
         summary: "Create a new routing execution",
         description:
           "Endpoint to create a new routing execution in the system.",
