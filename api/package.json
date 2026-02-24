@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Hub Connector API - Backend service",
   "main": "main.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier . --write",
