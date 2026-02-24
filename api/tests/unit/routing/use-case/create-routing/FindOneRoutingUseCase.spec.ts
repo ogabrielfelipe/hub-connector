@@ -51,6 +51,4 @@ describe("FindOneRoutingUseCase", () => {
     expect(result).toBeDefined();
     expect(result?.getId()).toBe(routing.getId());
   });
-
-
 });
