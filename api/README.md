@@ -91,8 +91,6 @@ pnpm run test:coverage
 - `pnpm run format` - Format code with Prettier
 - `pnpm run seed` - Seed database
 
-
-
 ## License
 
 ISC

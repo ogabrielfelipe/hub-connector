@@ -47,7 +47,6 @@ export function configureSwagger(app: FastifyInstance) {
       authenticate: { realm: "docs" },
     });
 
-
     instance.setErrorHandler((error, req, reply) => {
       if ((error as any).statusCode === 401) {
         reply
@@ -87,9 +86,9 @@ export function generateSwaggerFiles(app: FastifyInstance) {
             method,
             details.tags
               ? {
-                ...details,
-                tags: details.tags.filter((tag: string) => tag !== "Public"),
-              }
+                  ...details,
+                  tags: details.tags.filter((tag: string) => tag !== "Public"),
+                }
               : details,
           ]),
         ),
