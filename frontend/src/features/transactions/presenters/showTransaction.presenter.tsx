@@ -5,17 +5,15 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Separator } from "@/shared/components/ui/separator";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shared/components/ui/table";
 
 
 interface ShowTransactionPresenterProps {
     transaction: GetRoutingsSearchExecutions200 | null
     isLoading: boolean
-    error: unknown
     routing: GetRoutingsRoutingId200 | null
 }
 
-export function ShowTransactionPresenter({ transaction, isLoading, error, routing }: ShowTransactionPresenterProps) {
+export function ShowTransactionPresenter({ transaction, isLoading, routing }: ShowTransactionPresenterProps) {
     const transactionData: TransactionExecution | null = (transaction?.items[0] as TransactionExecution) || null
 
     return (

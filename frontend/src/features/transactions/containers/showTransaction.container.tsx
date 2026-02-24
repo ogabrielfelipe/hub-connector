@@ -6,9 +6,9 @@ import { useShowTransaction } from "../hooks/useShowTransaction";
 export function ShowTransactionContainer() {
     const { id } = useParams<{ id: string }>()
 
-    const { transaction, isLoading, error, routing } = useShowTransaction({ id })
+    const { transaction, isLoading, routing } = useShowTransaction({ id })
 
     return (
-        <ShowTransactionPresenter transaction={transaction} isLoading={isLoading} error={error} routing={routing} />
+        <ShowTransactionPresenter transaction={transaction} isLoading={isLoading} routing={routing} />
     )
 }

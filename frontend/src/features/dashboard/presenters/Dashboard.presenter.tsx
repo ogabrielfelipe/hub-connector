@@ -7,13 +7,6 @@ import {
     type ChartConfig,
 } from "@/shared/components/ui/chart"
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/shared/components/ui/select"
-import {
     Item,
     ItemContent,
     ItemDescription,

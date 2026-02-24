@@ -27,7 +27,7 @@ import { customFetcher } from './http';
 export type PostUsersBodyRole = typeof PostUsersBodyRole[keyof typeof PostUsersBodyRole];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+
 export const PostUsersBodyRole = {
   user: 'user',
   admin: 'admin',
@@ -70,7 +70,7 @@ export type GetUsersParams = {
 export type GetUsersRole = typeof GetUsersRole[keyof typeof GetUsersRole];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+
 export const GetUsersRole = {
   user: 'user',
   admin: 'admin',
@@ -80,7 +80,7 @@ export const GetUsersRole = {
 export type GetUsers200DocsItemRole = typeof GetUsers200DocsItemRole[keyof typeof GetUsers200DocsItemRole];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+
 export const GetUsers200DocsItemRole = {
   user: 'user',
   admin: 'admin',
@@ -106,7 +106,7 @@ export type GetUsers200 = {
 export type PutUsersIdBodyRole = typeof PutUsersIdBodyRole[keyof typeof PutUsersIdBodyRole];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+
 export const PutUsersIdBodyRole = {
   user: 'user',
   admin: 'admin',
@@ -133,7 +133,7 @@ export type PutUsersIdBody = {
 export type PutUsersId200Role = typeof PutUsersId200Role[keyof typeof PutUsersId200Role];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+
 export const PutUsersId200Role = {
   user: 'user',
   admin: 'admin',
@@ -161,7 +161,7 @@ export type PutUsersId200 = {
 export type GetUsersId200Role = typeof GetUsersId200Role[keyof typeof GetUsersId200Role];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+
 export const GetUsersId200Role = {
   user: 'user',
   admin: 'admin',
@@ -324,7 +324,7 @@ export type GetRoutings200DocsItemGateway = {
   name: string;
 };
 
-export type GetRoutings200DocsItemDeletedAt = string |  | null;
+export type GetRoutings200DocsItemDeletedAt = string | null;
 
 export type GetRoutings200DocsItem = {
   id: string;
