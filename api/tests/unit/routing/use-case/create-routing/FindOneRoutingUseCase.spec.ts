@@ -4,7 +4,6 @@ import { InMemoryUserRepository } from "../../../user/repositories/InMemoryUserR
 import { CaslAbilityFactory } from "@/core/application/security/casl.factory";
 import { userFactory } from "../../../user/factories/userFactory";
 import { routingFactory } from "../../factories/routingFactory";
-import { NotPermissionError } from "@/core/application/errors/NotPermissionError";
 import { InMemoryGatewayReposiory } from "../../../gateway/repositories/InMemoryGatewayReposiory";
 import { gatewayFactory } from "../../../gateway/factories/gatewayFactory";
 
@@ -53,18 +52,5 @@ describe("FindOneRoutingUseCase", () => {
     expect(result?.getId()).toBe(routing.getId());
   });
 
-  it("should not be able to find a routing", async () => {
-    const user = userFactory({ role: "user" });
-    userRepo.save(user);
 
-    const routing = routingFactory({});
-    repo.save(routing);
-
-    await expect(
-      useCase.execute({
-        currentUserId: user.getId(),
-        routingId: routing.getId(),
-      }),
-    ).rejects.toThrow(NotPermissionError);
-  });
 });

@@ -11,26 +11,26 @@ import { configRoutes } from "./ConfigRoutes";
 import { reportRoutes } from "./ReportRoutes";
 
 export function registerRoutes(
-    app: FastifyInstance,
-    gatewayRepository?: IGatewayRepository,
-    routingRepository?: IRoutingRepository
+  app: FastifyInstance,
+  gatewayRepository?: IGatewayRepository,
+  routingRepository?: IRoutingRepository,
 ) {
-    const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();
-    const routingRepo =
-        routingRepository ?? new MongoRoutingRepository(gatewayRepo);
+  const gatewayRepo = gatewayRepository ?? new MongoGatewayRepository();
+  const routingRepo =
+    routingRepository ?? new MongoRoutingRepository(gatewayRepo);
 
-    app.decorate("gatewayRepository", gatewayRepo);
-    app.decorate("routingRepository", routingRepo);
+  app.decorate("gatewayRepository", gatewayRepo);
+  app.decorate("routingRepository", routingRepo);
 
-    app.register(usersRoutes, { prefix: "/users" });
-    app.register(authRoutes, { prefix: "/auth" });
-    app.register(gatewayRoutes, { prefix: "/gateways" });
-    app.register(routingRoutes, { prefix: "/routings" });
-    app.register(configRoutes, { prefix: "/config" });
-    app.register(reportRoutes, { prefix: "/report" });
+  app.register(usersRoutes, { prefix: "/users" });
+  app.register(authRoutes, { prefix: "/auth" });
+  app.register(gatewayRoutes, { prefix: "/gateways" });
+  app.register(routingRoutes, { prefix: "/routings" });
+  app.register(configRoutes, { prefix: "/config" });
+  app.register(reportRoutes, { prefix: "/report" });
 
-    app.get("/docs/swagger", async (_, reply) => {
-        return reply.type("text/html").send(`
+  app.get("/docs/swagger", async (_, reply) => {
+    return reply.type("text/html").send(`
     <!DOCTYPE html lang="pt-BR">
     <html>
       <head>
@@ -49,6 +49,5 @@ export function registerRoutes(
       </body>
     </html>
   `);
-    });
-
+  });
 }

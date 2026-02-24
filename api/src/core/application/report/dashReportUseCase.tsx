@@ -32,7 +32,6 @@ export class DashReportUseCase {
         perPage: this.DEFAULT_PER_PAGE,
       });
 
-
     const percentErrorPerRoute = totalConnectorExecutions.items.reduce(
       (acc, item) => {
         if (item.statusReturnAPI !== 200) {
@@ -66,7 +65,6 @@ export class DashReportUseCase {
         (acc, item) => acc + item.latency,
         0,
       ) / totalConnectorExecutions.total;
-
 
     return {
       total_routes: totalRoutes.total,

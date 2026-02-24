@@ -5,17 +5,17 @@ import { FastifyAdapter } from "@bull-board/fastify";
 import { FastifyInstance } from "fastify";
 
 function configureBullBoard(app: FastifyInstance) {
-    const serverAdapter = new FastifyAdapter();
+  const serverAdapter = new FastifyAdapter();
 
-    createBullBoard({
-        queues: [new BullMQAdapter(getQueue("domain-events"))],
-        serverAdapter,
-    });
+  createBullBoard({
+    queues: [new BullMQAdapter(getQueue("domain-events"))],
+    serverAdapter,
+  });
 
-    serverAdapter.setBasePath("/ui");
-    app.register(serverAdapter.registerPlugin(), { prefix: "/ui" });
+  serverAdapter.setBasePath("/ui");
+  app.register(serverAdapter.registerPlugin(), { prefix: "/ui" });
 }
 
 export function registerBullBoard(app: FastifyInstance) {
-    configureBullBoard(app);
+  configureBullBoard(app);
 }

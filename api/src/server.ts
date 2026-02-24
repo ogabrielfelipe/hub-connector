@@ -1,11 +1,12 @@
-
 import fastify from "fastify";
-
 
 import { bootstrapDatabase } from "./infra/bootstrap/database";
 import { registerPlugins } from "./infra/http/server/plugins";
 import { registerRoutes } from "./infra/http/routes";
-import { configureSwagger, generateSwaggerFiles } from "./infra/bootstrap/swagger";
+import {
+  configureSwagger,
+  generateSwaggerFiles,
+} from "./infra/bootstrap/swagger";
 import { IGatewayRepository } from "./core/domain/gateway/repositories/IGatewayRepository";
 import { IRoutingRepository } from "./core/domain/routing/repositories/IRoutingRepository";
 
@@ -30,7 +31,6 @@ export async function buildServer({
 
   return app;
 }
-
 
 export async function startHttpServer() {
   const app = await buildServer({});
