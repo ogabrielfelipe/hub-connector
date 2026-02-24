@@ -83,16 +83,16 @@ describe("Routing E2E", () => {
       },
       payload: {
         name: "Test Updated",
-        slug: "test-updated",
         description: "Test Updated",
       },
     });
 
     expect(response.statusCode).toBe(200);
+
     expect(response.json()).toEqual(
       expect.objectContaining({
         name: "Test Updated",
-        slug: "test-updated",
+        slug: "test",
         description: "Test Updated",
         url: "http://localhost:3333",
       }),

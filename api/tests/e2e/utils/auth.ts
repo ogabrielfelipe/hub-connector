@@ -3,13 +3,14 @@ import { v4 as uuidV4 } from "uuid";
 import bcrypt from "bcrypt";
 
 export async function loginAsAdmin(app: FastifyInstance) {
+  const salt = bcrypt.genSaltSync(10);
   await app.db.user.create({
     _id: uuidV4(),
     name: "Admin",
     email: "admin@test.com",
     role: "admin",
     username: "admin",
-    password: bcrypt.hashSync("123456", 10),
+    password: bcrypt.hashSync("123456", salt),
   });
 
   const res = await app.inject({

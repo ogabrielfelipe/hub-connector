@@ -5,7 +5,8 @@ export class BcryptHasher implements IPasswordHasher {
   private readonly SALT_ROUNDS = 10;
 
   hash(plain: string): Promise<string> {
-    return bcrypt.hash(plain, this.SALT_ROUNDS);
+    const salt = bcrypt.genSaltSync(this.SALT_ROUNDS);
+    return bcrypt.hash(plain, salt);
   }
   compare(plain: string, hash: string): Promise<boolean> {
     return bcrypt.compare(plain, hash);

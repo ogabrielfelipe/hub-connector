@@ -7,10 +7,21 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
-    "types": ["node", "vitest/globals"],
+    "types": [
+      "node",
+      "vitest/globals"
+    ],
     "outDir": "./dist"
   },
-  "include": ["src", "tests", "vitest.config.ts", "eslint.config.mts"]
+  "include": [
+    "src",
+    "tests",
+    "vitest.config.ts",
+    "vitest.e2e.config.ts",
+    "eslint.config.mts"
+  ]
 }

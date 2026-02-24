@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from "uuid";
 
 let app: FastifyInstance;
 
-describe("User E2E", () => {
+describe("Gateway E2E", () => {
   beforeAll(async () => {
     app = await buildServer({});
     await app.ready();
