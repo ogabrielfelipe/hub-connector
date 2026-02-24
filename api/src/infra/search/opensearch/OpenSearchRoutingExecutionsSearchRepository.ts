@@ -8,14 +8,11 @@ import {
 import { TotalHits } from "@opensearch-project/opensearch/api/_types/_core.search";
 
 export class OpenSearchRoutingExecutionsSearchRepository
-  implements IRoutingExecutionSearchRepository
-{
+  implements IRoutingExecutionSearchRepository {
   async search(
     params: RoutingExecutionSearchParams,
   ): Promise<RoutingExecutionSearchResult<any>> {
     const { routingId, status, text, from, to, page, perPage, id } = params;
-
-    console.log(params);
 
     // Build the query
     const must: any[] = [];

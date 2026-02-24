@@ -48,7 +48,6 @@ export function useGatewaysCreateOrUpdate({ gatewayId }: Props) {
 
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
         if (gatewayId) {
             try {
                 const body: PutGatewaysGatewayIdBody = {
