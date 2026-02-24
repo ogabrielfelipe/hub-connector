@@ -46,7 +46,7 @@ export class CaslAbilityFactory {
         cannot(Actions.Delete, "Gateway");
 
         //Routing
-        cannot(Actions.Read, "Routing");
+        can(Actions.Read, "Routing");
         cannot(Actions.Create, "Routing");
         cannot(Actions.Update, "Routing");
         cannot(Actions.Delete, "Routing");
