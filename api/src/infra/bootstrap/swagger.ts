@@ -87,9 +87,9 @@ export function generateSwaggerFiles(app: FastifyInstance) {
             method,
             details.tags
               ? {
-                ...details,
-                tags: details.tags.filter((tag: string) => tag !== "Public"),
-              }
+                  ...details,
+                  tags: details.tags.filter((tag: string) => tag !== "Public"),
+                }
               : details,
           ]),
         ),
