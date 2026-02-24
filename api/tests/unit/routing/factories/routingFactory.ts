@@ -7,6 +7,7 @@ interface RoutingFactoryParams {
   description?: string;
   gatewayId?: string;
   url?: string;
+  params?: Record<string, string>;
   method?: string;
   headers?: Record<string, string>;
 }
@@ -18,6 +19,7 @@ export const routingFactory = (params: RoutingFactoryParams) => {
     params.description ?? faker.lorem.sentence({ max: 50, min: 20 }),
     params.gatewayId ?? faker.database.collation(),
     params.url ?? faker.internet.url(),
+    params.params ?? {},
     params.method ?? "GET",
     params.headers ?? {},
   );

@@ -18,7 +18,9 @@
     "/users/": {
       "post": {
         "summary": "Create a new user",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "description": "Endpoint to create a new user in the system.",
         "requestBody": {
           "content": {
@@ -43,7 +45,11 @@
                   },
                   "role": {
                     "type": "string",
-                    "enum": ["user", "admin", "dev"]
+                    "enum": [
+                      "user",
+                      "admin",
+                      "dev"
+                    ]
                   },
                   "password": {
                     "type": "string",
@@ -51,7 +57,13 @@
                     "maxLength": 100
                   }
                 },
-                "required": ["name", "username", "email", "role", "password"]
+                "required": [
+                  "name",
+                  "username",
+                  "email",
+                  "role",
+                  "password"
+                ]
               }
             }
           },
@@ -69,7 +81,9 @@
                       "type": "string"
                     }
                   },
-                  "required": ["userId"],
+                  "required": [
+                    "userId"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -79,7 +93,9 @@
       },
       "get": {
         "summary": "Get all users",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "description": "Endpoint to get all users in the system.",
         "parameters": [
           {
@@ -101,7 +117,11 @@
           {
             "schema": {
               "type": "string",
-              "enum": ["user", "admin", "dev"]
+              "enum": [
+                "user",
+                "admin",
+                "dev"
+              ]
             },
             "in": "query",
             "name": "role",
@@ -152,7 +172,11 @@
                           },
                           "role": {
                             "type": "string",
-                            "enum": ["user", "admin", "dev"]
+                            "enum": [
+                              "user",
+                              "admin",
+                              "dev"
+                            ]
                           },
                           "active": {
                             "type": "boolean"
@@ -178,7 +202,12 @@
                       "type": "number"
                     }
                   },
-                  "required": ["docs", "total", "page", "limit"],
+                  "required": [
+                    "docs",
+                    "total",
+                    "page",
+                    "limit"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -190,7 +219,9 @@
     "/users/{id}": {
       "put": {
         "summary": "Update an existing user",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "description": "Endpoint to update an existing user in the system.",
         "requestBody": {
           "content": {
@@ -210,7 +241,11 @@
                   },
                   "role": {
                     "type": "string",
-                    "enum": ["user", "admin", "dev"]
+                    "enum": [
+                      "user",
+                      "admin",
+                      "dev"
+                    ]
                   },
                   "active": {
                     "type": "boolean"
@@ -265,10 +300,20 @@
                     },
                     "role": {
                       "type": "string",
-                      "enum": ["user", "admin", "dev"]
+                      "enum": [
+                        "user",
+                        "admin",
+                        "dev"
+                      ]
                     }
                   },
-                  "required": ["id", "name", "username", "email", "role"],
+                  "required": [
+                    "id",
+                    "name",
+                    "username",
+                    "email",
+                    "role"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -278,7 +323,9 @@
       },
       "get": {
         "summary": "Get a user",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "description": "Endpoint to get a user in the system.",
         "parameters": [
           {
@@ -320,10 +367,20 @@
                     },
                     "role": {
                       "type": "string",
-                      "enum": ["user", "admin", "dev"]
+                      "enum": [
+                        "user",
+                        "admin",
+                        "dev"
+                      ]
                     }
                   },
-                  "required": ["id", "name", "username", "email", "role"],
+                  "required": [
+                    "id",
+                    "name",
+                    "username",
+                    "email",
+                    "role"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -333,7 +390,9 @@
       },
       "delete": {
         "summary": "Delete a user",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "description": "Endpoint to delete a user in the system.",
         "parameters": [
           {
@@ -355,7 +414,9 @@
     "/auth/login": {
       "post": {
         "summary": "User login",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "description": "Endpoint for user authentication and token generation.",
         "requestBody": {
           "content": {
@@ -374,7 +435,10 @@
                     "maxLength": 100
                   }
                 },
-                "required": ["username", "password"]
+                "required": [
+                  "username",
+                  "password"
+                ]
               }
             }
           },
@@ -392,7 +456,9 @@
                       "type": "string"
                     }
                   },
-                  "required": ["token"],
+                  "required": [
+                    "token"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -404,7 +470,9 @@
     "/auth/me": {
       "get": {
         "summary": "Get current user",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "description": "Endpoint to get the current authenticated user's information.",
         "responses": {
           "200": {
@@ -432,7 +500,13 @@
                       "type": "string"
                     }
                   },
-                  "required": ["id", "name", "username", "email", "role"],
+                  "required": [
+                    "id",
+                    "name",
+                    "username",
+                    "email",
+                    "role"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -444,7 +518,9 @@
     "/gateways/": {
       "post": {
         "summary": "Create a new gateway",
-        "tags": ["Gateways"],
+        "tags": [
+          "Gateways"
+        ],
         "description": "Endpoint to create a new gateway in the system.",
         "requestBody": {
           "content": {
@@ -458,7 +534,9 @@
                     "maxLength": 100
                   }
                 },
-                "required": ["name"]
+                "required": [
+                  "name"
+                ]
               }
             }
           },
@@ -512,7 +590,9 @@
       },
       "get": {
         "summary": "Find all gateways",
-        "tags": ["Gateways"],
+        "tags": [
+          "Gateways"
+        ],
         "description": "Endpoint to find all gateways in the system.",
         "parameters": [
           {
@@ -573,7 +653,11 @@
                             "type": "boolean"
                           }
                         },
-                        "required": ["id", "name", "active"],
+                        "required": [
+                          "id",
+                          "name",
+                          "active"
+                        ],
                         "additionalProperties": false
                       }
                     },
@@ -587,7 +671,12 @@
                       "type": "number"
                     }
                   },
-                  "required": ["docs", "total", "page", "limit"],
+                  "required": [
+                    "docs",
+                    "total",
+                    "page",
+                    "limit"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -599,7 +688,9 @@
     "/gateways/{gatewayId}": {
       "put": {
         "summary": "Update an existing gateway",
-        "tags": ["Gateways"],
+        "tags": [
+          "Gateways"
+        ],
         "description": "Endpoint to update an existing gateway in the system.",
         "requestBody": {
           "content": {
@@ -680,7 +771,9 @@
       },
       "delete": {
         "summary": "Delete an existing gateway",
-        "tags": ["Gateways"],
+        "tags": [
+          "Gateways"
+        ],
         "description": "Endpoint to delete an existing gateway in the system.",
         "parameters": [
           {
@@ -711,7 +804,9 @@
       },
       "get": {
         "summary": "Find a gateway by id",
-        "tags": ["Gateways"],
+        "tags": [
+          "Gateways"
+        ],
         "description": "Endpoint to find a gateway by id in the system.",
         "parameters": [
           {
@@ -775,7 +870,9 @@
     "/routings/": {
       "post": {
         "summary": "Create a new routing",
-        "tags": ["Routings"],
+        "tags": [
+          "Routings"
+        ],
         "description": "Endpoint to create a new routing in the system.",
         "requestBody": {
           "content": {
@@ -886,7 +983,9 @@
       },
       "get": {
         "summary": "Find all routings",
-        "tags": ["Routings"],
+        "tags": [
+          "Routings"
+        ],
         "description": "Endpoint to find all routings in the system.",
         "parameters": [
           {
@@ -975,7 +1074,10 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["id", "name"],
+                            "required": [
+                              "id",
+                              "name"
+                            ],
                             "additionalProperties": false
                           },
                           "deletedAt": {
@@ -987,7 +1089,9 @@
                               {
                                 "type": "string",
                                 "nullable": true,
-                                "enum": [null]
+                                "enum": [
+                                  null
+                                ]
                               }
                             ]
                           }
@@ -1015,7 +1119,12 @@
                       "type": "number"
                     }
                   },
-                  "required": ["docs", "total", "page", "limit"],
+                  "required": [
+                    "docs",
+                    "total",
+                    "page",
+                    "limit"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1027,7 +1136,9 @@
     "/routings/{routingId}": {
       "put": {
         "summary": "Update an existing routing",
-        "tags": ["Routings"],
+        "tags": [
+          "Routings"
+        ],
         "description": "Endpoint to update an existing routing in the system.",
         "requestBody": {
           "content": {
@@ -1129,7 +1240,9 @@
       },
       "delete": {
         "summary": "Delete an existing routing",
-        "tags": ["Routings"],
+        "tags": [
+          "Routings"
+        ],
         "description": "Endpoint to delete an existing routing in the system.",
         "parameters": [
           {
@@ -1158,7 +1271,9 @@
       },
       "get": {
         "summary": "Find a routing by id",
-        "tags": ["Routings"],
+        "tags": [
+          "Routings"
+        ],
         "description": "Endpoint to find a routing by id in the system.",
         "parameters": [
           {
@@ -1208,7 +1323,12 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["id", "name", "xApiKey", "active"],
+                      "required": [
+                        "id",
+                        "name",
+                        "xApiKey",
+                        "active"
+                      ],
                       "additionalProperties": false
                     },
                     "url": {
@@ -1245,7 +1365,10 @@
     "/routings/{routingSlug}/execute": {
       "post": {
         "summary": "Create a new routing execution",
-        "tags": ["Routing Executions", "Public"],
+        "tags": [
+          "Routing Executions",
+          "Public"
+        ],
         "description": "Endpoint to create a new routing execution in the system.",
         "requestBody": {
           "content": {
@@ -1295,7 +1418,12 @@
                       "format": "date-time"
                     }
                   },
-                  "required": ["id", "routingId", "status", "createdAt"],
+                  "required": [
+                    "id",
+                    "routingId",
+                    "status",
+                    "createdAt"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1307,7 +1435,9 @@
     "/routings/search-executions": {
       "get": {
         "summary": "Search routing executions",
-        "tags": ["Routing Executions"],
+        "tags": [
+          "Routing Executions"
+        ],
         "description": "Endpoint to search routing executions in the system.",
         "parameters": [
           {
@@ -1395,7 +1525,12 @@
                       "type": "number"
                     }
                   },
-                  "required": ["items", "total", "page", "perPage"],
+                  "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "perPage"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1407,7 +1542,9 @@
     "/config/del-prefix-cache/{prefix}": {
       "delete": {
         "summary": "Delete all keys by prefix",
-        "tags": ["Config"],
+        "tags": [
+          "Config"
+        ],
         "description": "Endpoint to delete all keys by prefix in the system.",
         "parameters": [
           {
@@ -1438,7 +1575,9 @@
     "/report/dashboard": {
       "get": {
         "summary": "Get dashboard report",
-        "tags": ["Report"],
+        "tags": [
+          "Report"
+        ],
         "description": "Endpoint to get the dashboard report.",
         "responses": {
           "200": {

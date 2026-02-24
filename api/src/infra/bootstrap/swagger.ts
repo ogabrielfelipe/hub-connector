@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fastifyBasicAuth from "@fastify/basic-auth";
 import fastifySwagger from "@fastify/swagger";
@@ -73,7 +74,7 @@ export function generateSwaggerFiles(app: FastifyInstance) {
   fs.writeFileSync("./swagger.json", JSON.stringify(fullSwagger, null, 2));
 
   const publicPaths = Object.fromEntries(
-    Object.entries(fullSwagger.paths)
+    Object.entries(fullSwagger.paths ?? {})
       .filter(([_, methods]: any) =>
         Object.values(methods).some((method: any) =>
           method.tags?.includes("Public"),
@@ -86,9 +87,9 @@ export function generateSwaggerFiles(app: FastifyInstance) {
             method,
             details.tags
               ? {
-                  ...details,
-                  tags: details.tags.filter((tag: string) => tag !== "Public"),
-                }
+                ...details,
+                tags: details.tags.filter((tag: string) => tag !== "Public"),
+              }
               : details,
           ]),
         ),

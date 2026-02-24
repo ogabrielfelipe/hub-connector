@@ -1,5 +1,5 @@
 import IORedis from "ioredis";
-import { redisConfig } from "../config/redis";
+import { redisConfig } from "../config/bullmq/bullmqConnection";
 
 export class RedisClient {
   private static instance: IORedis;

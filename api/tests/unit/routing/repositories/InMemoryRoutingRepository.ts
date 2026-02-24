@@ -98,6 +98,8 @@ export class InMemoryRoutingRepository implements IRoutingRepository {
           slug: routing.getSlug(),
           name: routing.getName(),
           description: routing.getDescription(),
+          method: routing.getMethod(),
+          url: routing.getUrl(),
           gateway: {
             id: gateway?.getId() || "",
             name: gateway?.getName() || "",
