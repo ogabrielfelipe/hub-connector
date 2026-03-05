@@ -50,7 +50,17 @@ export class User {
     avatar?: string,
   ): User {
     const newId = uuidv4();
-    return new User(newId, name, username, email, role, true, password, providerId, avatar);
+    return new User(
+      newId,
+      name,
+      username,
+      email,
+      role,
+      true,
+      password,
+      providerId,
+      avatar,
+    );
   }
 
   public static fromPersistence(
