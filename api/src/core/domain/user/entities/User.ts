@@ -10,6 +10,8 @@ export enum UserRole {
 export class User {
   private id: string;
   private name: string;
+  private providerId?: string;
+  private avatar?: string;
   private username: string;
   private email: Email;
   private role: UserRole;
@@ -24,6 +26,8 @@ export class User {
     role: UserRole,
     active: boolean,
     password: string,
+    providerId?: string,
+    avatar?: string,
   ) {
     this.id = id;
     this.name = name;
@@ -32,6 +36,8 @@ export class User {
     this.role = role;
     this.active = active;
     this.password = password;
+    this.providerId = providerId;
+    this.avatar = avatar;
   }
 
   public static createNew(
@@ -40,9 +46,11 @@ export class User {
     email: Email,
     role: UserRole,
     password: string,
+    providerId?: string,
+    avatar?: string,
   ): User {
     const newId = uuidv4();
-    return new User(newId, name, username, email, role, true, password);
+    return new User(newId, name, username, email, role, true, password, providerId, avatar);
   }
 
   public static fromPersistence(
@@ -53,6 +61,8 @@ export class User {
     role: string,
     active: boolean,
     password: string,
+    providerId?: string,
+    avatar?: string,
   ): User {
     return new User(
       id,
@@ -62,6 +72,8 @@ export class User {
       role as UserRole,
       active,
       password,
+      providerId,
+      avatar,
     );
   }
 
@@ -86,6 +98,12 @@ export class User {
   public getPassword(): string {
     return this.password;
   }
+  public getProviderId(): string | undefined {
+    return this.providerId;
+  }
+  public getAvatar(): string | undefined {
+    return this.avatar;
+  }
 
   public updateName(newName: string): void {
     if (!newName || newName.trim() === "") {
@@ -106,5 +124,11 @@ export class User {
   }
   public updatePassword(newPassword: string): void {
     this.password = newPassword;
+  }
+  public updateProviderId(newProviderId: string): void {
+    this.providerId = newProviderId;
+  }
+  public updateAvatar(newAvatar: string): void {
+    this.avatar = newAvatar;
   }
 }

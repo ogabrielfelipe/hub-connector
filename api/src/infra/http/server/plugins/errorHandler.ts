@@ -28,6 +28,6 @@ function configureErrorHandler(app: FastifyInstance) {
   });
 }
 
-export function registerErrorHandler(app: FastifyInstance) {
+export default async function registerErrorHandler(app: FastifyInstance) {
   configureErrorHandler(app);
 }

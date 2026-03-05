@@ -15,7 +15,7 @@ export async function authRoutes(app: FastifyInstance) {
   const hasher = new BcryptHasher();
   const token = new JWTService();
 
-  const userController = new AuthController(userRepository, hasher, token);
+  const userController = new AuthController(userRepository, hasher, token, app);
 
   app.post(
     "/login",
@@ -29,6 +29,30 @@ export async function authRoutes(app: FastifyInstance) {
       },
     },
     (req, reply) => userController.loginUser(req, reply),
+  );
+
+  app.get(
+    "/github",
+    {
+      schema: {
+        tags: ["Auth"],
+        summary: "GitHub login",
+        description: "Endpoint for GitHub authentication.",
+      },
+    },
+    (req, reply) => userController.githubLogin(req, reply),
+  );
+
+  app.post(
+    "/github/callback",
+    {
+      schema: {
+        tags: ["Auth"],
+        summary: "GitHub callback",
+        description: "Endpoint for GitHub authentication callback.",
+      },
+    },
+    (req, reply) => userController.githubCallback(req, reply),
   );
 
   app.get(

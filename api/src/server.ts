@@ -21,9 +21,9 @@ export async function buildServer({
 
   const app = fastify({ logger: false });
 
-  registerPlugins(app);
+  await registerPlugins(app);
   configureSwagger(app);
-  registerRoutes(app, gatewayRepository, routingRepository);
+  await registerRoutes(app, gatewayRepository, routingRepository);
 
   await app.ready();
 

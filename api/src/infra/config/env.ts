@@ -2,6 +2,10 @@ import "dotenv/config";
 import z from "zod";
 
 const envSchema = z.object({
+  //SERVER
+  PORT: z.coerce.number(),
+  NODE_ENV: z.enum(["development", "production", "test"]),
+
   //REDIS
   REDIS_HOST: z.string(),
   REDIS_PORT: z.coerce.number(),
@@ -20,6 +24,18 @@ const envSchema = z.object({
   // AUTHENTICATION KEYS
   PUBLIC_KEY: z.string(),
   PRIVATE_KEY: z.string(),
+
+  // SWAGGER
+  SWAGGER_USER: z.string(),
+  SWAGGER_PASSWORD: z.string(),
+
+  //SSO GitHub
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
+  GITHUB_CALLBACK_URL: z.string(),
+
+  //Frontend
+  FRONTEND_URL: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

@@ -10,6 +10,7 @@ const userRepositoryMock = {
   findAll: vi.fn(),
   update: vi.fn(),
   delete: vi.fn(),
+  findByProviderIdOrEmail: vi.fn(),
 };
 
 const tokenGeneratorMock = {
