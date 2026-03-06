@@ -18,9 +18,7 @@
     "/routings/{routingSlug}/execute": {
       "post": {
         "summary": "Create a new routing execution",
-        "tags": [
-          "Routing Executions"
-        ],
+        "tags": ["Routing Executions"],
         "description": "Endpoint to create a new routing execution in the system.",
         "requestBody": {
           "content": {
@@ -70,12 +68,7 @@
                       "format": "date-time"
                     }
                   },
-                  "required": [
-                    "id",
-                    "routingId",
-                    "status",
-                    "createdAt"
-                  ],
+                  "required": ["id", "routingId", "status", "createdAt"],
                   "additionalProperties": false
                 }
               }
