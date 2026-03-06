@@ -20,7 +20,6 @@ export const MeResponseSchema = z.object({
   active: z.boolean(),
 });
 
-
 export const GitHubCallbackSchema = z.object({
   code: z.string(),
   state: z.string(),

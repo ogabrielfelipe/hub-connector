@@ -43,7 +43,6 @@ export class MongoUserRepository implements IUserRepository {
     this.cacheRepository = new RedisCacheRepository();
   }
 
-
   async save(user: User): Promise<User> {
     const dto = this.toPersistence(user);
     const saved = await UserModel.findOneAndUpdate({ _id: dto._id! }, dto, {
@@ -77,7 +76,7 @@ export class MongoUserRepository implements IUserRepository {
       `users:byUsername:${username}`,
     );
     if (cached) {
-      console.log(cached)
+      console.log(cached);
       return this.toDomain(cached);
     }
     const dto: UserDocument | null = await UserModel.findOne({
@@ -87,7 +86,7 @@ export class MongoUserRepository implements IUserRepository {
     if (!dto) {
       return null;
     }
-    console.log(dto)
+    console.log(dto);
     await this.cacheRepository.set(`users:byUsername:${dto.username}`, dto);
     await this.cacheRepository.set(`users:byEmail:${dto.email}`, dto);
     return this.toDomain(dto);
@@ -112,7 +111,10 @@ export class MongoUserRepository implements IUserRepository {
     return this.toDomain(dto);
   }
 
-  async findByProviderIdOrEmail(providerId: string, email: Email): Promise<User | null> {
+  async findByProviderIdOrEmail(
+    providerId: string,
+    email: Email,
+  ): Promise<User | null> {
     const cached = await this.cacheRepository.get<UserDocument>(
       `users:byEmail:${email.getValue()}`,
     );

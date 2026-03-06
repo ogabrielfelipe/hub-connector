@@ -60,8 +60,6 @@ export class AuthController {
       return reply.status(404).send({ error: "User not found" });
     }
 
-
-
     return reply.status(200).send({
       id: user.getId(),
       name: user.getName(),
@@ -85,21 +83,18 @@ export class AuthController {
   public async githubCallback(req: FastifyRequest, reply: FastifyReply) {
     const { code } = req.body as { code: string; state: string };
 
-    const tokenResponse = await fetch(
-      env.GITHUB_URL_GET_ACCESS_TOKEN,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          client_id: env.GITHUB_CLIENT_ID,
-          client_secret: env.GITHUB_CLIENT_SECRET,
-          code,
-        }),
+    const tokenResponse = await fetch(env.GITHUB_URL_GET_ACCESS_TOKEN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-    ).then(
+      body: JSON.stringify({
+        client_id: env.GITHUB_CLIENT_ID,
+        client_secret: env.GITHUB_CLIENT_SECRET,
+        code,
+      }),
+    }).then(
       (r) => r.json() as Promise<{ access_token: string; error?: string }>,
     );
 

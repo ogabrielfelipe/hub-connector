@@ -15,7 +15,7 @@ export class LoginUserWithGitHubSSOUseCase {
   constructor(
     private readonly userRepo: IUserRepository,
     private readonly token: ITokenService,
-  ) { }
+  ) {}
 
   async execute({
     providerId,
