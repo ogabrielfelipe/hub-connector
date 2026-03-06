@@ -15,7 +15,7 @@ export class LoginUserWithGitHubSSOUseCase {
   constructor(
     private readonly userRepo: IUserRepository,
     private readonly token: ITokenService,
-  ) {}
+  ) { }
 
   async execute({
     providerId,
@@ -24,8 +24,6 @@ export class LoginUserWithGitHubSSOUseCase {
     name,
     avatar,
   }: LoginUserWithGitHubSSOUseCaseCommand): Promise<string> {
-    console.log({ providerId, email, login, name, avatar });
-
     const user = await this.userRepo.findByProviderIdOrEmail(
       providerId,
       new Email(email),
@@ -46,9 +44,10 @@ export class LoginUserWithGitHubSSOUseCase {
         role: newUser.getRole(),
       });
     }
-
-    user.updateAvatar(avatar);
-    await this.userRepo.update(user);
+    if (user.getAvatar() !== avatar) {
+      user.updateAvatar(avatar);
+      await this.userRepo.update(user);
+    }
     return this.token.generate({
       userId: user.getId(),
       role: user.getRole(),

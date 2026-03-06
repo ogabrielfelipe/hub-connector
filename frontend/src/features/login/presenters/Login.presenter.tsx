@@ -14,24 +14,24 @@ import {
     AlertTitle,
 } from "@/shared/components/ui/alert"
 
+import GitHubLogo from "@/assets/GitHub_Invertocat_Black.svg"
 
 type LoginPresenterProps = {
     onSubmit: React.FormEventHandler<HTMLFormElement>;
     isLoading: boolean
     errors: ErrorLogin;
     register: UseFormRegister<FormLoginSchema>
+    LoginWithGitHub: () => Promise<void>
 }
 
-export function LoginPresenter({ onSubmit, isLoading, errors, register }: LoginPresenterProps): React.JSX.Element {
+export function LoginPresenter({ onSubmit, isLoading, errors, register, LoginWithGitHub }: LoginPresenterProps): React.JSX.Element {
     return (
         <div className="bg-muted">
-
             <div className="flex min-h-screen items-center justify-center p-4">
                 <Card className="w-full max-w-7xl py-0">
                     <CardContent className="grid grid-cols-2 px-0">
                         <div className="w-full h-full overflow-hidden">
-                            {/*<img src="https://placehold.co/700x500" className="object-cover block w-full h-full" alt="Hub Connector" />*/}
-                            <img src={logo} className="object-cover block w-full h-full" alt="Hub Connector" />
+                            <img src={logo} className="object-cover block w-2xl h-[500px]" alt="Hub Connector" />
                         </div>
 
                         <div className="flex flex-col gap-5 w-full h-full  p-5">
@@ -78,20 +78,14 @@ export function LoginPresenter({ onSubmit, isLoading, errors, register }: LoginP
 
 
                             <div className="flex justify-center mt-2">
-                                <p className="text-sm text-muted-foreground">Ainda não tem uma conta? <a href="#" className="text-sm text-primary font-bold hover:underline">Solicite acesso</a></p>
-                            </div>
-
-                            <div className="flex flex-row justify-start mt-2">
-                                <ul className="flex flex-row gap-5 list-none text-muted-foreground">
-                                    <li><a href="#" className="text-sm text-muted-foreground hover:underline">Termos de Uso</a></li>
-                                    <li><a href="#" className="text-sm text-muted-foreground hover:underline">Política de Privacidade</a></li>
-                                    <li><a href="#" className="text-sm text-muted-foreground hover:underline">Ajuda</a></li>
-                                </ul>
+                                <Button variant="outline" type="button" onClick={() => LoginWithGitHub()}>
+                                    <img src={GitHubLogo} alt="GitHub Logo" className="w-5 h-5" />
+                                    Login com GitHub</Button>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </div >
     )
 }

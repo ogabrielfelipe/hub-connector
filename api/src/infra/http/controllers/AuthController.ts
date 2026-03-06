@@ -1,5 +1,4 @@
 import {
-  fastify,
   FastifyInstance,
   type FastifyReply,
   type FastifyRequest,
@@ -11,6 +10,7 @@ import { ITokenService } from "@/core/application/user/interfaces/security/IToke
 import { LoginSchema } from "../schemas/authSchemas";
 import { MeUseCase } from "@/core/application/user/use-case/MeUseCase";
 import { LoginUserWithGitHubSSOUseCase } from "@/core/application/user/use-case/LoginUserWithGitHubSSOUseCase";
+import { env } from "@/infra/config/env";
 
 export interface GitHubUser {
   id: number;
@@ -60,12 +60,17 @@ export class AuthController {
       return reply.status(404).send({ error: "User not found" });
     }
 
+
+
     return reply.status(200).send({
       id: user.getId(),
       name: user.getName(),
       username: user.getUsername(),
       role: user.getRole(),
       email: user.getEmail(),
+      providerId: user.getProviderId(),
+      avatar: user.getAvatar(),
+      active: user.getActive(),
     });
   }
 
@@ -80,9 +85,8 @@ export class AuthController {
   public async githubCallback(req: FastifyRequest, reply: FastifyReply) {
     const { code } = req.body as { code: string; state: string };
 
-    // ✅ Troca o code pelo token diretamente na API do GitHub
     const tokenResponse = await fetch(
-      "https://github.com/login/oauth/access_token",
+      env.GITHUB_URL_GET_ACCESS_TOKEN,
       {
         method: "POST",
         headers: {
@@ -90,8 +94,8 @@ export class AuthController {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          client_id: process.env.GITHUB_CLIENT_ID,
-          client_secret: process.env.GITHUB_CLIENT_SECRET,
+          client_id: env.GITHUB_CLIENT_ID,
+          client_secret: env.GITHUB_CLIENT_SECRET,
           code,
         }),
       },
@@ -100,19 +104,18 @@ export class AuthController {
     );
 
     if (tokenResponse.error || !tokenResponse.access_token) {
-      return reply.status(401).send({ error: "Código inválido ou expirado" });
+      return reply.status(401).send({ error: "invalid code" });
     }
 
-    // Busca dados do usuário no GitHub
     const [githubUser, emails] = await Promise.all([
-      fetch("https://api.github.com/user", {
+      fetch(env.GITHUB_URL_GET_USER, {
         headers: {
           Authorization: `Bearer ${tokenResponse.access_token}`,
           "User-Agent": "MyApp",
         },
       }).then((r) => r.json() as Promise<GitHubUser>),
 
-      fetch("https://api.github.com/user/emails", {
+      fetch(env.GITHUB_URL_GET_USER_EMAILS, {
         headers: {
           Authorization: `Bearer ${tokenResponse.access_token}`,
           "User-Agent": "MyApp",
@@ -125,13 +128,12 @@ export class AuthController {
       ),
     ]);
 
-    // Pega o email primário e verificado
     const primaryEmail = emails.find((e) => e.primary && e.verified)?.email;
 
     if (!primaryEmail) {
       return reply
         .status(400)
-        .send({ error: "Nenhum email verificado encontrado no GitHub" });
+        .send({ error: "no verified email found on GitHub" });
     }
 
     const loginResult = await this.loginUserWithGitHubSSOUseCase.execute({

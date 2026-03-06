@@ -15,4 +15,17 @@ export const MeResponseSchema = z.object({
   username: z.string(),
   email: z.string().email(),
   role: z.string(),
+  providerId: z.string().optional(),
+  avatar: z.string().optional(),
+  active: z.boolean(),
+});
+
+
+export const GitHubCallbackSchema = z.object({
+  code: z.string(),
+  state: z.string(),
+});
+
+export const GitHubGetUrlResponseSchema = z.object({
+  url: z.string(),
 });

@@ -16,8 +16,7 @@ import {
 } from "./ui/dropdown-menu"
 import { History, LayoutDashboard, LogOut, Server, SignpostBig, User, Users } from "lucide-react"
 import { Button } from "./ui/button"
-import { Avatar } from "@radix-ui/react-avatar"
-import { AvatarFallback } from "./ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useAuth } from "@/shared/contexts/authContext"
 
 import logo from "@/assets/logo_v2.png"
@@ -83,7 +82,7 @@ export function AppSidebar() {
                         <Button variant="outline" className="flex items-center p-2 h-auto">
                             <Avatar className="size-10">
                                 <AvatarFallback>{userLogged?.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
-
+                                <AvatarImage src={userLogged?.avatar} />
                             </Avatar>
                             <div>
                                 <h1 className="text-sm font-medium">{userLogged?.name}</h1>

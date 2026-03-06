@@ -26,6 +26,9 @@ export const UpdateUserResponseSchema = z.object({
   username: z.string().min(3).max(30),
   email: z.email(),
   role: z.enum(["user", "admin", "dev"]),
+  providerId: z.string().optional(),
+  avatar: z.string().optional(),
+  active: z.boolean(),
 });
 
 export const FindAllUsersSchema = z.object({
@@ -43,6 +46,8 @@ export const FindAllUsersResponseSchema = z.object({
       name: z.string(),
       username: z.string(),
       role: z.enum(["user", "admin", "dev"]),
+      providerId: z.string().optional(),
+      avatar: z.string().optional(),
       active: z.boolean(),
     }),
   ),
@@ -61,4 +66,7 @@ export const FindOneUserResponseSchema = z.object({
   username: z.string().min(3).max(30),
   email: z.email(),
   role: z.enum(["user", "admin", "dev"]),
+  providerId: z.string().optional(),
+  avatar: z.string().optional(),
+  active: z.boolean(),
 });

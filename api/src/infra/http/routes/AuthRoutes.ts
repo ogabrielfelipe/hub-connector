@@ -4,6 +4,8 @@ import { AuthController } from "../controllers/AuthController";
 import { BcryptHasher } from "@/infra/security/BcryptHasher";
 import { JWTService } from "@/infra/security/JWTService";
 import {
+  GitHubCallbackSchema,
+  GitHubGetUrlResponseSchema,
   LoginResponseSchema,
   LoginSchema,
   MeResponseSchema,
@@ -37,6 +39,7 @@ export async function authRoutes(app: FastifyInstance) {
       schema: {
         tags: ["Auth"],
         summary: "GitHub login",
+        response: { 200: GitHubGetUrlResponseSchema },
         description: "Endpoint for GitHub authentication.",
       },
     },
@@ -47,7 +50,9 @@ export async function authRoutes(app: FastifyInstance) {
     "/github/callback",
     {
       schema: {
+        body: GitHubCallbackSchema,
         tags: ["Auth"],
+        response: { 200: LoginResponseSchema },
         summary: "GitHub callback",
         description: "Endpoint for GitHub authentication callback.",
       },

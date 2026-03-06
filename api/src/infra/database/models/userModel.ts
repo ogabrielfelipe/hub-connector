@@ -8,6 +8,8 @@ export interface UserDocument {
   role: "user" | "admin" | "dev";
   active: boolean;
   password: string;
+  providerId: string;
+  avatarUrl: string;
 }
 
 const UserSchema = new Schema<UserDocument>(
@@ -24,6 +26,8 @@ const UserSchema = new Schema<UserDocument>(
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     active: { type: Boolean, required: true, default: true },
+    providerId: { type: String, required: false },
+    avatarUrl: { type: String, required: false },
   },
   { timestamps: true },
 );

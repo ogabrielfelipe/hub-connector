@@ -11,6 +11,9 @@ declare module "fastify" {
       gateway: Model<any>;
       routing: Model<any>;
     };
+    githubOAuth2: {
+      generateAuthorizationUri: (req: FastifyRequest, reply: FastifyReply) => string;
+    };
     gatewayRepository: IGatewayRepository;
     routingRepository: IRoutingRepository;
   }

@@ -19,6 +19,8 @@ export class MongoUserRepository implements IUserRepository {
       dto.role,
       dto.active,
       dto.password,
+      dto.providerId,
+      dto.avatarUrl,
     );
   }
   private toPersistence(user: User): Partial<UserDocument> {
@@ -30,6 +32,8 @@ export class MongoUserRepository implements IUserRepository {
       role: user.getRole() as "user" | "admin" | "dev",
       active: user.getActive(),
       password: user.getPassword(),
+      providerId: user.getProviderId(),
+      avatarUrl: user.getAvatar(),
     };
   }
 
@@ -38,6 +42,7 @@ export class MongoUserRepository implements IUserRepository {
   constructor() {
     this.cacheRepository = new RedisCacheRepository();
   }
+
 
   async save(user: User): Promise<User> {
     const dto = this.toPersistence(user);
@@ -72,6 +77,7 @@ export class MongoUserRepository implements IUserRepository {
       `users:byUsername:${username}`,
     );
     if (cached) {
+      console.log(cached)
       return this.toDomain(cached);
     }
     const dto: UserDocument | null = await UserModel.findOne({
@@ -81,6 +87,7 @@ export class MongoUserRepository implements IUserRepository {
     if (!dto) {
       return null;
     }
+    console.log(dto)
     await this.cacheRepository.set(`users:byUsername:${dto.username}`, dto);
     await this.cacheRepository.set(`users:byEmail:${dto.email}`, dto);
     return this.toDomain(dto);
@@ -95,6 +102,25 @@ export class MongoUserRepository implements IUserRepository {
     }
     const dto: UserDocument | null = await UserModel.findOne({
       email: email.getValue(),
+      $and: [{ active: true }],
+    }).lean();
+    if (!dto) {
+      return null;
+    }
+    await this.cacheRepository.set(`users:byEmail:${dto.email}`, dto);
+    await this.cacheRepository.set(`users:byUsername:${dto.username}`, dto);
+    return this.toDomain(dto);
+  }
+
+  async findByProviderIdOrEmail(providerId: string, email: Email): Promise<User | null> {
+    const cached = await this.cacheRepository.get<UserDocument>(
+      `users:byEmail:${email.getValue()}`,
+    );
+    if (cached) {
+      return this.toDomain(cached);
+    }
+    const dto: UserDocument | null = await UserModel.findOne({
+      $or: [{ email: email.getValue() }, { providerId }],
       $and: [{ active: true }],
     }).lean();
     if (!dto) {

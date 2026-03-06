@@ -14,6 +14,7 @@ export function AppRoutes() {
 
             {/* Rotas Públicas */}
             <Route path="/login" element={<LoginContainer />} />
+            <Route path="/login/github/callback" element={<LoginContainer />} />
 
             <Route
                 path="/"

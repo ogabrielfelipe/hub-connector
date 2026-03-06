@@ -33,6 +33,9 @@ const envSchema = z.object({
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
   GITHUB_CALLBACK_URL: z.string(),
+  GITHUB_URL_GET_ACCESS_TOKEN: z.string(),
+  GITHUB_URL_GET_USER: z.string(),
+  GITHUB_URL_GET_USER_EMAILS: z.string(),
 
   //Frontend
   FRONTEND_URL: z.string(),
