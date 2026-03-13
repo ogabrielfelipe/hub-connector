@@ -78,9 +78,10 @@ export function LoginPresenter({ onSubmit, isLoading, errors, register, LoginWit
 
 
                             <div className="flex justify-center mt-2">
-                                <Button variant="outline" type="button" onClick={() => LoginWithGitHub()}>
+                                <Button variant="outline" type="button" onClick={() => LoginWithGitHub()} disabled={isLoading}>
                                     <img src={GitHubLogo} alt="GitHub Logo" className="w-5 h-5" />
-                                    Login com GitHub</Button>
+                                    {isLoading ? 'Carregando GitHub...' : 'Login com GitHub'}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>

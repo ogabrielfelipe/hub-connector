@@ -2,6 +2,7 @@ import { Button } from "@/shared/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
 
@@ -22,16 +23,18 @@ import {
     SheetTrigger,
 } from "@/shared/components/ui/sheet"
 
-import { Bell, CircleQuestionMark, Pin } from "lucide-react"
+import { Bell, CircleQuestionMark, Moon, Pin, Sun } from "lucide-react"
 import { Separator } from "./ui/separator"
 import { SidebarTrigger, useSidebar } from "./ui/sidebar"
 import { BreadcrumbCustom } from "./breadcrumb-custom"
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { useAuth } from "../contexts/authContext"
+import { useTheme } from "./theme-provider"
 
 export default function Topbar() {
     const { open } = useSidebar();
     const { userLogged } = useAuth();
+    const { setTheme } = useTheme()
 
     return (
         <div className={`fixed top-0 ${open ? 'left-64 w-[calc(100%-256px)] transition-all duration-300' : 'left-0 w-full transition-all duration-300'} right-0 flex items-center justify-between p-4  h-16 bg-muted border-b  `}>
@@ -46,6 +49,26 @@ export default function Topbar() {
             </div>
 
             <div className="flex flex-row items-center gap-2">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon">
+                            <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                            <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                            <span className="sr-only">Toggle theme</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => setTheme("light")}>
+                            Claro
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setTheme("dark")}>
+                            Escuro
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setTheme("system")}>
+                            Sistema
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
 
 
                 <DropdownMenu>

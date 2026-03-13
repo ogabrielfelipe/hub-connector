@@ -17,7 +17,6 @@ export function useLogin({ code, state }: useLoginProps) {
     const navigate = useNavigate();
     const [error, setError] = useState<ErrorLogin | null>(null)
 
-    const windowRef = useRef<Window | null>(null);
     const hasHandledCallback = useRef(false);
 
     useEffect(() => {
@@ -42,7 +41,7 @@ export function useLogin({ code, state }: useLoginProps) {
         try {
             const response = await postAuthLogin({ password: data.password, username: data.username })
             await login(response.token)
-            //navigate("/", { replace: true });
+            navigate("/", { replace: true });
         } catch (error) {
             console.log(error)
             setError({
@@ -53,7 +52,7 @@ export function useLogin({ code, state }: useLoginProps) {
         } finally {
             setIsLoading(false)
         }
-    }, [login]);
+    }, [login, navigate]);
 
     const onSubmit = handleSubmit(handleLogin);
 

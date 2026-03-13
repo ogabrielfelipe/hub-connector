@@ -104,12 +104,16 @@ export class UserController {
       userId,
       currentUser!.userId,
     );
+
     return reply.status(200).send({
       id: result.getId(),
       name: result.getName(),
       email: result.getEmail(),
       username: result.getUsername(),
       role: result.getRole(),
+      providerId: result.getProviderId(),
+      avatar: result.getAvatar(),
+      active: result.getActive(),
     });
   }
 

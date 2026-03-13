@@ -19,7 +19,7 @@ export const registerCors = fp(
         "Origin",
         "x-api-key",
       ],
-      credentials: true, // ✅ necessário para o fluxo OAuth funcionar com cookies/headers
+      credentials: true,
     });
 
     app.setValidatorCompiler(validatorCompiler);

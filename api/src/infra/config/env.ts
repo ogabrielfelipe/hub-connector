@@ -24,6 +24,7 @@ const envSchema = z.object({
   // AUTHENTICATION KEYS
   PUBLIC_KEY: z.string(),
   PRIVATE_KEY: z.string(),
+  COOKIE_SECRET: z.string(),
 
   // SWAGGER
   SWAGGER_USER: z.string(),
